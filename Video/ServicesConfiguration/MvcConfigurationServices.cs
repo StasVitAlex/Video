@@ -48,8 +48,6 @@
                 .UseCookiePolicy()
                 .UseSession()
                 .UseCors("CorsPolicy")
-                .UseAuthentication()
-                .UseAuthorization()
                 .UseCookiePolicy(new CookiePolicyOptions
                 {
                     HttpOnly = HttpOnlyPolicy.Always

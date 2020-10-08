@@ -53,15 +53,16 @@ namespace Video
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            app.UseAuthentication();
             app.UseRouting();
-
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+            app.MvcBuild();
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";

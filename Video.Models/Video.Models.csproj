@@ -5,11 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Dto" />
-      <Folder Include="ViewModels" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="FluentValidation.ValidatorAttribute" Version="8.6.0" />
     </ItemGroup>
 

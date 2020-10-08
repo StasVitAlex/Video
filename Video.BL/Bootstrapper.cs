@@ -13,7 +13,6 @@ namespace Video.BL
     {
         public static IServiceCollection Run(IServiceCollection serviceCollection)
         {
-            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
             return SetUpDI(serviceCollection);
         }
 
@@ -28,6 +27,7 @@ namespace Video.BL
             #region services
 
             serviceCollection.AddScoped<IUserService, UserService>();
+            serviceCollection.AddScoped<IEmailService, EmailService>();
 
             #endregion
 
