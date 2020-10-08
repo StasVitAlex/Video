@@ -1,5 +1,6 @@
 namespace Video.BL.Services.Interfaces
 {
+    using System;
     using System.Threading.Tasks;
     using Models.ViewModels.User;
 
@@ -10,5 +11,6 @@ namespace Video.BL.Services.Interfaces
         Task<UserVm> GetUserById(int userId);
         Task<UserVm> AuthenticateViaGoogleAccount(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload);
         Task<UserVm> AuthenticateViaMicrosoftAccount(MicrosoftAuthVm model);
+        Task ActivateUser(Guid activationToken);
     }
 }

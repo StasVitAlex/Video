@@ -1,5 +1,6 @@
 namespace Video.DAL.Repositories.Interfaces
 {
+    using System;
     using System.Threading.Tasks;
     using Models.Dto.User;
 
@@ -9,5 +10,7 @@ namespace Video.DAL.Repositories.Interfaces
         Task<int> SignUp(SignUpDto model);
         Task<UserDto> GetUserById(int userId);
         Task<UserDto> GetUserByEmail(string email);
+        Task<UserDto> GetUserByActivationToken(Guid activationToken);
+        Task<UserDto> ActivateUser(int id);
     }
 }

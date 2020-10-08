@@ -21,6 +21,7 @@ namespace Video.BL
             #region repositories
 
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IFoldersRepository, FoldersRepository>();
 
             #endregion
 
@@ -28,14 +29,15 @@ namespace Video.BL
 
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<IEmailService, EmailService>();
+            serviceCollection.AddScoped<IFoldersService, FoldersService>();
 
             #endregion
 
             serviceCollection.AddSingleton(Automapper.Automapper.RegisterMapper());
-            // serviceCollection.AddSingleton(new RazorLightEngineBuilder()
-            //     .UseFileSystemProject(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "EmailTemplates"))
-            //     .UseMemoryCachingProvider()
-            //     .Build());
+            serviceCollection.AddSingleton(new RazorLightEngineBuilder()
+                .UseFileSystemProject(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "EmailTemplates"))
+                .UseMemoryCachingProvider()
+                .Build());
 
             return serviceCollection;
         }

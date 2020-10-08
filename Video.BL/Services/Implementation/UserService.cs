@@ -1,5 +1,6 @@
 namespace Video.BL.Services.Implementation
 {
+    using System;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using AutoMapper;
@@ -7,31 +8,48 @@ namespace Video.BL.Services.Implementation
     using Interfaces;
     using Microsoft.Graph;
     using Models.Dto.User;
+    using Models.Exceptions;
     using Models.ViewModels.User;
+    using RazorLight;
+    using Utils.Extensions;
 
     public class UserService : IUserService
     {
         private readonly IEmailService _emailService;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly RazorLightEngine _razorLightEngine;
 
         public UserService(IUserRepository userRepository, IEmailService emailService,
+            RazorLightEngine razorLightEngine,
             IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _razorLightEngine = razorLightEngine;
             _emailService = emailService;
         }
 
         public async Task<UserVm> SignIn(SignInVm model)
         {
-            return _mapper.Map<UserVm>(await _userRepository.SignIn(_mapper.Map<SignInDto>(model)));
+            var user = await _userRepository.SignIn(_mapper.Map<SignInDto>(model));
+            if (!user.IsActive)
+                throw new AccessDeniedException("User is not active");
+            return _mapper.Map<UserVm>(user);
         }
 
         public async Task SignUp(SignUpVm model)
         {
-            await _userRepository.SignUp(_mapper.Map<SignUpDto>(model));
-            //send email
+            var signUpDto = _mapper.Map<SignUpDto>(model);
+            await _userRepository.SignUp(signUpDto);
+            var body = await _razorLightEngine.CompileRenderAsync("UserInvitationTemplate.cshtml", new UserInvitationVm
+            {
+                Host = model.Host,
+                ActivationToken = signUpDto.ActivationToken,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            });
+            _emailService.SendEmail(signUpDto.Email, $"Welcome to Video", body).Forget();
         }
 
         public async Task<UserVm> GetUserById(int userId)
@@ -88,6 +106,14 @@ namespace Video.BL.Services.Implementation
                 FirstName = microsoftUser.GivenName,
                 LastName = microsoftUser.Surname
             };
+        }
+
+        public async Task ActivateUser(Guid activationToken)
+        {
+            var user = await _userRepository.GetUserByActivationToken(activationToken);
+            if (user.IsActive)
+                throw new BadRequestException("User has been already activated");
+            await _userRepository.ActivateUser(user.Id);
         }
     }
 }
