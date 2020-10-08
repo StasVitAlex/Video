@@ -2,8 +2,10 @@ namespace Video.BL.Automapper
 {
     using System;
     using AutoMapper;
+    using Models.Dto.Comments;
     using Models.Dto.Folders;
     using Models.Dto.User;
+    using Models.ViewModels.Comments;
     using Models.ViewModels.Folders;
     using Models.ViewModels.User;
     using Newtonsoft.Json;
@@ -23,6 +25,10 @@ namespace Video.BL.Automapper
                 cfg.CreateMap<CreateFolderVm, CreateFolderDto>();
                 cfg.CreateMap<UpdateFolderVm, UpdateFolderDto>();
                 cfg.CreateMap<FolderDto, FolderVm>();
+                
+                cfg.CreateMap<CommentDto, CommentVm>();
+                cfg.CreateMap<CreateCommentVm, CreateCommentDto>();
+                cfg.CreateMap<UpdateCommentVm, UpdateCommentDto>();
             });
             config.CompileMappings();
             return config.CreateMapper();
