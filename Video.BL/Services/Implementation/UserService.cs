@@ -40,6 +40,10 @@ namespace Video.BL.Services.Implementation
 
         public async Task SignUp(SignUpVm model)
         {
+            var existingUser = await _userRepository.GetUserByEmail(model.Email);
+            if (existingUser != null)
+                throw new BadRequestException("User with this email is already exists");
+
             var signUpDto = _mapper.Map<SignUpDto>(model);
             await _userRepository.SignUp(signUpDto);
             var body = await _razorLightEngine.CompileRenderAsync("UserInvitationTemplate.cshtml", new UserInvitationVm

@@ -44,8 +44,7 @@
 
         public static IApplicationBuilder MvcBuild(this IApplicationBuilder app)
         {
-            app.UseMiddleware<RequestHandlingMiddleware>()
-                .UseCookiePolicy()
+            app.UseCookiePolicy()
                 .UseSession()
                 .UseCors("CorsPolicy")
                 .UseCookiePolicy(new CookiePolicyOptions

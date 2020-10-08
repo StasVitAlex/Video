@@ -22,36 +22,43 @@ namespace Video.BL.Services.Implementation
 
         public async Task SendEmail(string email, string subject, string body, List<string> copy, Attachment attachment = null)
         {
-            var to = new MailAddress(email);
+            try
+            {
+                var to = new MailAddress(email);
 
-            var from = new MailAddress(this._settings.NetworkLogin);
-            var mail = new MailMessage(from, to)
-            {
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true,
-            };
-            if (attachment != null)
-            {
-                mail.Attachments.Add(attachment);
-            }
-
-            if (copy != null)
-            {
-                foreach (var cc in copy.Select(emailCopy => new MailAddress(emailCopy)))
+                var from = new MailAddress(this._settings.NetworkLogin);
+                var mail = new MailMessage(from, to)
                 {
-                    mail.CC.Add(cc);
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true,
+                };
+                if (attachment != null)
+                {
+                    mail.Attachments.Add(attachment);
                 }
-            }
 
-            using var client = new SmtpClient
+                if (copy != null)
+                {
+                    foreach (var cc in copy.Select(emailCopy => new MailAddress(emailCopy)))
+                    {
+                        mail.CC.Add(cc);
+                    }
+                }
+
+                using var client = new SmtpClient
+                {
+                    Host = this._settings.Host,
+                    Port = this._settings.Port,
+                    Credentials = new NetworkCredential(this._settings.NetworkLogin, this._settings.NetworkPassword),
+                    EnableSsl = _settings.EnableSsl
+                };
+                await client.SendMailAsync(mail);
+            }
+            catch (Exception e)
             {
-                Host = this._settings.Host,
-                Port = this._settings.Port,
-                Credentials = new NetworkCredential(this._settings.NetworkLogin, this._settings.NetworkPassword),
-                EnableSsl = _settings.EnableSsl
-            };
-            await client.SendMailAsync(mail);
+                //log
+            }
         }
     }
 }
