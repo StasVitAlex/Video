@@ -72,12 +72,24 @@ namespace Video.Controllers
 
         [AllowAnonymous]
         [HttpPost("google")]
-        public async Task<IActionResult> Google([FromBody] GoogleSignInVm userView)
+        public async Task<IActionResult> GoogleAuth([FromBody] GoogleSignInVm userView)
         {
             var payload = await GoogleJsonWebSignature.ValidateAsync(userView.TokenId, new GoogleJsonWebSignature.ValidationSettings());
             if (payload == null)
                 return this.BadRequest("Invalid token");
             var user = await _userService.AuthenticateViaGoogleAccount(payload);
+            return this.Ok(new
+            {
+                Token = this.GenerateJwt(user),
+                Id = user.UserId
+            });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("microsoft")]
+        public async Task<IActionResult> MicrosoftAuth([FromBody] MicrosoftAuthVm model)
+        {
+            var user = await _userService.AuthenticateViaMicrosoftAccount(model);
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),

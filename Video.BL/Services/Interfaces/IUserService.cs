@@ -9,5 +9,6 @@ namespace Video.BL.Services.Interfaces
         Task SignUp(SignUpVm model);
         Task<UserVm> GetUserById(int userId);
         Task<UserVm> AuthenticateViaGoogleAccount(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload);
+        Task<UserVm> AuthenticateViaMicrosoftAccount(MicrosoftAuthVm model);
     }
 }

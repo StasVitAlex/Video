@@ -1,9 +1,11 @@
 namespace Video.BL.Services.Implementation
 {
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using AutoMapper;
     using DAL.Repositories.Interfaces;
     using Interfaces;
+    using Microsoft.Graph;
     using Models.Dto.User;
     using Models.ViewModels.User;
 
@@ -55,6 +57,34 @@ namespace Video.BL.Services.Implementation
                 Email = payload.Email,
                 FirstName = payload.GivenName,
                 LastName = payload.FamilyName
+            };
+        }
+
+        public async Task<UserVm> AuthenticateViaMicrosoftAccount(MicrosoftAuthVm model)
+        {
+            var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider((requestMessage) =>
+            {
+                requestMessage
+                    .Headers
+                    .Authorization = new AuthenticationHeaderValue("Bearer", model.AccessToken);
+
+                return Task.FromResult(0);
+            }));
+            var microsoftUser = await graphServiceClient.Me.Request().GetAsync();
+            var user = await _userRepository.GetUserByEmail(microsoftUser.Mail);
+            if (user != null) return _mapper.Map<UserVm>(user);
+            var userId = await _userRepository.SignUp(new SignUpDto
+            {
+                Email = microsoftUser.Mail,
+                FirstName = microsoftUser.GivenName,
+                LastName = microsoftUser.Surname
+            });
+            return new UserVm
+            {
+                UserId = userId,
+                Email = microsoftUser.Mail,
+                FirstName = microsoftUser.GivenName,
+                LastName = microsoftUser.Surname
             };
         }
     }
