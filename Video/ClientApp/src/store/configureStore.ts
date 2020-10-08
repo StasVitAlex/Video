@@ -2,6 +2,8 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { History } from 'history';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { ApplicationState, reducers } from './';
 
 export default function configureStore(history: History, initialState?: ApplicationState) {
@@ -15,15 +17,25 @@ export default function configureStore(history: History, initialState?: Applicat
         router: connectRouter(history)
     });
 
-    const enhancers = [];
+    const persistConfig = {
+        key: 'auth',
+        storage,
+    };
+
+    const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+    const enhancers: any[] = [];
     const windowIfDefined = typeof window === 'undefined' ? null : window as any;
     if (windowIfDefined && windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__) {
         enhancers.push(windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__());
     }
 
-    return createStore(
-        rootReducer,
+    const store = createStore(
+        persistedReducer,
         initialState,
         compose(applyMiddleware(...middleware), ...enhancers)
     );
+
+    let persistor = persistStore(store);
+    return { store, persistor };
 }
