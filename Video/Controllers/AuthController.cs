@@ -58,6 +58,9 @@ namespace Video.Controllers
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Id = user.Id
             });
         }
@@ -81,6 +84,8 @@ namespace Video.Controllers
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Id = user.Id
             });
         }
@@ -93,6 +98,8 @@ namespace Video.Controllers
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Id = user.Id
             });
         }
