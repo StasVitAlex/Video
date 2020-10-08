@@ -119,5 +119,12 @@ namespace Video.BL.Services.Implementation
                 throw new BadRequestException("User has been already activated");
             await _userRepository.ActivateUser(user.Id);
         }
+
+        public async Task UpdateUser(int userId, UpdateUserVm model)
+        {
+            var updateUserDto = _mapper.Map<UpdateUserDto>(model);
+            updateUserDto.Id = userId;
+            await _userRepository.UpdateUser(updateUserDto);
+        }
     }
 }

@@ -78,12 +78,12 @@ namespace Video.DAL.Repositories
         }
 
 
-        protected async Task ExecuteActionAsync(string sql)
+        protected async Task ExecuteActionAsync(string sql, object model)
         {
             await using var connection = new NpgsqlConnection(_connectionString);
             try
             {
-                await connection.ExecuteAsync(sql);
+                await connection.ExecuteAsync(sql, model);
             }
             catch (Exception sqlException)
             {

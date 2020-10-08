@@ -12,5 +12,6 @@ namespace Video.DAL.Repositories.Interfaces
         Task<UserDto> GetUserByEmail(string email);
         Task<UserDto> GetUserByActivationToken(Guid activationToken);
         Task<UserDto> ActivateUser(int id);
+        Task UpdateUser(UpdateUserDto model);
     }
 }

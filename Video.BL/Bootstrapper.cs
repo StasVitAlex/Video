@@ -22,6 +22,9 @@ namespace Video.BL
 
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IFoldersRepository, FoldersRepository>();
+            serviceCollection.AddScoped<ICommentsRepository, CommentsRepository>();
+            serviceCollection.AddScoped<INotificationsRepository, NotificationsRepository>();
+            serviceCollection.AddScoped<IVideoRepository, VideoRepository>();
 
             #endregion
 
@@ -30,6 +33,9 @@ namespace Video.BL
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<IEmailService, EmailService>();
             serviceCollection.AddScoped<IFoldersService, FoldersService>();
+            serviceCollection.AddScoped<ICommentsService, CommentsService>();
+            serviceCollection.AddScoped<INotificationService, NotificationService>();
+            serviceCollection.AddScoped<IVideoService, VideoService>();
 
             #endregion
 
