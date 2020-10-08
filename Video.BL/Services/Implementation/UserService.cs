@@ -54,7 +54,7 @@ namespace Video.BL.Services.Implementation
             });
             return new UserVm
             {
-                UserId = userId,
+                Id = userId,
                 Email = payload.Email,
                 FirstName = payload.GivenName,
                 LastName = payload.FamilyName
@@ -83,7 +83,7 @@ namespace Video.BL.Services.Implementation
             });
             return new UserVm
             {
-                UserId = userId,
+                Id = userId,
                 Email = microsoftUser.Mail,
                 FirstName = microsoftUser.GivenName,
                 LastName = microsoftUser.Surname

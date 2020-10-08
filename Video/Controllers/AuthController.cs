@@ -33,7 +33,7 @@ namespace Video.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
             var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
@@ -58,7 +58,7 @@ namespace Video.Controllers
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
-                Id = user.UserId
+                Id = user.Id
             });
         }
 
@@ -81,7 +81,7 @@ namespace Video.Controllers
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
-                Id = user.UserId
+                Id = user.Id
             });
         }
 
@@ -93,7 +93,7 @@ namespace Video.Controllers
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
-                Id = user.UserId
+                Id = user.Id
             });
         }
     }

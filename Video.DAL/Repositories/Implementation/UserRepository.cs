@@ -15,7 +15,7 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<UserDto> SignIn(SignInDto model)
         {
-            return await GetAsync<UserDto>($@"select * from public.users where email_address = '{model.Email}' and password = '{model.Password.GetSha1Hash()}'");
+            return await GetAsync<UserDto>($@"select id as Id, user_name as UserName,first_name as FirstName,last_name as LastName, email_address as Email from public.users where email_address = '{model.Email}' and password = '{model.Password.GetSha1Hash()}'");
         }
 
         public async Task<int> SignUp(SignUpDto model)
@@ -28,12 +28,12 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<UserDto> GetUserById(int userId)
         {
-            return await GetAsync<UserDto>($@"select * from public.users where id = {userId}");
+            return await GetAsync<UserDto>($@"select id as Id, user_name as UserName,first_name as FirstName,last_name as LastName, email_address as Email  from public.users where id = {userId}");
         }
 
         public async Task<UserDto> GetUserByEmail(string email)
         {
-            return await GetAsync<UserDto>($@"select * from public.users where email_address = '{email}'");
+            return await GetAsync<UserDto>($@"select id as Id, user_name as UserName,first_name as FirstName,last_name as LastName, email_address as Email from public.users where email_address = '{email}'");
         }
     }
 }
