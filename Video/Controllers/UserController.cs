@@ -43,7 +43,7 @@ namespace Video.Controllers
         [HttpPut("")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserVm model)
         {
-            await _userService.UpdateUser(this.CurrentUserId, model);
+            await _userService.UpdateUser(this.CurrentUserId.Value, model);
             return this.Ok();
         }
     }

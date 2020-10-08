@@ -64,6 +64,9 @@ namespace Video.Middleware
                 case ServiceUnavailableException _:
                     code = HttpStatusCode.ServiceUnavailable;
                     break;
+                case NotFoundException _:
+                    code = HttpStatusCode.NotFound;
+                    break;
             }
 
             var result = JsonConvert.SerializeObject(new {message = string.IsNullOrEmpty(message) ? exception.Message : message});

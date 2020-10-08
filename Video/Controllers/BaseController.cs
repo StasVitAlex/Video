@@ -12,7 +12,7 @@ namespace Video.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-        protected int CurrentUserId
+        protected int? CurrentUserId
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Video.Controllers
                     return result;
                 }
 
-                return 0;
+                return null;
             }
         }
     }

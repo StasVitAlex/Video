@@ -34,7 +34,7 @@ namespace Video.BL.Services.Implementation
         {
             var user = await _userRepository.SignIn(_mapper.Map<SignInDto>(model));
             if (!user.IsActive)
-                throw new AccessDeniedException("User is not active");
+                throw new AccessDeniedException();
             return _mapper.Map<UserVm>(user);
         }
 

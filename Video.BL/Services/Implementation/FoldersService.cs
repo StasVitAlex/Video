@@ -34,7 +34,7 @@ namespace Video.BL.Services.Implementation
         public async Task UpdateFolder(int userId, UpdateFolderVm model)
         {
             if (!await _foldersRepository.UserHasAccessToFolder(userId, model.Id))
-                throw new AccessDeniedException("User doesn't have access to folder");
+                throw new AccessDeniedException();
 
             await _foldersRepository.UpdateFolder(userId, _mapper.Map<UpdateFolderDto>(model));
         }
@@ -42,7 +42,7 @@ namespace Video.BL.Services.Implementation
         public async Task DeleteFolder(int userId, int folderId)
         {
             if (!await _foldersRepository.UserHasAccessToFolder(userId, folderId))
-                throw new AccessDeniedException("User doesn't have access to folder");
+                throw new AccessDeniedException();
 
             await _foldersRepository.DeleteFolder(userId, folderId);
         }

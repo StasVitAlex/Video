@@ -34,14 +34,14 @@ namespace Video.BL.Services.Implementation
         public async Task UpdateComment(UpdateCommentVm model)
         {
             if (!await _commentsRepository.UserIsCommentOwner(model.UserId, model.Id))
-                throw new AccessDeniedException("User can't edit comment");
+                throw new AccessDeniedException();
             await _commentsRepository.UpdateComment(_mapper.Map<UpdateCommentDto>(model));
         }
 
         public async Task DeleteComment(int userId, int id)
         {
             if (!await _commentsRepository.UserIsCommentOwner(userId, id))
-                throw new AccessDeniedException("User can't edit comment");
+                throw new AccessDeniedException();
             await _commentsRepository.DeleteComment(id);
         }
     }

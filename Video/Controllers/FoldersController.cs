@@ -17,26 +17,26 @@ namespace Video.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetFolders([FromQuery] int? parentFolderId)
         {
-            return this.Ok(await _foldersService.GetUserFolders(this.CurrentUserId, parentFolderId));
+            return this.Ok(await _foldersService.GetUserFolders(this.CurrentUserId.Value, parentFolderId));
         }
 
         [HttpPost("")]
         public async Task<IActionResult> CreateFolder([FromBody] CreateFolderVm model)
         {
-            return this.Ok(await _foldersService.CreateFolder(this.CurrentUserId, model));
+            return this.Ok(await _foldersService.CreateFolder(this.CurrentUserId.Value, model));
         }
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateFolder([FromBody] UpdateFolderVm model)
         {
-            await _foldersService.UpdateFolder(this.CurrentUserId, model);
+            await _foldersService.UpdateFolder(this.CurrentUserId.Value, model);
             return this.Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFolder([FromRoute] int id)
         {
-            await _foldersService.DeleteFolder(this.CurrentUserId, id);
+            await _foldersService.DeleteFolder(this.CurrentUserId.Value, id);
             return this.Ok();
         }
     }
