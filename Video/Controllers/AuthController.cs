@@ -8,6 +8,7 @@ namespace Video.Controllers
     using System.Threading.Tasks;
     using BL.Services.Interfaces;
     using FluentValidation;
+    using Google.Apis.Auth;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
@@ -67,6 +68,21 @@ namespace Video.Controllers
         {
             await _userService.SignUp(model);
             return this.Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost("google")]
+        public async Task<IActionResult> Google([FromBody] GoogleSignInVm userView)
+        {
+            var payload = await GoogleJsonWebSignature.ValidateAsync(userView.TokenId, new GoogleJsonWebSignature.ValidationSettings());
+            if (payload == null)
+                return this.BadRequest("Invalid token");
+            var user = await _userService.AuthenticateViaGoogleAccount(payload);
+            return this.Ok(new
+            {
+                Token = this.GenerateJwt(user),
+                Id = user.UserId
+            });
         }
     }
 }

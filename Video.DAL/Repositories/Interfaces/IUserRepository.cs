@@ -6,7 +6,8 @@ namespace Video.DAL.Repositories.Interfaces
     public interface IUserRepository
     {
         Task<UserDto> SignIn(SignInDto model);
-        Task SignUp(SignUpDto model);
+        Task<int> SignUp(SignUpDto model);
         Task<UserDto> GetUserById(int userId);
+        Task<UserDto> GetUserByEmail(string email);
     }
 }

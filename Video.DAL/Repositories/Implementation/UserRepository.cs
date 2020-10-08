@@ -17,12 +17,17 @@ namespace Video.DAL.Repositories.Implementation
             return new UserDto {Email = "test@test.com", UserId = 1};
         }
 
-        public Task SignUp(SignUpDto model)
+        public async Task<int> SignUp(SignUpDto model)
         {
-            return Task.CompletedTask;
+            return 1;
         }
 
         public async Task<UserDto> GetUserById(int userId)
+        {
+            return new UserDto {Email = "test@test.com", UserId = 1};
+        }
+
+        public async Task<UserDto> GetUserByEmail(string email)
         {
             return new UserDto {Email = "test@test.com", UserId = 1};
         }

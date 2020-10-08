@@ -8,5 +8,6 @@ namespace Video.BL.Services.Interfaces
         Task<UserVm> SignIn(SignInVm model);
         Task SignUp(SignUpVm model);
         Task<UserVm> GetUserById(int userId);
+        Task<UserVm> AuthenticateViaGoogleAccount(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload);
     }
 }

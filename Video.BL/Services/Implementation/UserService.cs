@@ -36,5 +36,26 @@ namespace Video.BL.Services.Implementation
         {
             return _mapper.Map<UserVm>(await _userRepository.GetUserById(userId));
         }
+
+        public async Task<UserVm> AuthenticateViaGoogleAccount(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload)
+        {
+            var user = await _userRepository.GetUserByEmail(payload.Email);
+            if (user != null) return _mapper.Map<UserVm>(user);
+            var userId = await _userRepository.SignUp(new SignUpDto
+            {
+                Email = payload.Email,
+                FirstName = payload.GivenName,
+                LastName = payload.FamilyName,
+                OAuthSubject = payload.Subject,
+                OAuthIssuer = payload.Issuer
+            });
+            return new UserVm
+            {
+                UserId = userId,
+                Email = payload.Email,
+                FirstName = payload.GivenName,
+                LastName = payload.FamilyName
+            };
+        }
     }
 }
