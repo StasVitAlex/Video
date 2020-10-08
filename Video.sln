@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.BL", "Video.BL\Video.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.Models", "Video.Models\Video.Models.csproj", "{7FB41390-3560-445F-AA37-0499C9E60090}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.Utils", "Video.Utils\Video.Utils.csproj", "{7FF765BD-FD1F-47E2-925F-05CE39F023B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7FB41390-3560-445F-AA37-0499C9E60090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FB41390-3560-445F-AA37-0499C9E60090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FB41390-3560-445F-AA37-0499C9E60090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FF765BD-FD1F-47E2-925F-05CE39F023B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF765BD-FD1F-47E2-925F-05CE39F023B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF765BD-FD1F-47E2-925F-05CE39F023B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF765BD-FD1F-47E2-925F-05CE39F023B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

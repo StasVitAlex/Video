@@ -8,5 +8,6 @@ namespace Video.Models.Dto.User
         public string Password { get; set; }
         public string OAuthSubject { get; set; }
         public string OAuthIssuer { get; set; }
+        public bool IsExternalAuth { get; set; }
     }
 }

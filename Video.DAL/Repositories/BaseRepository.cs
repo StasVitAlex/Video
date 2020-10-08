@@ -37,6 +37,26 @@ namespace Video.DAL.Repositories
             return result;
         }
 
+        public async Task<T> ExecuteScalarAsync<T>(string sql, object model)
+        {
+            T result;
+            await using var connection = new NpgsqlConnection(_connectionString);
+            try
+            {
+                result = await connection.ExecuteScalarAsync<T>(sql, model);
+            }
+            catch (Exception sqlException)
+            {
+                throw sqlException;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+
+            return result;
+        }
+
         protected async Task<IEnumerable<T>> GetManyAsync<T>(string sql)
         {
             IEnumerable<T> result;
@@ -56,6 +76,7 @@ namespace Video.DAL.Repositories
 
             return result;
         }
+
 
         protected async Task ExecuteActionAsync(string sql)
         {

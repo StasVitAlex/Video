@@ -49,7 +49,8 @@ namespace Video.BL.Services.Implementation
                 FirstName = payload.GivenName,
                 LastName = payload.FamilyName,
                 OAuthSubject = payload.Subject,
-                OAuthIssuer = payload.Issuer
+                OAuthIssuer = payload.Issuer,
+                IsExternalAuth = true
             });
             return new UserVm
             {
@@ -77,7 +78,8 @@ namespace Video.BL.Services.Implementation
             {
                 Email = microsoftUser.Mail,
                 FirstName = microsoftUser.GivenName,
-                LastName = microsoftUser.Surname
+                LastName = microsoftUser.Surname,
+                IsExternalAuth = true
             });
             return new UserVm
             {

@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Video.Models\Video.Models.csproj" />
+      <ProjectReference Include="..\Video.Utils\Video.Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>
