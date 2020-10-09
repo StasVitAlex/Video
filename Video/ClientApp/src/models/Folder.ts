@@ -7,7 +7,6 @@ export interface CreateFolderVm {
     name: string;
 }
 
-export interface UpdateFolderVm {
-    id: number;
-    name: string;
+export interface UpdateFolderVm extends FolderVm {
+
 }

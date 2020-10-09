@@ -69,7 +69,7 @@
     .filemgr-sidebar-header button + button {
       margin-left: 10px; }
     .filemgr-sidebar-header button svg {
-      width: 12px;
+      width: 12px !important;
       height: 12px;
       stroke-width: 2.5px;
       margin-top: -1px; }
@@ -231,7 +231,7 @@
   .media-folder:hover, .media-folder:focus {
     border-color: #c0ccda; }
   .media-folder > svg {
-    width: 42px;
+    width: 42px !important;
     height: 42px;
     stroke-width: 1.5px;
     color: #0747a6;

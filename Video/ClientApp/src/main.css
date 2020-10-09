@@ -9725,7 +9725,7 @@ textarea.form-control {
     border-radius: 100%;
     color: #97a3b9; }
     .avatar-group .avatar-add svg {
-      width: 12px;
+      width: 12px !important;
       height: 12px;
       stroke-width: 3px; }
 
