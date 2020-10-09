@@ -3,5 +3,10 @@
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module"
+    },
+    "rules": {
+        "indent": [ "error", 4, { "SwitchCase": 1 }],
+        "no-trailing-spaces": ["error", { "ignoreComments": true }],
+        "semi": "warn"
     }
 }

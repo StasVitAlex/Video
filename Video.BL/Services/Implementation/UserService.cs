@@ -68,6 +68,7 @@ namespace Video.BL.Services.Implementation
             var userId = await _userRepository.SignUp(new SignUpDto
             {
                 Email = payload.Email,
+                ActivationToken = Guid.NewGuid(),
                 FirstName = payload.GivenName,
                 LastName = payload.FamilyName,
                 OAuthSubject = payload.Subject,
@@ -99,6 +100,7 @@ namespace Video.BL.Services.Implementation
             var userId = await _userRepository.SignUp(new SignUpDto
             {
                 Email = microsoftUser.Mail,
+                ActivationToken = Guid.NewGuid(),
                 FirstName = microsoftUser.GivenName,
                 LastName = microsoftUser.Surname,
                 IsExternalAuth = true
