@@ -12,6 +12,8 @@ namespace Video.BL.Services.Implementation
     using Models.ViewModels.User;
     using RazorLight;
     using Utils.Extensions;
+    using Microsoft.Extensions.Options;
+    using Video.Models.Configuration;
 
     public class UserService : IUserService
     {
@@ -19,43 +21,43 @@ namespace Video.BL.Services.Implementation
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly RazorLightEngine _razorLightEngine;
+        private readonly CommonSettings _commonSettings;
 
         public UserService(IUserRepository userRepository, IEmailService emailService,
             RazorLightEngine razorLightEngine,
-            IMapper mapper)
+            IMapper mapper, IOptions<CommonSettings> commonSettings)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _razorLightEngine = razorLightEngine;
             _emailService = emailService;
+            _commonSettings = commonSettings.Value;
         }
 
         public async Task<UserVm> SignIn(SignInVm model)
         {
             var user = await _userRepository.SignIn(_mapper.Map<SignInDto>(model));
-            if (user == null || !user.IsActive)
+            if (!user.IsActive)
                 throw new AccessDeniedException();
             return _mapper.Map<UserVm>(user);
         }
 
-        public async Task<UserVm> SignUp(SignUpVm model)
+        public async Task SignUp(SignUpVm model)
         {
             var existingUser = await _userRepository.GetUserByEmail(model.Email);
             if (existingUser != null)
                 throw new BadRequestException("User with this email is already exists");
 
             var signUpDto = _mapper.Map<SignUpDto>(model);
-            var id = await _userRepository.SignUp(signUpDto);
+            await _userRepository.SignUp(signUpDto);
             var body = await _razorLightEngine.CompileRenderAsync("UserInvitationTemplate.cshtml", new UserInvitationVm
             {
-                Host = model.Host,
+                ActivationUrl= _commonSettings.UserActivationRedirectUrl,
                 ActivationToken = signUpDto.ActivationToken,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             });
             _emailService.SendEmail(signUpDto.Email, $"Welcome to Video", body).Forget();
-            var user = await _userRepository.GetUserById(id);
-            return _mapper.Map<UserVm>(user);
         }
 
         public async Task<UserVm> GetUserById(int userId)

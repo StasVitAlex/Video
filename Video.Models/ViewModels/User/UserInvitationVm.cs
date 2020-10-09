@@ -5,7 +5,7 @@ namespace Video.Models.ViewModels.User
     public class UserInvitationVm
     {
         public Guid ActivationToken { get; set; }
-        public string Host { get; set; }
+        public string ActivationUrl { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

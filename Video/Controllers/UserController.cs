@@ -6,6 +6,7 @@ namespace Video.Controllers
     using BL.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using Models.ViewModels.User;
+    using Microsoft.AspNetCore.Authorization;
 
     public class UserController : BaseController
     {
@@ -22,6 +23,7 @@ namespace Video.Controllers
             return this.Ok(await _userService.GetUserById(userId));
         }
 
+        [AllowAnonymous]
         [HttpPost("activate/{activationToken}")]
         public async Task<IActionResult> GetById([FromRoute] Guid activationToken)
         {
