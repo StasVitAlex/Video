@@ -1,7 +1,7 @@
 
 import { UserInfo } from 'models/UserInfo';
 import { Action, Reducer } from 'redux';
-import { KnownAction, KnownActionType } from './AuthActions';
+import { KnownAction, KnownActionType } from './Auth.actions';
 
 export interface AuthState {
     userInfo: UserInfo | undefined;
@@ -14,9 +14,10 @@ export const reducer: Reducer<AuthState> = (state: AuthState | undefined, incomi
 
     const action = incomingAction as KnownAction;
     switch (action.type) {
-        case KnownActionType.SetUserInfo:{
+        case KnownActionType.SetUserInfo:
             return { userInfo: action.payload };
-        }
+        case KnownActionType.LogOut:
+            return { userInfo: undefined };
         default:
             return state;
     }

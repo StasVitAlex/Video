@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { IHttpClient, IHttpClientRequestParameters } from './IHttpClients';
+import { history } from '../index';
+import { AuthHelper } from 'components/auth/Auth.helper';
 
 class HttpClient implements IHttpClient {
     private axiosInstance: AxiosInstance;
@@ -13,13 +15,18 @@ class HttpClient implements IHttpClient {
         });
 
         this.axiosInstance.interceptors.response.use(
-            res => res,
-            err => {
-                // TODO hanlde error
-                console.log(err);
-                throw new Error(err.response.data.message);
-            }
-        );
+            res => res, this.handleError);
+    }
+
+    private handleError(eror: any): void {
+        if (eror.status === 401) {
+            AuthHelper.logOut();
+            return;
+        }
+
+        // TODO hanlde error
+        console.log(JSON.stringify(eror));
+        throw new Error(eror.response.data.message);
     }
 
     async get<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {

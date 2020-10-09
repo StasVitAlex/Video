@@ -1,4 +1,4 @@
-import * as Auth from 'components/auth/AuthReducer';
+import * as Auth from 'components/auth/Auth.reducer';
 
 // The top-level state object
 export interface ApplicationState {

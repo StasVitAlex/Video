@@ -5,8 +5,8 @@ import MicrosoftLogin from "react-microsoft-login";
 import { ReactComponent as GoogleLogo } from 'assets/img/google.svg';
 import { ReactComponent as MicrosoftLogo } from 'assets/img/microsoft.svg';
 import { ApplicationState } from 'store';
-import * as Auth from '../AuthReducer';
-import * as AuthThunk from '../AuthThunk';
+import * as Auth from '../Auth.reducer';
+import * as AuthThunk from '../Auth.thunk';
 import '../auth.css';
 
 type SignInProps =
@@ -17,6 +17,7 @@ type SignInProps =
 const SignIn: FC<SignInProps> = (props) => {
     const authHandler = useCallback(
         (error: any, data: any) => {
+            debugger;
             if (error) {
                 //TODO handle errors
                 console.log(error);

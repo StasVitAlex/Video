@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import './NavMenu.css';
-import logo from 'assets/img/app_logo.png'
+import logo from 'assets/img/app_logo.png';
 
 export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }> {
     public state = {
@@ -31,8 +31,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                     <ul className="nav navbar-menu">
                         <li className="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
                         <li className="nav-item"><a href="index.html" className="nav-link"><i data-feather="file-text"></i>
-                            Personal
-                            Library</a></li>
+                            Personal Library</a></li>
                     </ul>
                     <div className="search-form">
                         <input type="search" className="form-control" placeholder="Search"></input>
@@ -50,8 +49,9 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             <div className="dropdown-header">Notifications</div>
                             <a href="javascript:void(0);" className="dropdown-item">
                                 <div className="media">
-                                    <div className="avatar avatar-sm avatar-online"><img src="../assets/img/users/1.jpg"
-                                                                                         className="rounded-circle" alt=""></img></div>
+                                    <div className="avatar avatar-sm avatar-online">
+                                        <img src="../assets/img/users/1.jpg" className="rounded-circle" alt=""></img>
+                                    </div>
                                     <div className="media-body mg-l-15">
                                         <p><strong>Majid Benten</strong> has viewed your video</p>
                                         <span>Aug 15 12:32pm</span>
@@ -60,8 +60,9 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             </a>
                             <a href="javascript:void(0);" className="dropdown-item">
                                 <div className="media">
-                                    <div className="avatar avatar-sm avatar-online"><img src="../assets/img/users/2.jpg"
-                                                                                         className="rounded-circle" alt=""></img></div>
+                                    <div className="avatar avatar-sm avatar-online">
+                                        <img src="../assets/img/users/2.jpg" className="rounded-circle" alt=""></img>
+                                    </div>
                                     <div className="media-body mg-l-15">
                                         <p><strong>Nasser Shahrani</strong> just shared a video with you</p>
                                         <span>Aug 13 04:16am</span>
@@ -70,8 +71,9 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             </a>
                             <a href="javascript:void(0);" className="dropdown-item">
                                 <div className="media">
-                                    <div className="avatar avatar-sm avatar-online"><img src="../assets/img/users/3.jpg"
-                                                                                         className="rounded-circle" alt=""></img></div>
+                                    <div className="avatar avatar-sm avatar-online">
+                                        <img src="../assets/img/users/3.jpg" className="rounded-circle" alt=""></img>
+                                    </div>
                                     <div className="media-body mg-l-15">
                                         <p><strong>Reema Al Sherif</strong> added new comment on your video</p>
                                         <span>Aug 13 02:56am</span>
@@ -80,8 +82,9 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             </a>
                             <a href="javascript:void(0);" className="dropdown-item">
                                 <div className="media">
-                                    <div className="avatar avatar-sm avatar-online"><img src="../assets/img/users/4.jpg"
-                                                                                         className="rounded-circle" alt=""></img></div>
+                                    <div className="avatar avatar-sm avatar-online">
+                                        <img src="../assets/img/users/4.jpg" className="rounded-circle" alt=""></img>
+                                    </div>
                                     <div className="media-body mg-l-15">
                                         <p><strong>Talal Al Hamdan</strong> added new comment on your video.</p>
                                         <span>Aug 12 10:40pm</span>
@@ -96,8 +99,8 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             <div className="avatar avatar-sm"><img src="../assets/img/users/2.jpg" className="rounded-circle" alt=""></img></div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right tx-13">
-                            <div className="avatar avatar-lg mg-b-15"><img src="../assets/img/users/2.jpg" className="rounded-circle"
-                                                                           alt=""></img>
+                            <div className="avatar avatar-lg mg-b-15">
+                                <img src="../assets/img/users/2.jpg" className="rounded-circle" alt=""></img>
                             </div>
                             <h6 className="tx-semibold mg-b-5">Yasser Al Anezi</h6>
                             <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>

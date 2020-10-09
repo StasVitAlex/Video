@@ -20,6 +20,7 @@ export default function configureStore(history: History, initialState?: Applicat
     const persistConfig = {
         key: 'auth',
         storage,
+        blacklist: ['router'],
     };
 
     const persistedReducer = persistReducer(persistConfig, rootReducer);
