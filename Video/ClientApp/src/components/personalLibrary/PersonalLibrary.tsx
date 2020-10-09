@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import 'assets/css/main.filemgr.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faVideo, faChevronDown, faFolder, faShareAlt, faClock, faStar, faTimes, faChevronRight, faBell, faStopCircle, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 
 const PersonalLibrary = () => (
     <div className="filemgr-wrapper">
         <div className="filemgr-sidebar">
             <div className="filemgr-sidebar-header">
-                <a href="upload.html" className="btn btn-xs btn-primary"><i data-feather="video"></i> Upload</a>
+                <a href="upload.html" className="btn btn-xs btn-primary"> <FontAwesomeIcon icon={faVideo}/> Upload</a>
                 <div className="dropdown dropdown-icon flex-fill mg-l-10">
-                    <button className="btn btn-xs btn-white" data-toggle="dropdown">Folder <i
-                        data-feather="chevron-down"></i></button>
+                    <button className="btn btn-xs btn-white" data-toggle="dropdown">Folder <FontAwesomeIcon icon={faChevronDown}/></button>
                     <div className="dropdown-menu tx-13">
-                        <a className="dropdown-item"><i data-feather="folder"></i><span>New Folder</span></a>
-                        <a className="dropdown-item"><i data-feather="folder"></i><span>New Public
+                        <a className="dropdown-item"><FontAwesomeIcon icon={faFolder}/><span>New Folder</span></a>
+                        <a className="dropdown-item"><FontAwesomeIcon icon={faFolder}/><span>New Public
                 Folder</span></a>
                     </div>
                 </div>
@@ -21,13 +22,13 @@ const PersonalLibrary = () => (
                 <div className="pd-t-20 pd-b-10 pd-x-10">
                     <label className="tx-sans tx-uppercase tx-medium tx-10 tx-spacing-1 tx-color-03 pd-l-10">Personal Library</label>
                     <nav className="nav nav-sidebar tx-13">
-                        <a className="nav-link active"><i data-feather="folder"></i> <span>All
+                        <a className="nav-link active"><FontAwesomeIcon icon={faFolder}/> <span>All
                 Files</span></a>
-                        <a className="nav-link"><i data-feather="video"></i> <span>My Videos</span></a>
-                        <a className="nav-link"><i data-feather="share-2"></i> <span>Shared
+                        <a className="nav-link"><FontAwesomeIcon icon={faVideo}/> <span>My Videos</span></a>
+                        <a className="nav-link"><FontAwesomeIcon icon={faShareAlt}/> <span>Shared
                 Videos</span></a>
-                        <a className="nav-link"><i data-feather="clock"></i> <span>Recents</span></a>
-                        <a className="nav-link"><i data-feather="star"></i> <span>Important</span></a>
+                        <a className="nav-link"><FontAwesomeIcon icon={faClock}/> <span>Recents</span></a>
+                        <a className="nav-link"><FontAwesomeIcon icon={faStar}/> <span>Important</span></a>
                     </nav>
                 </div>
             </div>
@@ -38,11 +39,11 @@ const PersonalLibrary = () => (
                 <div className="filemgr-body-side d-none">
                     <div className="filemgr-info-header mg-b-15">
                         <h5 className="mb-0 d-flex align-items-center">
-                            <i className="far fa-video mr-1"></i> <span className="wd-200 text-truncate d-inline-block">Send Team Updates with
+                            <FontAwesomeIcon className={'mr-1'} icon={faVideo}/> <span className="wd-200 text-truncate d-inline-block">Send Team Updates with
                 Quick
                 Videos</span> </h5>
                         <a id="close-sidebar">
-                            <i className="far fa-times"></i>
+                            <FontAwesomeIcon icon={faTimes}/>
                         </a>
                     </div>
                     <div id="folder-info" className="filemgr-info-body">
@@ -65,7 +66,7 @@ const PersonalLibrary = () => (
                         <nav className="nav nav-with-icon tx-13 mg-b-10">
                             <a id="manage-access-open" className="nav-link">
                 Manage Shared Links
-                                <i className="far fa-chevron-right ml-1"></i>
+                                <FontAwesomeIcon className={'mr-1'} icon={faChevronRight}/>
                             </a>
                         </nav>
                         <div className="mg-b-10">
@@ -143,7 +144,7 @@ const PersonalLibrary = () => (
                     <div id="folder-access" className="filemgr-info-body d-none">
                         <div className="d-flex align-items-center justify-content-between mg-b-20">
                             <a id="manage-access-cancel" className="tx-13 tx-spacing-1 tx-semibold mg-b-0 d-flex align-items-center">
-                                <i className="far fa-long-arrow-left mr-2"></i>Manage Shared Links</a>
+                                <FontAwesomeIcon className={'mr-2'} icon={faArrowLeft}/>Manage Shared Links</a>
                         </div>
                         <ul className="list-unstyled media-list mg-b-15">
                             <li className="media align-items-center mg-b-10">
@@ -159,7 +160,7 @@ const PersonalLibrary = () => (
                                             <a data-toggle="dropdown" href="" className="link-03 wd-20 d-inline-block text-center lh-0 mg-l-10"><i
                                                 className="icon ion-md-more"></i></a>
                                             <div className="dropdown-menu">
-                                                <a className="dropdown-item" href="#"><i className="far fa-stop-circle mr-2"></i>Stop Sharing</a>
+                                                <a className="dropdown-item" href="#"><FontAwesomeIcon className={'mr-2'} icon={faStopCircle}/>Stop Sharing</a>
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +177,7 @@ const PersonalLibrary = () => (
                     <div className="row row-xs">
                         <div className="col-sm-6 col-lg-4 col-xl-3 folder-item">
                             <div className="media media-folder">
-                                <i data-feather="folder"></i>
+                                <FontAwesomeIcon icon={faFolder}/>
                                 <div className="media-body">
                                     <h6><a className="link-02">My Videos</a></h6>
                                     <span>2 files</span>
@@ -192,7 +193,7 @@ const PersonalLibrary = () => (
                         </div>
                         <div className="col-sm-6 col-lg-4 col-xl-3 mg-t-10 mg-sm-t-0 folder-item">
                             <div className="media media-folder">
-                                <i data-feather="folder"></i>
+                                <FontAwesomeIcon icon={faFolder}/>
                                 <div className="media-body">
                                     <h6><a href="sub-folder.html" className="link-02">Shared Videos</a></h6>
                                     <span>8 files</span>
@@ -209,7 +210,7 @@ const PersonalLibrary = () => (
                         </div>
                         <div className="col-sm-6 col-lg-4 col-xl-3 mg-t-10 mg-xl-t-0 folder-item">
                             <div className="media media-folder">
-                                <i data-feather="folder"></i>
+                                <FontAwesomeIcon icon={faFolder}/>
                                 <div className="media-body">
                                     <h6><a href="empty-folder.html" className="link-02">Personal Recordings</a></h6>
                                     <span>0 files</span>
