@@ -1,20 +1,26 @@
 import axios, { AxiosInstance } from 'axios';
 import { IHttpClient, IHttpClientRequestParameters } from './IHttpClients';
-import { history } from '../index';
 import { AuthHelper } from 'components/auth/Auth.helper';
 
 class HttpClient implements IHttpClient {
-    private axiosInstance: AxiosInstance;
+    private client: AxiosInstance;
     constructor() {
-        this.axiosInstance = axios.create({
+        this.client = axios.create({
             baseURL: process.env.PUBLIC_URL,
             headers: {
                 Pragma: 'no-cache',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             }
         });
 
-        this.axiosInstance.interceptors.response.use(
+        // set auth
+        this.client.interceptors.request.use((config) => {
+            const token = AuthHelper.token;
+            config.headers.Authorization =  token ? `Bearer ${token}` : '';
+            return config;
+        });
+
+        this.client.interceptors.response.use(
             res => res, this.handleError);
     }
 
@@ -30,22 +36,22 @@ class HttpClient implements IHttpClient {
     }
 
     async get<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
-        const res = await this.axiosInstance.get(parameters.url, {
+        const res = await this.client.get(parameters.url, {
             params: parameters.payload
         });
         return res.data;
     }
 
     async post<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
-        return (await this.axiosInstance.post(parameters.url, parameters.payload)).data;
+        return (await this.client.post(parameters.url, parameters.payload)).data;
     }
 
     async put<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
-        return (await this.axiosInstance.put(parameters.url, parameters.payload)).data;
+        return (await this.client.put(parameters.url, parameters.payload)).data;
     }
 
     async delete<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
-        return (await this.axiosInstance.delete(parameters.url, { params: parameters.payload })).data;
+        return (await this.client.delete(parameters.url, { params: parameters.payload })).data;
     }
 }
 
