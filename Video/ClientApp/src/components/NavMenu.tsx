@@ -7,6 +7,7 @@ import Notifications from "./notifications/Notifications";
 import UserProfile from "./auth/userProfile/UserProfile";
 import {connect} from "react-redux";
 import {ApplicationState} from "../store";
+import { Link } from 'react-router-dom';
 
 class NavMenu extends React.PureComponent<{ isAuthenticated: boolean }, { isProfileOpened: boolean, isNotificationsOpened: boolean }> {
     public state = {
@@ -54,12 +55,14 @@ class NavMenu extends React.PureComponent<{ isAuthenticated: boolean }, { isProf
                         return (<div className="navbar-right">
                             <Notifications/>
                             <UserProfile/>
-                        </div>)
+                        </div>);
                     } else {
-                        return (<div className="navbar-right">
-                            <a href="signup.html" className="btn btn-buy"><FontAwesomeIcon icon={faUserPlus}/> <span>Sign up for
-          free</span></a>
-                        </div>)
+                        return (
+                            <div className="navbar-right">
+                                <Link to="/signUp" className="btn btn-buy">
+                                    <FontAwesomeIcon icon={faUserPlus}/> <span>Sign up for free</span>
+                                </Link>
+                            </div>);
                     }
                 })()}
 

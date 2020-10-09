@@ -7,7 +7,7 @@ namespace Video.BL.Services.Interfaces
     public interface IUserService
     {
         Task<UserVm> SignIn(SignInVm model);
-        Task SignUp(SignUpVm model);
+        Task<UserVm> SignUp(SignUpVm model);
         Task<UserVm> GetUserById(int userId);
         Task<UserVm> AuthenticateViaGoogleAccount(Google.Apis.Auth.GoogleJsonWebSignature.Payload payload);
         Task<UserVm> AuthenticateViaMicrosoftAccount(MicrosoftAuthVm model);

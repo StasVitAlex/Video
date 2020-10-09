@@ -38,14 +38,14 @@ namespace Video.BL.Services.Implementation
             return _mapper.Map<UserVm>(user);
         }
 
-        public async Task SignUp(SignUpVm model)
+        public async Task<UserVm> SignUp(SignUpVm model)
         {
             var existingUser = await _userRepository.GetUserByEmail(model.Email);
             if (existingUser != null)
                 throw new BadRequestException("User with this email is already exists");
 
             var signUpDto = _mapper.Map<SignUpDto>(model);
-            await _userRepository.SignUp(signUpDto);
+            var id = await _userRepository.SignUp(signUpDto);
             var body = await _razorLightEngine.CompileRenderAsync("UserInvitationTemplate.cshtml", new UserInvitationVm
             {
                 Host = model.Host,
@@ -54,6 +54,8 @@ namespace Video.BL.Services.Implementation
                 LastName = model.LastName
             });
             _emailService.SendEmail(signUpDto.Email, $"Welcome to Video", body).Forget();
+            var user = await _userRepository.GetUserById(id);
+            return _mapper.Map<UserVm>(user);
         }
 
         public async Task<UserVm> GetUserById(int userId)

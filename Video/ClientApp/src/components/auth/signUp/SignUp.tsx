@@ -1,19 +1,18 @@
 import React, { FC, useCallback } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
+import { useForm } from 'react-hook-form';
 import MicrosoftLogin from "react-microsoft-login";
 import GoogleLogin from 'react-google-login';
-import { useForm } from 'react-hook-form';
 import { ReactComponent as GoogleLogo } from 'assets/img/google.svg';
 import { ReactComponent as MicrosoftLogo } from 'assets/img/microsoft.svg';
 import { ApplicationState } from 'store';
-import ValidationConstants from "constants/Validation.constants";
 import classnames from 'classnames';
 import * as Auth from '../Auth.reducer';
 import * as AuthThunk from '../Auth.thunk';
-import { SigninModel } from "./SignIn.model";
 import '../auth.css';
-import { Link } from "react-router-dom";
+import ValidationConstants from "constants/Validation.constants";
+import { SignUpModel } from "./SignUp.model";
 
 
 type SignInProps =
@@ -22,7 +21,7 @@ type SignInProps =
     RouteComponentProps<{}>;
 
 const SignIn: FC<SignInProps> = (props) => {
-    const { register, handleSubmit, errors } = useForm<SigninModel>();
+    const { register, handleSubmit, watch, errors } = useForm<SignUpModel>();
 
     const handleMicrosoft = useCallback(
         (error: any, data: any) => {
@@ -54,18 +53,19 @@ const SignIn: FC<SignInProps> = (props) => {
         [],
     );
 
-    const onSubmit = useCallback((data: SigninModel) => {
-        props.signIn(data);
+    const onSubmit = useCallback((data: SignUpModel) => {
+        props.signUp(data);
     }, []);
 
     return (
         <div className="content content-fixed content-auth">
             <div className="container">
-                <div className="media align-items-stretch justify-content-center ht-100p pos-relative">
+                <div className="media align-items-stretch justify-content-center ht-100p">
                     <div className="sign-wrapper">
-                        <div className="wd-100p">
-                            <h3 className="tx-color-01 mg-b-4">Sign In</h3>
-                            <p className="tx-color-03 tx-16 mg-b-40">Welcome back! Please signin to continue.</p>
+                        <div className="pd-t-20 wd-100p">
+                            <h4 className="tx-color-01 mg-b-5">Create New Account</h4>
+                            <p className="tx-color-03 tx-16 mg-b-40">Get started with eMeetings for instant access to unlimited screen recording.
+                            </p>
 
                             <GoogleLogin
                                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
@@ -88,8 +88,51 @@ const SignIn: FC<SignInProps> = (props) => {
                                     <span>Sign In With Microsoft</span>
                                 </button>
                             </MicrosoftLogin>
+
                             <div className="divider-text">or</div>
-                            <form data-parsley-validate onSubmit={handleSubmit(onSubmit)}>
+                            <form action="index.html" data-parsley-validate  onSubmit={handleSubmit(onSubmit)}>
+                                <div className="form-group">
+                                    <label>First Name</label>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        className={classnames("form-control", {
+                                            'parsley-error': errors.password
+                                        })}
+                                        placeholder="Enter your firstname"
+                                        ref={register({
+                                            required: ValidationConstants.auth.required,
+                                        })}
+                                    />
+                                    {
+                                        errors.firstName && (
+                                            <ul className="parsley-errors-list filled">
+                                                <li className="parsley-required">{errors.firstName.message}</li>
+                                            </ul>
+                                        )
+                                    }
+                                </div>
+                                <div className="form-group">
+                                    <label>Last Name</label>
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        className={classnames("form-control", {
+                                            'parsley-error': errors.password
+                                        })}
+                                        placeholder="Enter your lastname"
+                                        ref={register({
+                                            required: ValidationConstants.auth.required,
+                                        })}
+                                    />
+                                    {
+                                        errors.lastName && (
+                                            <ul className="parsley-errors-list filled">
+                                                <li className="parsley-required">{errors.lastName.message}</li>
+                                            </ul>
+                                        )
+                                    }
+                                </div>
                                 <div className="form-group">
                                     <label>Email address</label>
                                     <input
@@ -142,10 +185,36 @@ const SignIn: FC<SignInProps> = (props) => {
                                         )
                                     }
                                 </div>
-                                <button type="submit" id="sign-in" className="btn btn-brand-02 btn-block">Sign In</button>
+                                <div className="form-group">
+                                    <div className="d-flex justify-content-between mg-b-5">
+                                        <label className="mg-b-0-f">Confirm Password</label>
+                                    </div>
+                                    <input
+                                        type="password"
+                                        name="confirmPassword"
+                                        className={classnames("form-control", {
+                                            'parsley-error': errors.password
+                                        })}
+                                        placeholder="Confirm your password"
+                                        ref={register({
+                                            required: ValidationConstants.auth.required,
+                                            validate: (value) => value === watch('password') || ValidationConstants.auth.passwordsNotMatch
+                                        })}
+                                    />
+                                    {
+                                        errors.confirmPassword && (
+                                            <ul className="parsley-errors-list filled">
+                                                <li className="parsley-required">{errors.confirmPassword.message}</li>
+                                            </ul>
+                                        )
+                                    }
+                                </div>
+                                <div className="form-group tx-12">By clicking <strong>Create an account</strong> below, you agree to our terms of service and privacy statement.
+                                </div>
+
+                                <button type="submit" className="btn btn-brand-02 btn-block">Create Account</button>
                             </form>
-                            <div className="tx-13 mg-t-20 tx-center">Don't have an account? <Link to="/signUp">Create an Account</Link>
-                            </div>
+                            <div className="tx-13 mg-t-20 tx-center">Already have an account? <a href="signin.html">Sign In</a></div>
                         </div>
                     </div>
                 </div>

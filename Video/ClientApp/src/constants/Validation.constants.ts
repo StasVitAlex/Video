@@ -3,7 +3,8 @@ export default class ValidationConstants {
         return {
             required: 'This value is required',
             invalidEmail: 'Invalid email address',
-            passwordLegth: 'Must contain at least 5 characters'
+            passwordLegth: 'Must contain at least 5 characters',
+            passwordsNotMatch: "Passwords don't match"
         };
     }
 }

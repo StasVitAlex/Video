@@ -69,8 +69,15 @@ namespace Video.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] SignUpVm model)
         {
-            await _userService.SignUp(model);
-            return this.Ok();
+            var user = await _userService.SignUp(model);
+            return this.Ok(new
+            {
+                Token = this.GenerateJwt(user),
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id
+            });
         }
 
         [AllowAnonymous]
