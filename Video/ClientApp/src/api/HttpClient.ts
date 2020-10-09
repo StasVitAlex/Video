@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { IHttpClient, IHttpClientRequestParameters } from './IHttpClients';
 import { AuthHelper } from 'components/auth/Auth.helper';
+import { notificationService, NotificationType } from 'services/Notification.service';
 
 class HttpClient implements IHttpClient {
     private client: AxiosInstance;
@@ -32,6 +33,8 @@ class HttpClient implements IHttpClient {
 
         // TODO hanlde error
         console.log(JSON.stringify(eror));
+        // TODO send when client error
+        // notificationService.send(NotificationType.error, eror.response.data.message);
         throw new Error(eror.response.data.message);
     }
 
