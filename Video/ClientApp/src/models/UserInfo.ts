@@ -4,3 +4,11 @@ export interface UserInfo {
     firstName: string,
     lastName: string
 }
+
+export interface User {
+    userName: string;
+    email: string;
+    id: number,
+    firstName: string;
+    lastName: string;
+}
