@@ -33,7 +33,7 @@ namespace Video.BL.Services.Implementation
         public async Task<UserVm> SignIn(SignInVm model)
         {
             var user = await _userRepository.SignIn(_mapper.Map<SignInDto>(model));
-            if (!user.IsActive)
+            if (user == null || !user.IsActive)
                 throw new AccessDeniedException();
             return _mapper.Map<UserVm>(user);
         }
