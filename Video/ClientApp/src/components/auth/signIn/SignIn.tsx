@@ -15,9 +15,6 @@ type SignInProps =
     RouteComponentProps<{}>;
 
 const SignIn: FC<SignInProps> = (props) => {
-    const cl = process.env;
-    debugger;
-
     const authHandler = useCallback(
         (error: any, data: any) => {
             if (error) {
