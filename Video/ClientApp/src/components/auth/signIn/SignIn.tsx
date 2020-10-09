@@ -21,7 +21,7 @@ type SignInProps =
     RouteComponentProps<{}>;
 
 const SignIn: FC<SignInProps> = (props) => {
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm<SigninModel>();
 
     const handleMicrosoft = useCallback(
         (error: any, data: any) => {
@@ -54,8 +54,8 @@ const SignIn: FC<SignInProps> = (props) => {
         [],
     );
 
-    const onSubmit = useCallback((data) => {
-        props.signIn(data as SigninModel);
+    const onSubmit = useCallback((data: SigninModel) => {
+        props.signIn(data);
     }, []);
 
     return (
