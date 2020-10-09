@@ -26,28 +26,28 @@ namespace Video.BL.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<VideoVm>> GetVideosFromFolder(int userId, int folderId)
+        public async Task<List<VideoVm>> GetVideosFromFolder(int userId, long folderId)
         {
             return _mapper.Map<List<VideoVm>>(await _videoRepository.GetVideosFromFolder(userId, folderId));
         }
 
-        public async Task<VideoVm> GetVideoById(int userId, int videoId)
+        public async Task<VideoVm> GetVideoById(int userId, long videoId)
         {
             if (!await _videoRepository.IsUserHasAccessToVideo(userId, videoId))
                 throw new AccessDeniedException();
             return _mapper.Map<VideoVm>(await _videoRepository.GetVideoById(videoId));
         }
 
-        public async Task<int> CreateVideo(CreateVideoVm model)
+        public async Task<long> CreateVideo(CreateVideoVm model)
         {
             if (!await _foldersRepository.UserHasAccessToFolder(model.UserId, model.FolderId))
                 throw new AccessDeniedException();
             return await _videoRepository.CreateVideo(_mapper.Map<CreateVideoDto>(model));
         }
 
-        public async Task LogVideoView(int? userId, int videoId)
+        public async Task LogVideoAction(LogVideoActionVm model)
         {
-            await _videoRepository.LogVideoView(userId, videoId);
+            await _videoRepository.LogVideoAction(model.UserId, model.VideoId,model.VideoActionType);
         }
 
         public async Task<VideoVm> GetVideoByLink(int? userId, string link)

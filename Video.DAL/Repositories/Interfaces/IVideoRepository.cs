@@ -3,14 +3,15 @@ namespace Video.DAL.Repositories.Interfaces
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Models.Dto.Video;
+    using Models.Enums;
 
     public interface IVideoRepository
     {
-        Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, int folderId);
-        Task<VideoDto> GetVideoById(int videoId);
+        Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, long folderId);
+        Task<VideoDto> GetVideoById(long videoId);
         Task<VideoDto> GetVideoByLink(string link);
-        Task<int> CreateVideo(CreateVideoDto model);
-        Task LogVideoView(int? userId, int videoId);
-        Task<bool> IsUserHasAccessToVideo(int userId, int videoId);
+        Task<long> CreateVideo(CreateVideoDto model);
+        Task LogVideoAction(int? userId, long videoId, VideoActionType actionType);
+        Task<bool> IsUserHasAccessToVideo(int userId, long videoId);
     }
 }

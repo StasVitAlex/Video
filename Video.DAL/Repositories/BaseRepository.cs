@@ -14,6 +14,9 @@ namespace Video.DAL.Repositories
 
         private const string SET_USER_SESSION = "SET my.username = 'VideoApp';";
 
+        //todo:Remove later
+        protected const string GET_TENANT_QUERY = "(select id from tenants where is_active = true limit 1)";
+
         public BaseRepository(IOptions<DatabaseConfiguration> dataConfiguration)
         {
             _connectionString = dataConfiguration.Value.ConnectionString;
@@ -80,7 +83,7 @@ namespace Video.DAL.Repositories
         }
 
 
-        protected async Task ExecuteActionAsync(string sql, object model)
+        protected async Task ExecuteActionAsync(string sql, object model = null)
         {
             await using var connection = new NpgsqlConnection(_connectionString);
             try

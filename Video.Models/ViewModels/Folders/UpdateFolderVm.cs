@@ -7,7 +7,7 @@ namespace Video.Models.ViewModels.Folders
     public class UpdateFolderVm
     {
         public string Name { get; set; }
-        public int Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class UpdateFolderVmValidator : AbstractValidator<UpdateFolderVm>

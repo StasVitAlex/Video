@@ -6,9 +6,11 @@ namespace Video.BL.Services.Interfaces
 
     public interface IFoldersService
     {
-        Task<List<FolderVm>> GetUserFolders(int userId, int? parentFolderId);
-        Task<int> CreateFolder(int userId, CreateFolderVm model);
+        Task<List<FolderVm>> GetUserFolders(int userId, bool isDeleted, long? parentFolderId);
+        Task<long> CreateFolder(int userId, CreateFolderVm model);
         Task UpdateFolder(int userId, UpdateFolderVm model);
-        Task DeleteFolder(int userId, int folderId);
+        Task ArchiveFolder(int userId, long folderId);
+        
+        Task DeleteFolder(long folderId);
     }
 }

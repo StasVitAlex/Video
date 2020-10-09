@@ -4,5 +4,6 @@ namespace Video.Models.Dto.Folders
     {
         public string Name { get; set; }
         public int UserId { get; set; }
+        public long? ParentFolderId { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace Video.Models.ViewModels.Folders
     public class CreateFolderVm
     {
         public string Name { get; set; }
+        public long? ParentFolderId { get; set; }
     }
 
     public class CreateFolderVmValidator : AbstractValidator<CreateFolderVm>

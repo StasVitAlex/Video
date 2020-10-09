@@ -15,9 +15,9 @@ namespace Video.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> GetFolders([FromQuery] int? parentFolderId)
+        public async Task<IActionResult> GetFolders([FromQuery] GetFoldersVm model)
         {
-            return this.Ok(await _foldersService.GetUserFolders(this.CurrentUserId.Value, parentFolderId));
+            return this.Ok(await _foldersService.GetUserFolders(this.CurrentUserId.Value, model.IsDeleted, model.ParentFolderId));
         }
 
         [HttpPost("")]
@@ -34,9 +34,9 @@ namespace Video.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFolder([FromRoute] int id)
+        public async Task<IActionResult> ArchiveFolder([FromRoute] int id)
         {
-            await _foldersService.DeleteFolder(this.CurrentUserId.Value, id);
+            await _foldersService.ArchiveFolder(this.CurrentUserId.Value, id);
             return this.Ok();
         }
     }

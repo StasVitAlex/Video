@@ -71,11 +71,11 @@ namespace Video.Controllers
             return this.Ok(await _videoService.GetVideosFromFolder(this.CurrentUserId.Value, folderId));
         }
 
-        [HttpPost("log_view/{videoId}")]
+        [HttpPost("log_action")]
         [AllowAnonymous]
-        public async Task<IActionResult> LogVideoView([FromRoute] int videoId)
+        public async Task<IActionResult> LogVideoAAction([FromBody] LogVideoActionVm model)
         {
-            await _videoService.LogVideoView(this.CurrentUserId, videoId);
+            await _videoService.LogVideoAction(model);
             return this.Ok();
         }
     }

@@ -6,6 +6,7 @@ namespace Video.DAL.Repositories.Implementation
     using Microsoft.Extensions.Options;
     using Models.Configuration;
     using Models.Dto.Video;
+    using Models.Enums;
 
     public class VideoRepository : BaseRepository, IVideoRepository
     {
@@ -13,14 +14,29 @@ namespace Video.DAL.Repositories.Implementation
         {
         }
 
-        public async Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, int folderId)
+        public async Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, long folderId)
         {
-            return new List<VideoDto>();
+            return await GetManyAsync<VideoDto>($@"select distinct v.id as Id,v.title as Title, v.description as Description,
+                v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl,
+                v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedDate,
+                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                (select  count(*) from user_video_actions uva where uva.video_id = v.id) as ViewsCount 
+                from videos v
+                join folder_videos fv on v.id = fv.video_id
+                join user_folders uf on fv.folder_id = uf.folder_id and uf.user_id = {userId}
+                where fv.folder_id = {folderId}");
         }
 
-        public async Task<VideoDto> GetVideoById(int videoId)
+        public async Task<VideoDto> GetVideoById(long videoId)
         {
-            return new VideoDto();
+            return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
+                v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl,
+                v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedDate,
+                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                (select  count(*) from user_video_actions uva where uva.video_id = v.id) as ViewsCount 
+                from videos v
+                join folder_videos fv on v.id = fv.video_id
+                where v.id = {videoId}");
         }
 
         public async Task<VideoDto> GetVideoByLink(string link)
@@ -28,16 +44,17 @@ namespace Video.DAL.Repositories.Implementation
             return new VideoDto();
         }
 
-        public async Task<int> CreateVideo(CreateVideoDto model)
+        public async Task<long> CreateVideo(CreateVideoDto model)
         {
-            return 1;
+            return 0;
         }
 
-        public async Task LogVideoView(int? userId, int videoId)
+        public async Task LogVideoAction(int? userId, long videoId, VideoActionType actionType)
         {
+            await ExecuteActionAsync($"insert into user_video_actions(tenant_id,video_id,user_id,action_type_id) values({GET_TENANT_QUERY},{videoId},{userId},{(int) actionType})");
         }
 
-        public async Task<bool> IsUserHasAccessToVideo(int userId, int videoId)
+        public async Task<bool> IsUserHasAccessToVideo(int userId, long videoId)
         {
             return true;
         }

@@ -21,14 +21,16 @@ namespace Video.BL.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<FolderVm>> GetUserFolders(int userId, int? parentFolderId)
+        public async Task<List<FolderVm>> GetUserFolders(int userId, bool isDeleted, long? parentFolderId)
         {
-            return _mapper.Map<List<FolderVm>>(await _foldersRepository.GetUserFolders(userId, parentFolderId));
+            return _mapper.Map<List<FolderVm>>(await _foldersRepository.GetUserFolders(userId, isDeleted, parentFolderId));
         }
 
-        public async Task<int> CreateFolder(int userId, CreateFolderVm model)
+        public async Task<long> CreateFolder(int userId, CreateFolderVm model)
         {
-            return await _foldersRepository.CreateFolder(userId, _mapper.Map<CreateFolderDto>(model));
+            var createDto = _mapper.Map<CreateFolderDto>(model);
+            createDto.UserId = userId;
+            return await _foldersRepository.CreateFolder(createDto);
         }
 
         public async Task UpdateFolder(int userId, UpdateFolderVm model)
@@ -39,15 +41,20 @@ namespace Video.BL.Services.Implementation
             await _foldersRepository.UpdateFolder(userId, _mapper.Map<UpdateFolderDto>(model));
         }
 
-        public async Task DeleteFolder(int userId, int folderId)
+        public async Task ArchiveFolder(int userId, long folderId)
         {
             if (!await _foldersRepository.UserHasAccessToFolder(userId, folderId))
                 throw new AccessDeniedException();
 
-            await _foldersRepository.DeleteFolder(userId, folderId);
+            await _foldersRepository.ArchiveFolder(userId, folderId);
         }
 
-        public async Task<bool> UserHasAccessToFolder(int userId, int folderId)
+        public async Task DeleteFolder(long folderId)
+        {
+            await _foldersRepository.DeleteFolder(folderId);
+        }
+
+        public async Task<bool> UserHasAccessToFolder(int userId, long folderId)
         {
             return await _foldersRepository.UserHasAccessToFolder(userId, folderId);
         }
