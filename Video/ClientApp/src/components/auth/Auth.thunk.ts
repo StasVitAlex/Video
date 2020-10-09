@@ -20,5 +20,20 @@ export const actionCreators = {
             dispatch({ type: KnownActionType.SetUserInfo, payload: userInfo });
             history.push('/');
         }
+    },
+    handleGoogleAuth: (tokenId: string): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        const appState = getState();
+        debugger;
+        if (appState && appState.auth && !appState.auth.userInfo) {
+            const userInfo = await httpClient.post<UserInfo>({
+                url: AuthPaths.googleAuth,
+                payload: {
+                    tokenId
+                }
+            } as IHttpClientRequestParameters<any>);
+            debugger;
+            dispatch({ type: KnownActionType.SetUserInfo, payload: userInfo });
+            history.push('/');
+        }
     }
 };

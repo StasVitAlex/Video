@@ -55,6 +55,10 @@
   display: block;
   margin-bottom: 5px;
 }
-.btn-auth span{
+.btn-auth span {
   font-weight: 400 !important;
+}
+
+.google-auth span {
+    padding: 0.46875rem 0.9375rem !important;
 }

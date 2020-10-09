@@ -38,15 +38,18 @@ const SignIn: FC<SignInProps> = (props) => {
     );
 
     const handleGoogle = useCallback(
-        (response) => {
-            debugger;
+        (response: any) => {
+            props.handleGoogleAuth(response.tokenId);
         },
         [],
     );
 
     const handleGoogleError = useCallback(
         (response) => {
-            debugger;
+            if (response && response.error !== "popup_closed_by_user") {
+                //TODO handle error
+                console.log(response.eror);
+            }
         },
         [],
     );
@@ -66,7 +69,7 @@ const SignIn: FC<SignInProps> = (props) => {
 
                             <GoogleLogin
                                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
-                                className="btn btn-outline-primary btn-auth btn-block"
+                                className="btn btn-outline-primary btn-auth btn-block google-auth"
                                 redirectUri={process.env.REACT_APP_GOOGLE_REDIRECT_URL}
                                 // buttonText="Login"
                                 icon={false}
