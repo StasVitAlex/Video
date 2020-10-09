@@ -10,18 +10,17 @@ namespace Video
     using Microsoft.Extensions.Hosting;
     using Middleware;
     using ServicesConfiguration;
-    using Utils;
-    using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
+    using Video.Utils;
 
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             this.Environment = env;
             this.Configuration = Config.GetConfig(env);
         }
 
-        private IHostingEnvironment Environment { get; }
+        private IWebHostEnvironment Environment { get; }
 
         private IConfigurationRoot Configuration { get; }
 

@@ -1,4 +1,5 @@
-﻿namespace Video.ServicesConfiguration
+﻿
+namespace Video.ServicesConfiguration
 {
     using System;
     using System.Text;
@@ -7,14 +8,14 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Features;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
     using IConfigurationRoot = Microsoft.Extensions.Configuration.IConfigurationRoot;
+    using Microsoft.AspNetCore.Hosting;
 
     public static class SecurityConfigurationServices
     {
-        public static IServiceCollection ApplySecurityConfiguration(this IServiceCollection services, IConfigurationRoot Configuration, IHostingEnvironment environment)
+        public static IServiceCollection ApplySecurityConfiguration(this IServiceCollection services, IConfigurationRoot Configuration, IWebHostEnvironment environment)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddLogging(
