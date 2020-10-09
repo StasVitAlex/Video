@@ -24,7 +24,7 @@ namespace Video.DAL.Repositories.Implementation
         {
             model.Password = model.IsExternalAuth ? string.Empty : model.Password.GetSha1Hash();
             return await ExecuteScalarAsync<int>(
-                $@"INSERT INTO public.users (user_name,password,first_name,last_name,email_address,is_external_auth,is_active,is_pwd_reset_required,created_date,last_update_date,tenant_id, activation_token) VALUES (@Email,@Password, @FirstName,@LastName,@Email,@IsExternalAuth, false, false, now(), now(), 1, @ActivationToken) RETURNING id",
+                $@"INSERT INTO public.users (user_name,password,first_name,last_name,email_address,is_external_auth,is_active,is_pwd_reset_required,tenant_id, activation_token) VALUES (@Email,@Password, @FirstName,@LastName,@Email,@IsExternalAuth, false, false, 1, @ActivationToken) RETURNING id",
                 model);
         }
 
@@ -46,7 +46,7 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<UserDto> ActivateUser(int id)
         {
-            return await GetAsync<UserDto>($@"update public.users set is_active = true, last_update_date = now() where id = {id}");
+            return await GetAsync<UserDto>($@"update public.users set is_active = true where id = {id}");
         }
 
         public async Task UpdateUser(UpdateUserDto model)

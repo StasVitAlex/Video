@@ -13,7 +13,7 @@ export const actionCreators = {
 
     createFolder: (model: CreateFolderVm): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         const folderId = await httpClient.post<number>({url: PersonalLibraryPaths.create, payload: model} as IHttpClientRequestParameters<any>);
-        dispatch({type: KnownActionType.CreateFolder, payload: Object.assign(model, {id: folderId})});
+        dispatch({type: KnownActionType.CreateFolder, payload: Object.assign(model, {id: folderId, filesCount: 0})});
     },
 
     updateFolder: (model: UpdateFolderVm): AppThunkAction<KnownAction> => async (dispatch, getState) => {
