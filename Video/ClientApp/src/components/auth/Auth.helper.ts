@@ -2,6 +2,11 @@ import { history, store } from "index";
 import { KnownActionType } from "./Auth.actions";
 
 export class AuthHelper {
+    static get isAuthenticated(): boolean {
+        const state = store.getState().auth;
+        return state.userInfo ? true : false;
+    }
+
     static get token(): string  | undefined {
         const state = store.getState().auth;
         return state.userInfo ?

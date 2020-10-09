@@ -3,12 +3,13 @@ import { Route } from 'react-router';
 import Layout from './components/Layout';
 import SignIn from './components/auth/signIn/SignIn';
 import PersonalLibrary from 'components/personalLibrary/PersonalLibrary';
+import GuardRoute from 'components/auth/guardRoute/guardRoutes';
 
 import './main.css';
 
 export default () => (
     <Layout>
-        <Route exact path='/' component={PersonalLibrary} />
+        <GuardRoute exact path='/' component={PersonalLibrary} />
         <Route path='/signIn' component={SignIn} />
         {/* <Route path='/fetch-data/:startDateIndex?' component={FetchData} /> */}
     </Layout>
