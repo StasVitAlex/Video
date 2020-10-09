@@ -7,6 +7,8 @@ import { AuthPaths } from "./Auth.paths";
 import { history } from '../../index';
 import { SigninModel } from "./signIn/SignIn.model";
 import { SignUpModel } from "./signUp/SignUp.model";
+import { NotificationConstants } from "constants/Notification.constants";
+import { notificationService, NotificationType } from "services/Notification.service";
 
 export const actionCreators = {
     handleMicrosoftAuth: (accessToken: string): AppThunkAction<KnownAction> => async (dispatch, getState) => {
@@ -46,15 +48,28 @@ export const actionCreators = {
             history.push('/');
         }
     },
-    signUp: (model: SignUpModel): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+    signUp: (model: SignUpModel): AppThunkAction<KnownAction> => async (_, getState) => {
         const appState = getState();
         if (appState && appState.auth && !appState.auth.userInfo) {
-            const userInfo = await httpClient.post<UserInfo>({
+            await httpClient.post<void>({
                 url: AuthPaths.signUp,
                 payload: model
             } as IHttpClientRequestParameters<any>);
-            dispatch({ type: KnownActionType.SetUserInfo, payload: userInfo });
-            history.push('/');
+            history.push('/signIn');
+            notificationService.send(NotificationType.success, NotificationConstants.emailActivation);
+        }
+    },
+    activateUser: (token: string): AppThunkAction<KnownAction> => async (dispatch, _) => {
+        try {
+            await httpClient.post<void>({
+                url: AuthPaths.activateUser(token),
+            } as IHttpClientRequestParameters<any>);
+            history.push('/signIn');
+            notificationService.send(NotificationType.success, NotificationConstants.successUserActivation);
+        }
+        catch (ex) {
+            history.push('/signIn');
+            notificationService.send(NotificationType.error, NotificationConstants.failedUserActivation);
         }
     }
 };
