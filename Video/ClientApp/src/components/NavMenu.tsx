@@ -12,8 +12,8 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
     public render() {
         return (
             <header className="navbar navbar-header navbar-header-fixed">
-                <a href="javascript:void(0);" id="mainMenuOpen" className="burger-menu d-none"><i data-feather="menu"></i></a>
-                <a href="javascript:void(0);" id="filemgrMenu" className="burger-menu d-lg-none"><i data-feather="arrow-left"></i></a>
+                <a id="mainMenuOpen" className="burger-menu d-none"><i data-feather="menu"></i></a>
+                <a id="filemgrMenu" className="burger-menu d-lg-none"><i data-feather="arrow-left"></i></a>
                 <div className="navbar-brand">
                     <a href="index.html" className="app-logo">
                         <img src={logo}></img>
@@ -26,7 +26,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             <img src="../assets/img/app_logo.png"></img>
                             <span>eMeetings</span>
                         </a>
-                        <a id="mainMenuClose" href="javascript:void(0);"><i data-feather="x"></i></a>
+                        <a id="mainMenuClose"><i data-feather="x"></i></a>
                     </div>
                     <ul className="nav navbar-menu">
                         <li className="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
@@ -41,13 +41,13 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                 </div>
                 <div className="navbar-right">
                     <div className="dropdown dropdown-notification">
-                        <a href="javascript:void(0);" className="dropdown-link new-indicator" data-toggle="dropdown">
+                        <a className="dropdown-link new-indicator" data-toggle="dropdown">
                             <i data-feather="bell"></i>
                             <span>2</span>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right">
                             <div className="dropdown-header">Notifications</div>
-                            <a href="javascript:void(0);" className="dropdown-item">
+                            <a className="dropdown-item">
                                 <div className="media">
                                     <div className="avatar avatar-sm avatar-online">
                                         <img src="../assets/img/users/1.jpg" className="rounded-circle" alt=""></img>
@@ -58,7 +58,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                     </div>
                                 </div>
                             </a>
-                            <a href="javascript:void(0);" className="dropdown-item">
+                            <a className="dropdown-item">
                                 <div className="media">
                                     <div className="avatar avatar-sm avatar-online">
                                         <img src="../assets/img/users/2.jpg" className="rounded-circle" alt=""></img>
@@ -69,7 +69,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                     </div>
                                 </div>
                             </a>
-                            <a href="javascript:void(0);" className="dropdown-item">
+                            <a className="dropdown-item">
                                 <div className="media">
                                     <div className="avatar avatar-sm avatar-online">
                                         <img src="../assets/img/users/3.jpg" className="rounded-circle" alt=""></img>
@@ -80,7 +80,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                     </div>
                                 </div>
                             </a>
-                            <a href="javascript:void(0);" className="dropdown-item">
+                            <a className="dropdown-item">
                                 <div className="media">
                                     <div className="avatar avatar-sm avatar-online">
                                         <img src="../assets/img/users/4.jpg" className="rounded-circle" alt=""></img>
@@ -91,11 +91,11 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                     </div>
                                 </div>
                             </a>
-                            <div className="dropdown-footer"><a href="javascript:void(0);">View all Notifications</a></div>
+                            <div className="dropdown-footer"><a>View all Notifications</a></div>
                         </div>
                     </div>
                     <div className="dropdown dropdown-profile">
-                        <a href="javascript:void(0);" className="dropdown-link" data-toggle="dropdown" data-display="static">
+                        <a className="dropdown-link" data-toggle="dropdown" data-display="static">
                             <div className="avatar avatar-sm"><img src="../assets/img/users/2.jpg" className="rounded-circle" alt=""></img></div>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right tx-13">
@@ -105,10 +105,10 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                             <h6 className="tx-semibold mg-b-5">Yasser Al Anezi</h6>
                             <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>
 
-                            <a href="javascript:void(0);" className="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
+                            <a className="dropdown-item"><i data-feather="edit-3"></i> Edit Profile</a>
                             <div className="dropdown-divider"></div>
-                            <a href="javascript:void(0);" className="dropdown-item"><i data-feather="help-circle"></i> Help Center</a>
-                            <a href="javascript:void(0);" className="dropdown-item"><i data-feather="settings"></i>Privacy Settings</a>
+                            <a className="dropdown-item"><i data-feather="help-circle"></i> Help Center</a>
+                            <a className="dropdown-item"><i data-feather="settings"></i>Privacy Settings</a>
                             <a href="signin.html" className="dropdown-item"><i data-feather="log-out"></i>Sign Out</a>
                         </div>
                     </div>

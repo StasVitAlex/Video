@@ -11,8 +11,8 @@ const PersonalLibrary = () => (
                     <button className="btn btn-xs btn-white" data-toggle="dropdown">Folder <i
                         data-feather="chevron-down"></i></button>
                     <div className="dropdown-menu tx-13">
-                        <a href="javascript:void(0);" className="dropdown-item"><i data-feather="folder"></i><span>New Folder</span></a>
-                        <a href="javascript:void(0);" className="dropdown-item"><i data-feather="folder"></i><span>New Public
+                        <a className="dropdown-item"><i data-feather="folder"></i><span>New Folder</span></a>
+                        <a className="dropdown-item"><i data-feather="folder"></i><span>New Public
                 Folder</span></a>
                     </div>
                 </div>
@@ -21,13 +21,13 @@ const PersonalLibrary = () => (
                 <div className="pd-t-20 pd-b-10 pd-x-10">
                     <label className="tx-sans tx-uppercase tx-medium tx-10 tx-spacing-1 tx-color-03 pd-l-10">Personal Library</label>
                     <nav className="nav nav-sidebar tx-13">
-                        <a href="javascript:void(0);" className="nav-link active"><i data-feather="folder"></i> <span>All
+                        <a className="nav-link active"><i data-feather="folder"></i> <span>All
                 Files</span></a>
-                        <a href="javascript:void(0);" className="nav-link"><i data-feather="video"></i> <span>My Videos</span></a>
-                        <a href=" javascript:void(0);" className="nav-link"><i data-feather="share-2"></i> <span>Shared
+                        <a className="nav-link"><i data-feather="video"></i> <span>My Videos</span></a>
+                        <a className="nav-link"><i data-feather="share-2"></i> <span>Shared
                 Videos</span></a>
-                        <a href="javascript:void(0);" className="nav-link"><i data-feather="clock"></i> <span>Recents</span></a>
-                        <a href="javascript:void(0);" className="nav-link"><i data-feather="star"></i> <span>Important</span></a>
+                        <a className="nav-link"><i data-feather="clock"></i> <span>Recents</span></a>
+                        <a className="nav-link"><i data-feather="star"></i> <span>Important</span></a>
                     </nav>
                 </div>
             </div>
@@ -41,7 +41,7 @@ const PersonalLibrary = () => (
                             <i className="far fa-video mr-1"></i> <span className="wd-200 text-truncate d-inline-block">Send Team Updates with
                 Quick
                 Videos</span> </h5>
-                        <a href="javascript:void(0);" id="close-sidebar">
+                        <a id="close-sidebar">
                             <i className="far fa-times"></i>
                         </a>
                     </div>
@@ -63,7 +63,7 @@ const PersonalLibrary = () => (
                             <p>2 Links</p>
                         </div>
                         <nav className="nav nav-with-icon tx-13 mg-b-10">
-                            <a id="manage-access-open" href="javascript:void(0);" className="nav-link">
+                            <a id="manage-access-open" className="nav-link">
                 Manage Shared Links
                                 <i className="far fa-chevron-right ml-1"></i>
                             </a>
@@ -142,16 +142,14 @@ const PersonalLibrary = () => (
                     </div>
                     <div id="folder-access" className="filemgr-info-body d-none">
                         <div className="d-flex align-items-center justify-content-between mg-b-20">
-                            <a id="manage-access-cancel" href="javascript:void(0);"
-                                className="tx-13 tx-spacing-1 tx-semibold mg-b-0 d-flex align-items-center">
+                            <a id="manage-access-cancel" className="tx-13 tx-spacing-1 tx-semibold mg-b-0 d-flex align-items-center">
                                 <i className="far fa-long-arrow-left mr-2"></i>Manage Shared Links</a>
                         </div>
                         <ul className="list-unstyled media-list mg-b-15">
                             <li className="media align-items-center mg-b-10">
                                 <div className="media-body pd-l-15">
                                     <p className="tx-medium mg-b-0 lh-1">
-                                        <a href="javascript:void(0);"
-                                            className="link-01 wd-200 d-inline-block text-truncate">https://drive.google.com/drive/u/0/</a>
+                                        <a className="link-01 wd-200 d-inline-block text-truncate">https://drive.google.com/drive/u/0/</a>
                                     </p>
                                     <span className="tx-12 tx-color-03">Generated on: 28/09/2020</span>
                                 </div>
@@ -180,11 +178,11 @@ const PersonalLibrary = () => (
                             <div className="media media-folder">
                                 <i data-feather="folder"></i>
                                 <div className="media-body">
-                                    <h6><a href="javascript:void(0);" className="link-02">My Videos</a></h6>
+                                    <h6><a className="link-02">My Videos</a></h6>
                                     <span>2 files</span>
                                 </div>
                                 <div className="dropdown-file">
-                                    <a href="javascript:void(0);" className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                                    <a className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
                                     <div className="dropdown-menu dropdown-menu-right">
                                         <a href="#modalRename" data-toggle="modal" className="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
                                         <a href="#" className="dropdown-item archive"><i data-feather="archive"></i>Archive</a>
@@ -200,7 +198,7 @@ const PersonalLibrary = () => (
                                     <span>8 files</span>
                                 </div>
                                 <div className="dropdown-file">
-                                    <a href="javascript:void(0);" className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                                    <a className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
                                     <div className="dropdown-menu dropdown-menu-right">
                                         <a href="#modalRename" data-toggle="modal" className="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
                                         <a href="#" className="dropdown-item archive"><i data-feather="archive"></i>Archive</a>
@@ -217,7 +215,7 @@ const PersonalLibrary = () => (
                                     <span>0 files</span>
                                 </div>
                                 <div className="dropdown-file">
-                                    <a href="javascript:void(0);" className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                                    <a className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
                                     <div className="dropdown-menu dropdown-menu-right">
                                         <a href="#modalRename" data-toggle="modal" className="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
                                         <a href="#" className="dropdown-item archive"><i data-feather="archive"></i>Archive</a>
@@ -235,7 +233,7 @@ const PersonalLibrary = () => (
                         <div className="col-6 col-sm-4 col-lg-4 video-item">
                             <div className="card card-file">
                                 <div className="dropdown-file">
-                                    <a href="javascript:void(0);" className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
+                                    <a className="dropdown-link" data-toggle="dropdown"><i data-feather="more-vertical"></i></a>
                                     <div className="dropdown-menu dropdown-menu-right">
                                         <a href="#modalRename" data-toggle="modal" className="dropdown-item rename"><i data-feather="edit"></i>Rename</a>
                                         <a href="#" className="dropdown-item archive"><i data-feather="archive"></i>Archive</a>
@@ -261,7 +259,7 @@ const PersonalLibrary = () => (
                                             <span className="tx-sans tx-uppercase tx-10 tx-medium tx-color-03">3 years ago</span>
                                         </li>
                                         <li className="list-inline-item d-flex align-items-center ml-auto">
-                                            <a className="link-02" href="javascript:void(0);" id="info">
+                                            <a className="link-02" id="info">
                                                 <i className="far fa-info-circle tx-color-03 mg-r-5"></i>
                                             </a>
                                         </li>

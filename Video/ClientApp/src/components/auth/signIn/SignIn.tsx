@@ -2,12 +2,18 @@ import React, { FC, useCallback } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
 import MicrosoftLogin from "react-microsoft-login";
+import GoogleLogin from 'react-google-login';
+// import { useForm } from 'react-hook-form';
 import { ReactComponent as GoogleLogo } from 'assets/img/google.svg';
 import { ReactComponent as MicrosoftLogo } from 'assets/img/microsoft.svg';
 import { ApplicationState } from 'store';
+import ValidationConstants from "constants/Validation.constants";
+// AIzaSyCmpZCfX8hpQwh7BNgizmwQlYP2tl-wrmA
+// import classnames from 'classnames';
 import * as Auth from '../Auth.reducer';
 import * as AuthThunk from '../Auth.thunk';
 import '../auth.css';
+
 
 type SignInProps =
     Auth.AuthState &
@@ -15,7 +21,9 @@ type SignInProps =
     RouteComponentProps<{}>;
 
 const SignIn: FC<SignInProps> = (props) => {
-    const authHandler = useCallback(
+    // const { register, handleSubmit, errors } = useForm();
+
+    const handleMicrosoft = useCallback(
         (error: any, data: any) => {
             debugger;
             if (error) {
@@ -29,6 +37,24 @@ const SignIn: FC<SignInProps> = (props) => {
         [],
     );
 
+    const handleGoogle = useCallback(
+        (response) => {
+            debugger;
+        },
+        [],
+    );
+
+    const handleGoogleError = useCallback(
+        (response) => {
+            debugger;
+        },
+        [],
+    );
+
+    const onSubmit = useCallback((data) => {
+
+    }, []);
+
     return (
         <div className="content content-fixed content-auth">
             <div className="container">
@@ -38,14 +64,25 @@ const SignIn: FC<SignInProps> = (props) => {
                             <h3 className="tx-color-01 mg-b-4">Sign In</h3>
                             <p className="tx-color-03 tx-16 mg-b-40">Welcome back! Please signin to continue.</p>
 
-                            <button className="btn btn-outline-primary btn-auth btn-block">
+                            <GoogleLogin
+                                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
+                                className="btn btn-outline-primary btn-auth btn-block"
+                                redirectUri={process.env.REACT_APP_GOOGLE_REDIRECT_URL}
+                                // buttonText="Login"
+                                icon={false}
+                                style={undefined}
+                                onSuccess={handleGoogle}
+                                onFailure={handleGoogleError}
+                            >
+                                {/* <button className="btn btn-outline-primary btn-auth btn-block"> */}
                                 <GoogleLogo />
                                 <span>Sign In With Google</span>
-                            </button>
+                                {/* </button> */}
+                            </GoogleLogin>
                             <MicrosoftLogin
                                 clientId={process.env.REACT_APP_MICROSOFT_CLIENT_ID!}
-                                authCallback={authHandler}
-                                redirectUri={`${process.env.REACT_APP_MICROSOFT_REDIRECT_URL}`}
+                                authCallback={handleMicrosoft}
+                                redirectUri={process.env.REACT_APP_MICROSOFT_REDIRECT_URL}
                             >
                                 <button className="btn btn-outline-primary btn-auth btn-block">
                                     <MicrosoftLogo />
@@ -53,17 +90,58 @@ const SignIn: FC<SignInProps> = (props) => {
                                 </button>
                             </MicrosoftLogin>
                             <div className="divider-text">or</div>
-                            <form action="index.html" data-parsley-validate>
+                            {/* <form data-parsley-validate onSubmit={handleSubmit(onSubmit)}> */}
+                            <form data-parsley-validate>
                                 <div className="form-group">
                                     <label>Email address</label>
-                                    <input type="email" className="form-control" required placeholder="yourname@yourmail.com" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        // className={classnames("form-control", {
+                                        //     'parsley-error': errors.email
+                                        // })}
+                                        required
+                                        placeholder="yourname@yourmail.com"
+                                        // ref={register({
+                                        //     required: ValidationConstants.auth.required,
+                                        //     pattern: {
+                                        //         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        //         message: ValidationConstants.auth.invalidEmail
+                                        //     }
+                                        // })}
+                                    />
+                                    {/* {
+                                        errors.email && (
+                                            <ul className="parsley-errors-list filled">
+                                                <li className="parsley-required">{errors.email}</li>
+                                            </ul>
+                                        )
+                                    } */}
                                 </div>
                                 <div className="form-group">
                                     <div className="d-flex justify-content-between mg-b-5">
                                         <label className="mg-b-0-f">Password</label>
                                         <a href="forget-pwd.html" className="tx-13">Forgot password?</a>
                                     </div>
-                                    <input type="password" className="form-control" required placeholder="Enter your password" />
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        // className={classnames("form-control", {
+                                        //     'parsley-error': errors.password
+                                        // })}
+                                        required
+                                        placeholder="Enter your password"
+                                        // ref={register({
+                                        //     required: ValidationConstants.auth.required,
+                                        // })}
+                                    />
+                                    {/* {
+                                        errors.password && (
+                                            <ul className="parsley-errors-list filled">
+                                                <li className="parsley-required">{errors.password}</li>
+                                            </ul>
+                                        )
+                                    } */}
                                 </div>
                                 <button type="submit" id="sign-in" className="btn btn-brand-02 btn-block">Sign In</button>
                             </form>
