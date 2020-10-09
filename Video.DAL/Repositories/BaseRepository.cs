@@ -12,6 +12,8 @@ namespace Video.DAL.Repositories
     {
         private readonly string _connectionString;
 
+        private const string SET_USER_SESSION = "SET my.username = 'VideoApp';";
+
         public BaseRepository(IOptions<DatabaseConfiguration> dataConfiguration)
         {
             _connectionString = dataConfiguration.Value.ConnectionString;
@@ -23,7 +25,7 @@ namespace Video.DAL.Repositories
             await using var connection = new NpgsqlConnection(_connectionString);
             try
             {
-                result = await connection.QueryFirstOrDefaultAsync<T>(sql);
+                result = await connection.QueryFirstOrDefaultAsync<T>(SET_USER_SESSION + sql);
             }
             catch (Exception sqlException)
             {
@@ -43,7 +45,7 @@ namespace Video.DAL.Repositories
             await using var connection = new NpgsqlConnection(_connectionString);
             try
             {
-                result = await connection.ExecuteScalarAsync<T>(sql, model);
+                result = await connection.ExecuteScalarAsync<T>(SET_USER_SESSION + sql, model);
             }
             catch (Exception sqlException)
             {
@@ -63,7 +65,7 @@ namespace Video.DAL.Repositories
             await using var connection = new NpgsqlConnection(_connectionString);
             try
             {
-                result = await connection.QueryAsync<T>(sql);
+                result = await connection.QueryAsync<T>(SET_USER_SESSION + sql);
             }
             catch (Exception sqlException)
             {
@@ -83,7 +85,7 @@ namespace Video.DAL.Repositories
             await using var connection = new NpgsqlConnection(_connectionString);
             try
             {
-                await connection.ExecuteAsync(sql, model);
+                await connection.ExecuteAsync(SET_USER_SESSION + sql, model);
             }
             catch (Exception sqlException)
             {

@@ -1,6 +1,7 @@
 export interface FolderVm {
     id: number;
     name: string;
+    filesCount: number;
 }
 
 export interface CreateFolderVm {
@@ -8,5 +9,6 @@ export interface CreateFolderVm {
 }
 
 export interface UpdateFolderVm extends FolderVm {
-
+    id: number;
+    name: string;
 }

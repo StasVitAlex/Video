@@ -15,7 +15,7 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<IEnumerable<FolderDto>> GetUserFolders(int userId, int? parentFolderId = null)
         {
-            return new List<FolderDto>();
+            return new List<FolderDto>(){new FolderDto(){Id = 1, Name = "Folder 1", FilesCount = 4}};
         }
 
         public async Task<int> CreateFolder(int userId, CreateFolderDto model)
