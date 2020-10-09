@@ -55,3 +55,6 @@
   display: block;
   margin-bottom: 5px;
 }
+.btn-auth span{
+  font-weight: 400 !important;
+}

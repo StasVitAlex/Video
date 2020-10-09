@@ -84,7 +84,7 @@ const SignIn: FC<SignInProps> = (props) => {
                                 authCallback={handleMicrosoft}
                                 redirectUri={process.env.REACT_APP_MICROSOFT_REDIRECT_URL}
                             >
-                                <button className="btn btn-outline-primary btn-auth btn-block">
+                                <button className="btn btn-outline-primary btn-auth btn-block mg-sm-t-10">
                                     <MicrosoftLogo />
                                     <span>Sign In With Microsoft</span>
                                 </button>

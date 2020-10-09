@@ -2920,12 +2920,13 @@ fieldset:disabled a.btn {
       box-shadow: 0 0 0 0.2rem rgba(88, 99, 122, 0.5); }
 
 .btn-outline-primary {
-  color: #0747a6;
-  border-color: #0747a6; }
+  color: #0747a6 !important;
+  border-color: #0747a6 !important;
+}
   .btn-outline-primary:hover {
-    color: #fff;
-    background-color: #0747a6;
-    border-color: #0747a6; }
+    color: #fff !important;
+    background-color: #0747a6 !important;
+    border-color: #0747a6 !important; }
   .btn-outline-primary:focus, .btn-outline-primary.focus {
     box-shadow: 0 0 0 0.2rem rgba(7, 71, 166, 0.5); }
   .btn-outline-primary.disabled, .btn-outline-primary:disabled {
@@ -8428,6 +8429,7 @@ strong {
   display: flex;
   align-items: center;
   justify-content: center;
+    border-radius: 2px !important;
   position: relative; }
   .btn-auth .logo {
     position: absolute;
