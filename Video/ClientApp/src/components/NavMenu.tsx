@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './NavMenu.css';
 import logo from 'assets/img/app_logo.png';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faBell, faSearch, faArrowLeft, faHamburger, faTimes, faUserPlus} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSearch, faArrowLeft, faHamburger, faTimes, faUserPlus} from '@fortawesome/free-solid-svg-icons'
 import Notifications from "./notifications/Notifications";
 import UserProfile from "./auth/userProfile/UserProfile";
 import {connect} from "react-redux";

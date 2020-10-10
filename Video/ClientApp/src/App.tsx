@@ -8,6 +8,7 @@ import SignUp from 'components/auth/signUp/SignUp';
 import ActivateUser from 'components/auth/activateUser/ActivateUser';
 import 'bootstrap';
 import './main.css';
+import VideoWatch from 'components/videoWatch/VideoWatch';
 
 export default () => (
     <Layout>
@@ -15,7 +16,7 @@ export default () => (
         <Route path='/signIn' component={SignIn} />
         <Route path='/signUp' component={SignUp} />
         <Route path='/activate_user' component={ActivateUser} />
-        <Route path='/video/:videoId' component={() => (<div>Test</div>)} />
+        <GuardRoute path='/video/:videoId?' component={VideoWatch} />
 
 
         {/* <Route path='/fetch-data/:startDateIndex?' component={FetchData} /> */}

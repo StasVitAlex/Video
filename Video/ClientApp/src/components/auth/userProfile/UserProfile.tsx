@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEdit, faCog, faQuestionCircle, faSignOutAlt, faVideo} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEdit, faCog, faQuestionCircle, faSignOutAlt, faVideo} from '@fortawesome/free-solid-svg-icons';
 import {AuthHelper} from "../Auth.helper";
 import {UserInfo} from "../../../models/UserInfo";
 

@@ -11436,6 +11436,7 @@ textarea.form-control {
       margin-bottom: 5px; }
       .video-editor-nav a .icx svg {
         width: 24px;
+        height: 24px;
         stroke-width: 2.6px; }
     .video-editor-nav a span {
       font-size: .875rem;
