@@ -7,7 +7,7 @@ namespace Video.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     //[EnableCors("CorsPolicy")]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ValidateModel]
     [Authorize]
     public class BaseController : Controller

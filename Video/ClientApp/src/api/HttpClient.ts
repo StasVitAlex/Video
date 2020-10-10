@@ -8,7 +8,7 @@ class HttpClient implements IHttpClient {
 
     constructor() {
         this.client = axios.create({
-            baseURL: process.env.PUBLIC_URL,
+            baseURL: `${process.env.PUBLIC_URL}/api`,
             headers: {
                 Pragma: 'no-cache',
                 'Content-Type': 'application/json'
