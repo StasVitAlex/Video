@@ -1,7 +1,7 @@
 import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faChevronDown, faClock, faFolder, faShareAlt, faStar, faUserPlus, faVideo} from "@fortawesome/free-solid-svg-icons";
-import FolderEditor from "../folder/FolderEditor";
+import FolderEditor from "../personalLibrary/folder/FolderEditor";
 
 export default class Modal extends React.PureComponent<{ show: boolean, onClose: Function, onSubmit: Function, title: string, saveText: string }, {}> {
 

@@ -1,5 +1,5 @@
 import {Action, Reducer} from 'redux';
-import {FolderVm} from "../../../models/Folder";
+import {FolderVm} from "models/Folder";
 import {KnownAction, KnownActionType} from "./Folders.actions";
 
 export interface FoldersState {

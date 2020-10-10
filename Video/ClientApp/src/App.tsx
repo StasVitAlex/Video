@@ -15,6 +15,8 @@ export default () => (
         <Route path='/signIn' component={SignIn} />
         <Route path='/signUp' component={SignUp} />
         <Route path='/activate_user' component={ActivateUser} />
+        <Route path='/video/:videoId' component={() => (<div>Test</div>)} />
+
 
         {/* <Route path='/fetch-data/:startDateIndex?' component={FetchData} /> */}
     </Layout>

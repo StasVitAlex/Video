@@ -73,6 +73,9 @@
       height: 12px;
       stroke-width: 2.5px;
       margin-top: -1px; }
+    .filemgr-sidebar-header .file-upload {
+        position: relative;
+    }
 
 .filemgr-sidebar-body {
   position: absolute;
@@ -145,6 +148,19 @@
   @media (min-width: 1200px) {
     .filemgr-content-body > div:first-child {
       max-width: 100%; } }
+
+input.file-uploader {
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    opacity: 0;
+    overflow: hidden;
+}
 
 .dropdown-file {
   position: absolute;

@@ -18,4 +18,8 @@ export class FoldersPaths {
     static get delete(): string {
         return 'folders';
     }
+
+    static uploadVideo(folderId: number): string {
+        return `video/upload_video/${folderId}`;
+    }
 }

@@ -36,12 +36,12 @@ namespace Video.Controllers
                 {UserId = this.CurrentUserId.Value, FileName = file.FileName, FolderId = folderId, Link = StringExtensions.GenerateUniqueRandomToken(), Extension = Path.GetExtension(file.FileName), VideoAccessType = VideoAccessType.None};
 
             var fileId = await _videoService.CreateVideo(createModel);
-            await using (var fileStream = new FileStream(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoFolder, $"{fileId}.{createModel.Extension}"), FileMode.Create))
+            await using (var fileStream = new FileStream(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoFolder, $"{fileId}{createModel.Extension}"), FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
 
-            return this.Ok();
+            return this.Ok(fileId);
         }
 
         [HttpGet("{videoId}")]

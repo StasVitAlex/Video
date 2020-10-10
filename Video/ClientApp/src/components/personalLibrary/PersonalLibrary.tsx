@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import 'assets/css/main.filemgr.css';
 import {ApplicationState} from "../../store";
 import {RouteComponentProps} from "react-router";
-import LeftSidebar from "../leftSidebar/LeftSidebar";
-import Folders from "../folder/folders/Folders";
+import LeftSidebar from "./leftSidebar/LeftSidebar";
+import Folders from "./folder/folders/Folders";
 
 type PersonalLibraryProps = RouteComponentProps<{}>;
 
@@ -17,7 +17,7 @@ class PersonalLibrary extends React.PureComponent<PersonalLibraryProps, {}> {
     componentDidMount() {
 
     }
-    
+
     public render() {
         return (
             <div className="filemgr-wrapper">

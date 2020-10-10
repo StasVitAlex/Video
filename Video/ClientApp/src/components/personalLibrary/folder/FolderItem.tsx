@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFolder, faEllipsisV, faEdit, faArchive} from "@fortawesome/free-solid-svg-icons";
-import {FolderVm} from "../../models/Folder";
+import {FolderVm} from "models/Folder";
 
 export default class FolderItem extends React.PureComponent<{ details: FolderVm, onEdit: Function }, {  }> {
     public state = {
@@ -22,7 +22,6 @@ export default class FolderItem extends React.PureComponent<{ details: FolderVm,
                         <a onClick={this.archive} className="dropdown-item archive"> <FontAwesomeIcon icon={faArchive}/>Archive</a>
                     </div>
                 </div>
-
             </div>
         );
     }

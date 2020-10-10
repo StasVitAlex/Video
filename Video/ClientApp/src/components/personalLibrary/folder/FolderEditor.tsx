@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {FC, useCallback, useEffect, useState} from 'react';
-import {CreateFolderVm, FolderType, FolderVm} from "../../models/Folder";
-import Modal from "../modal/Modal";
+import {CreateFolderVm, FolderType, FolderVm} from "models/Folder";
+import Modal from "components/modal/Modal";
 import classnames from "classnames";
-import ValidationConstants from "../../constants/Validation.constants";
+import ValidationConstants from "constants/Validation.constants";
 import {useForm} from "react-hook-form";
 import * as FoldersThunk from "./folders/Folders.thunk";
 import {RouteComponentProps} from "react-router";
 import {connect, useSelector} from "react-redux";
-import {ApplicationState} from "../../store";
+import {ApplicationState} from "store";
 import {FoldersState} from "./folders/Folders.reducer";
 
 type FolderEditorInternalProps = { show: boolean, folder?: FolderVm, isPublic?: boolean, onClose?: Function };
@@ -81,10 +81,10 @@ const FolderEditor: FC<FolderEditorProps> = (props) => {
             </form>
         </Modal>
     );
-}
+};
 
 export default React.memo(connect<FolderEditorProps, any, any>(
     null,
     FoldersThunk.actionCreators
 )(FolderEditor as any), ((prevProps, nextProps) => {
-    return prevProps.folder == nextProps.folder && prevProps.show == nextProps.show}));
+    return prevProps.folder == nextProps.folder && prevProps.show == nextProps.show;}));

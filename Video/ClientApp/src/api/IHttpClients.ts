@@ -4,8 +4,8 @@ export interface IHttpClientRequestParameters<T> {
 }
 
 export interface IHttpClient {
-    get<T>(parameters: IHttpClientRequestParameters<T>): Promise<T>
-    post<T>(parameters: IHttpClientRequestParameters<T>): Promise<T>
-    put<T>(parameters: IHttpClientRequestParameters<T>): Promise<T>
+    get<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult>
+    post<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult>
+    put<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult>
     delete<T>(parameters: IHttpClientRequestParameters<T>): Promise<T>
 }

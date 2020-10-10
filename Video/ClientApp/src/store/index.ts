@@ -1,5 +1,5 @@
 import * as Auth from 'components/auth/Auth.reducer';
-import * as Folders from "../components/folder/folders/Folders.reducer";
+import * as Folders from "components/personalLibrary/folder/folders/Folders.reducer";
 
 // The top-level state object
 export interface ApplicationState {

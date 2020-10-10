@@ -11,7 +11,7 @@ import ValidationConstants from "constants/Validation.constants";
 import classnames from 'classnames';
 import * as Auth from '../Auth.reducer';
 import * as AuthThunk from '../Auth.thunk';
-import { SigninModel } from "./SignIn.model";
+import { SignInModel } from "./SignIn.model";
 import '../auth.css';
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ type SignInProps =
     RouteComponentProps<{}>;
 
 const SignIn: FC<SignInProps> = (props) => {
-    const { register, handleSubmit, errors } = useForm<SigninModel>();
+    const { register, handleSubmit, errors } = useForm<SignInModel>();
 
     const handleMicrosoft = useCallback(
         (error: any, data: any) => {
@@ -54,7 +54,7 @@ const SignIn: FC<SignInProps> = (props) => {
         [],
     );
 
-    const onSubmit = useCallback((data: SigninModel) => {
+    const onSubmit = useCallback((data: SignInModel) => {
         props.signIn(data);
     }, []);
 

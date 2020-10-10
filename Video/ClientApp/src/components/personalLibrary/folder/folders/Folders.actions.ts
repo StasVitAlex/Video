@@ -1,4 +1,4 @@
-import {FolderVm} from "../../../models/Folder";
+import {FolderVm} from "models/Folder";
 
 export type KnownAction = SetFolders | CreateFolder | UpdateFolder | DeleteFolder | SetRootFolder | SetCurrentFolder;
 

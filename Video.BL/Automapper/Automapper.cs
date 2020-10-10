@@ -1,3 +1,6 @@
+using Video.Models.Dto.Video;
+using Video.Models.ViewModels.Video;
+
 namespace Video.BL.Automapper
 {
     using System;
@@ -29,6 +32,7 @@ namespace Video.BL.Automapper
                 cfg.CreateMap<CommentDto, CommentVm>();
                 cfg.CreateMap<CreateCommentVm, CreateCommentDto>();
                 cfg.CreateMap<UpdateCommentVm, UpdateCommentDto>();
+                cfg.CreateMap<CreateVideoVm, CreateVideoDto>();
             });
             config.CompileMappings();
             return config.CreateMapper();

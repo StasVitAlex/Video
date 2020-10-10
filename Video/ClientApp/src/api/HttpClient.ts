@@ -35,18 +35,18 @@ class HttpClient implements IHttpClient {
         throw new Error(eror.response.data.message);
     }
 
-    async get<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
+    async get<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult> {
         const res = await this.client.get(parameters.url, {
             params: parameters.payload
         });
         return res?.data;
     }
 
-    async post<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
+    async post<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult> {
         return (await this.client.post(parameters.url, parameters.payload))?.data;
     }
 
-    async put<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
+    async put<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult> {
         return (await this.client.put(parameters.url, parameters.payload))?.data;
     }
 

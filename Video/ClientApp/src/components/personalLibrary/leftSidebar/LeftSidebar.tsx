@@ -2,12 +2,28 @@ import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faChevronDown, faClock, faFolder, faShareAlt, faStar, faUserPlus, faVideo} from "@fortawesome/free-solid-svg-icons";
 import FolderEditor from "../folder/FolderEditor";
+import { actionCreators } from "./LeftSideBar.thunk";
+import { connect } from "react-redux";
 
-export default class LeftSidebar extends React.PureComponent<{ show: boolean }, { showAddFolder: boolean, isPublicFolder: boolean }> {
+type OwnProps = { show: boolean };
+type State = { showAddFolder: boolean, isPublicFolder: boolean };
+type LeftSideBarProps = typeof actionCreators &
+    OwnProps &
+    State;
+
+class LeftSidebar extends React.PureComponent<LeftSideBarProps> {
 
     public state = {
         showAddFolder: false,
         isPublicFolder: false
+    }
+
+    public async onFileUpload(event: any) {
+        const selectedFile = event.target.files[0];
+        // TODO change to real folder id
+        const folderId = 1;
+        this.props.uploadVideo(folderId, selectedFile);
+        event.target.value = null;
     }
 
     public render() {
@@ -16,7 +32,15 @@ export default class LeftSidebar extends React.PureComponent<{ show: boolean }, 
                 <div className="filemgr-sidebar">
                     <FolderEditor onClose={() => this.onFolderClose()} show={this.state.showAddFolder} isPublic={this.state.isPublicFolder}/>
                     <div className="filemgr-sidebar-header">
-                        <a href="upload.html" className="btn btn-xs btn-primary"> <FontAwesomeIcon icon={faVideo}/> Upload</a>
+                        <span className="btn btn-xs btn-primary file-upload">
+                            <input
+                                type="file"
+                                className="file-uploader"
+                                accept="video/mp4,video/x-m4v,video/*"
+                                onChange={this.onFileUpload}
+                            />
+                            <FontAwesomeIcon icon={faVideo} /> Upload
+                        </span>
                         <div className="dropdown dropdown-icon flex-fill mg-l-10">
                             <button className="btn btn-xs btn-white" data-toggle="dropdown">Folder <FontAwesomeIcon icon={faChevronDown}/></button>
                             <div className="dropdown-menu tx-13">
@@ -58,5 +82,7 @@ export default class LeftSidebar extends React.PureComponent<{ show: boolean }, 
             showAddFolder: false
         });
     }
-
 }
+
+export default connect<any, any, OwnProps>(null, actionCreators)(LeftSidebar as any);
+

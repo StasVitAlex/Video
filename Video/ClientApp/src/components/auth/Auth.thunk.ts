@@ -5,7 +5,7 @@ import {AppThunkAction} from "store";
 import {KnownAction, KnownActionType} from "./Auth.actions";
 import {AuthPaths} from "./Auth.paths";
 import {history} from '../../index';
-import {SigninModel} from "./signIn/SignIn.model";
+import {SignInModel} from "./signIn/SignIn.model";
 import {SignUpModel} from "./signUp/SignUp.model";
 import {NotificationConstants} from "constants/Notification.constants";
 import {notificationService, NotificationType} from "services/Notification.service";
@@ -14,7 +14,7 @@ export const actionCreators = {
     handleMicrosoftAuth: (accessToken: string): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         const appState = getState();
         if (appState && appState.auth && !appState.auth.userInfo) {
-            const userInfo = await httpClient.post<UserInfo>({
+            const userInfo = await httpClient.post<any, UserInfo>({
                 url: AuthPaths.microsoftAuth,
                 payload: {
                     accessToken
@@ -28,7 +28,7 @@ export const actionCreators = {
         try {
             const appState = getState();
             if (appState && appState.auth && !appState.auth.userInfo) {
-                const userInfo = await httpClient.post<UserInfo>({
+                const userInfo = await httpClient.post<any, UserInfo>({
                     url: AuthPaths.googleAuth,
                     payload: {
                         tokenId
@@ -40,26 +40,25 @@ export const actionCreators = {
         } catch (e) {
         }
     },
-    signIn: (model: SigninModel): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+    signIn: (model: SignInModel): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         try {
             const appState = getState();
             if (appState && appState.auth && !appState.auth.userInfo) {
-                const userInfo = await httpClient.post<UserInfo>({
+                const userInfo = await httpClient.post<SignInModel, UserInfo>({
                     url: AuthPaths.signIn,
                     payload: model
-                } as IHttpClientRequestParameters<any>);
+                } as IHttpClientRequestParameters<SignInModel>);
                 dispatch({type: KnownActionType.SetUserInfo, payload: userInfo});
                 history.push('/');
             }
         } catch (e) {
-            
         }
     },
     signUp: (model: SignUpModel): AppThunkAction<KnownAction> => async (_, getState) => {
         try {
             const appState = getState();
             if (appState && appState.auth && !appState.auth.userInfo) {
-                await httpClient.post<void>({
+                await httpClient.post<SignUpModel, void>({
                     url: AuthPaths.signUp,
                     payload: model
                 } as IHttpClientRequestParameters<any>);
@@ -72,7 +71,7 @@ export const actionCreators = {
     },
     activateUser: (token: string): AppThunkAction<KnownAction> => async (dispatch, _) => {
         try {
-            await httpClient.post<void>({
+            await httpClient.post<void, void>({
                 url: AuthPaths.activateUser(token),
             } as IHttpClientRequestParameters<any>);
             history.push('/signIn');
