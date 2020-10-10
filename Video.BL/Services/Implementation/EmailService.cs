@@ -57,7 +57,7 @@ namespace Video.BL.Services.Implementation
             }
             catch (Exception e)
             {
-                //log
+                Console.WriteLine(e.Message);
             }
         }
     }

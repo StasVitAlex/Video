@@ -1,10 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
-import { IHttpClient, IHttpClientRequestParameters } from './IHttpClients';
-import { AuthHelper } from 'components/auth/Auth.helper';
-import { notificationService, NotificationType } from 'services/Notification.service';
+import axios, {AxiosInstance} from 'axios';
+import {IHttpClient, IHttpClientRequestParameters} from './IHttpClients';
+import {AuthHelper} from 'components/auth/Auth.helper';
+import {notificationService, NotificationType} from 'services/Notification.service';
 
 class HttpClient implements IHttpClient {
     private client: AxiosInstance;
+
     constructor() {
         this.client = axios.create({
             baseURL: process.env.PUBLIC_URL,
@@ -17,7 +18,7 @@ class HttpClient implements IHttpClient {
         // set auth
         this.client.interceptors.request.use((config) => {
             const token = AuthHelper.token;
-            config.headers.Authorization =  token ? `Bearer ${token}` : '';
+            config.headers.Authorization = token ? `Bearer ${token}` : '';
             return config;
         });
 
@@ -30,7 +31,8 @@ class HttpClient implements IHttpClient {
             AuthHelper.logOut();
             return;
         }
-         notificationService.send(NotificationType.error, eror.response.data.message);
+        notificationService.send(NotificationType.error, eror.response.data.message);
+        throw new Error(eror.response.data.message);
     }
 
     async get<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
@@ -49,7 +51,7 @@ class HttpClient implements IHttpClient {
     }
 
     async delete<T>(parameters: IHttpClientRequestParameters<T>): Promise<T> {
-        return (await this.client.delete(parameters.url, { params: parameters.payload }))?.data;
+        return (await this.client.delete(parameters.url, {params: parameters.payload}))?.data;
     }
 }
 
