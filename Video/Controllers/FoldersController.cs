@@ -17,7 +17,13 @@ namespace Video.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetFolders([FromQuery] GetFoldersVm model)
         {
-            return this.Ok(await _foldersService.GetUserFolders(this.CurrentUserId.Value, model.isArchived, model.ParentFolderId));
+            return this.Ok(await _foldersService.GetUserFolders(this.CurrentUserId.Value, model.IsArchived, model.ParentFolderId));
+        }
+
+        [HttpGet("user_root")]
+        public async Task<IActionResult> GetUserRootFolder()
+        {
+            return this.Ok(await _foldersService.GetUserRootFolder(this.CurrentUserId.Value));
         }
 
         [HttpPost("")]

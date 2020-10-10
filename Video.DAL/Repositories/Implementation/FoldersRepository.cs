@@ -6,6 +6,7 @@ namespace Video.DAL.Repositories.Implementation
     using Microsoft.Extensions.Options;
     using Models.Configuration;
     using Models.Dto.Folders;
+    using Models.Enums;
 
     public class FoldersRepository : BaseRepository, IFoldersRepository
     {
@@ -13,22 +14,30 @@ namespace Video.DAL.Repositories.Implementation
         {
         }
 
-        public async Task<IEnumerable<FolderDto>> GetUserFolders(int userId, bool isArchived, long? parentFolderId = null)
+        public async Task<IEnumerable<FolderDto>> GetUserFolders(int userId, bool isArchived, long parentFolderId)
         {
-            var query = $@"select f.id as Id, f.folder_name as FolderName, f.parent_folder_id as ParentFolderId,
+            var query = $@"select f.id as Id, f.folder_name as Name, f.parent_folder_id as ParentFolderId,
                         (select count(*) from folder_videos fv where fv.folder_id = f.id)
                         from folders f
                         join user_folders_permissions uf on f.id = uf.folder_id
-                        where uf.user_id = 1 and f.is_archived = {isArchived} ";
-            if (parentFolderId.HasValue)
-                query += " and f.parent_folder_id = 1";
+                        where uf.user_id = {userId} and f.is_archived = {isArchived} and f.parent_folder_id = {parentFolderId}";
             return await GetManyAsync<FolderDto>(query);
         }
 
+        public async Task<FolderDto> GetUserRootFolder(int userId)
+        {
+            return await GetAsync<FolderDto>($@"select f.id as Id, f.folder_name as Name 
+                        from folders f
+                        join user_folders_permissions uf on f.id = uf.folder_id
+                        where uf.user_id = {userId}");
+        }
+
+
         public async Task<long> CreateFolder(CreateFolderDto model)
         {
-            var folderId = await ExecuteScalarAsync<long>($"insert into folders(tenant_id,folder_name,parent_folder_id) values ({GET_TENANT_QUERY},@Name,@ParentFolderId) returning id", model);
-            await ExecuteActionAsync($"insert into user_folders_permissions(tenant_id,user_id,folder_id)  values ({GET_TENANT_QUERY},{model.UserId},{folderId})");
+            var parentFolderId = model.FolderType == FolderType.Public ? (long) FolderType.Public : model.ParentFolderId;
+            var folderId = await ExecuteScalarAsync<long>($"insert into folders(tenant_id,folder_name,parent_folder_id) values ({GET_TENANT_QUERY},@Name,{parentFolderId}) returning id", model);
+            await ExecuteActionAsync($"insert into user_folders_permissions(tenant_id,user_id,folder_id,permission_id)  values ({GET_TENANT_QUERY},{model.UserId},{folderId},{(int) FolderPermissionType.ViewFolders})");
             return folderId;
         }
 

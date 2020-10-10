@@ -1,5 +1,6 @@
 namespace Video.Models.ViewModels.Folders
 {
+    using Enums;
     using FluentValidation;
     using FluentValidation.Attributes;
 
@@ -8,6 +9,7 @@ namespace Video.Models.ViewModels.Folders
     {
         public string Name { get; set; }
         public long? ParentFolderId { get; set; }
+        public FolderType FolderType { get; set; }
     }
 
     public class CreateFolderVmValidator : AbstractValidator<CreateFolderVm>

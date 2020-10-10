@@ -7,6 +7,7 @@ import * as PersonalLibrary from "../personalLibrary/PersonalLibrary.reducer";
 import {RouteComponentProps} from "react-router";
 import FolderItem from "../folder/FolderItem";
 import LeftSidebar from "../leftSidebar/LeftSidebar";
+import FolderEditor from "../folder/FolderEditor";
 
 type PersonalLibraryProps =
     PersonalLibrary.PersonalLibraryState &
@@ -15,9 +16,13 @@ type PersonalLibraryProps =
 
 class PersonalLibraryDashboard extends React.PureComponent<PersonalLibraryProps, {}> {
 
+    public state = {
+        showFolderModal: false
+    };
     componentDidMount() {
-        this.props.getAllFolders();
+        this.props.loadFolders(this.props.rootFolderId, false);
     }
+    
 
     public render() {
         const foldersList = this.props.folders.map((item) =>
@@ -27,7 +32,7 @@ class PersonalLibraryDashboard extends React.PureComponent<PersonalLibraryProps,
         );
         return (
             <div className="filemgr-wrapper">
-                <LeftSidebar show={true}/>
+                <LeftSidebar show={true} />
                 <div className="filemgr-content">
                     <div className="filemgr-content-body">
                         <div className="pd-20 pd-lg-25 pd-xl-30 flex-1">

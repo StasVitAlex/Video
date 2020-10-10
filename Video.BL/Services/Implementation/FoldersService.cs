@@ -21,9 +21,14 @@ namespace Video.BL.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<FolderVm>> GetUserFolders(int userId, bool isArchived, long? parentFolderId)
+        public async Task<List<FolderVm>> GetUserFolders(int userId, bool isArchived, long parentFolderId)
         {
             return _mapper.Map<List<FolderVm>>(await _foldersRepository.GetUserFolders(userId, isArchived, parentFolderId));
+        }
+        
+        public async Task<FolderVm> GetUserRootFolder(int userId)
+        {
+            return _mapper.Map<FolderVm>(await _foldersRepository.GetUserRootFolder(userId));
         }
 
         public async Task<long> CreateFolder(int userId, CreateFolderVm model)

@@ -6,11 +6,12 @@ namespace Video.DAL.Repositories.Interfaces
 
     public interface IFoldersRepository
     {
-        Task<IEnumerable<FolderDto>> GetUserFolders(int userId, bool isArchived, long? parentFolderId = null);
+        Task<IEnumerable<FolderDto>> GetUserFolders(int userId, bool isArchived, long parentFolderId);
         Task<long> CreateFolder(CreateFolderDto model);
         Task UpdateFolder(int userId, UpdateFolderDto model);
         Task DeleteFolder(long folderId);
         Task ArchiveFolder(int userId, long folderId);
         Task<bool> UserHasAccessToFolder(int userId, long folderId);
+        Task<FolderDto> GetUserRootFolder(int userId);
     }
 }

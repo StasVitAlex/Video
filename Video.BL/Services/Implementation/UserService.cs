@@ -13,21 +13,26 @@ namespace Video.BL.Services.Implementation
     using RazorLight;
     using Utils.Extensions;
     using Microsoft.Extensions.Options;
+    using Models.Dto.Folders;
+    using Models.Enums;
     using Video.Models.Configuration;
 
     public class UserService : IUserService
     {
         private readonly IEmailService _emailService;
         private readonly IUserRepository _userRepository;
+        private readonly IFoldersRepository _foldersRepository;
         private readonly IMapper _mapper;
         private readonly RazorLightEngine _razorLightEngine;
         private readonly CommonSettings _commonSettings;
 
         public UserService(IUserRepository userRepository, IEmailService emailService,
+            IFoldersRepository foldersRepository,
             RazorLightEngine razorLightEngine,
             IMapper mapper, IOptions<CommonSettings> commonSettings)
         {
             _userRepository = userRepository;
+            _foldersRepository = foldersRepository;
             _mapper = mapper;
             _razorLightEngine = razorLightEngine;
             _emailService = emailService;
@@ -51,7 +56,14 @@ namespace Video.BL.Services.Implementation
                 throw new BadRequestException("User with this email is already exists");
 
             var signUpDto = _mapper.Map<SignUpDto>(model);
-            await _userRepository.SignUp(signUpDto);
+            var id = await _userRepository.SignUp(signUpDto);
+            //create user root folder
+            await _foldersRepository.CreateFolder(new CreateFolderDto
+            {
+                Name = $"User {id}  root folder",
+                UserId = id,
+                FolderType = FolderType.Private
+            });
             var body = await _razorLightEngine.CompileRenderAsync("UserInvitationTemplate.cshtml", new UserInvitationVm
             {
                 ActivationUrl= _commonSettings.UserActivationRedirectUrl,
@@ -80,6 +92,13 @@ namespace Video.BL.Services.Implementation
                 OAuthSubject = payload.Subject,
                 OAuthIssuer = payload.Issuer,
                 IsExternalAuth = true
+            });
+            //create user root folder
+            await _foldersRepository.CreateFolder(new CreateFolderDto
+            {
+                Name = $"User {userId}  root folder",
+                UserId = userId,
+                FolderType = FolderType.Private
             });
             return new UserVm
             {
@@ -110,6 +129,12 @@ namespace Video.BL.Services.Implementation
                 FirstName = microsoftUser.GivenName,
                 LastName = microsoftUser.Surname,
                 IsExternalAuth = true
+            });
+            //create user root folder
+            await _foldersRepository.CreateFolder(new CreateFolderDto
+            {
+                Name = $"User {userId}  root folder",
+                UserId = userId
             });
             return new UserVm
             {

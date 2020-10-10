@@ -3,6 +3,10 @@ export class PersonalLibraryPaths {
         return 'folders';
     }
 
+    static get userRootFolder(): string {
+        return 'folders/user_root';
+    }
+
     static get create(): string {
         return 'folders';
     }
