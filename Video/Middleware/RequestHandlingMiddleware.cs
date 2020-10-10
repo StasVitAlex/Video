@@ -57,6 +57,8 @@ namespace Video.Middleware
                     break;
                 case AccessDeniedException _:
                     code = HttpStatusCode.Forbidden;
+                    if (string.IsNullOrEmpty(message))
+                        message = "Access denied";
                     break;
                 case BadRequestException _:
                     code = HttpStatusCode.BadRequest;

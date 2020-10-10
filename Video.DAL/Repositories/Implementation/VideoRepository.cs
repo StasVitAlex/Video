@@ -20,10 +20,10 @@ namespace Video.DAL.Repositories.Implementation
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl,
                 v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedDate,
                 v.created_by as CreatedDate, fv.folder_id as FolderId,
-                (select  count(*) from user_video_actions uva where uva.video_id = v.id) as ViewsCount 
+                (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
-                join user_folders uf on fv.folder_id = uf.folder_id and uf.user_id = {userId}
+                join user_folders_permissions uf on fv.folder_id = uf.folder_id and uf.user_id = {userId}
                 where fv.folder_id = {folderId}");
         }
 
@@ -33,7 +33,7 @@ namespace Video.DAL.Repositories.Implementation
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl,
                 v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedDate,
                 v.created_by as CreatedDate, fv.folder_id as FolderId,
-                (select  count(*) from user_video_actions uva where uva.video_id = v.id) as ViewsCount 
+                (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
                 where v.id = {videoId}");
@@ -51,7 +51,7 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task LogVideoAction(int? userId, long videoId, VideoActionType actionType)
         {
-            await ExecuteActionAsync($"insert into user_video_actions(tenant_id,video_id,user_id,action_type_id) values({GET_TENANT_QUERY},{videoId},{userId},{(int) actionType})");
+            await ExecuteActionAsync($"insert into user_actions(tenant_id,video_id,user_id,action_type_id) values({GET_TENANT_QUERY},{videoId},{userId},{(int) actionType})");
         }
 
         public async Task<bool> IsUserHasAccessToVideo(int userId, long videoId)

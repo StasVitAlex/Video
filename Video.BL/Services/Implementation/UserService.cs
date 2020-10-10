@@ -37,8 +37,10 @@ namespace Video.BL.Services.Implementation
         public async Task<UserVm> SignIn(SignInVm model)
         {
             var user = await _userRepository.SignIn(_mapper.Map<SignInDto>(model));
+            if(user == null)
+                throw new BadRequestException("Invalid email or password");
             if (!user.IsActive)
-                throw new AccessDeniedException();
+                throw new AccessDeniedException("User is not active, please activate user via email");
             return _mapper.Map<UserVm>(user);
         }
 

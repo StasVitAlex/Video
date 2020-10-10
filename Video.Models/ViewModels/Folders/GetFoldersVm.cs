@@ -2,7 +2,7 @@ namespace Video.Models.ViewModels.Folders
 {
     public class GetFoldersVm
     {
-        public bool IsDeleted { get; set; }
+        public bool isArchived { get; set; }
         public long? ParentFolderId { get; set; }
     }
 }
