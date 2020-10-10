@@ -7,9 +7,10 @@ import Notifications from "./notifications/Notifications";
 import UserProfile from "./auth/userProfile/UserProfile";
 import {connect} from "react-redux";
 import {ApplicationState} from "../store";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {UserInfo} from "../models/UserInfo";
 
-class NavMenu extends React.PureComponent<{ isAuthenticated: boolean }, { isProfileOpened: boolean, isNotificationsOpened: boolean }> {
+class NavMenu extends React.PureComponent<{ isAuthenticated: boolean, userInfo: UserInfo }, { isProfileOpened: boolean, isNotificationsOpened: boolean }> {
     public state = {
         isProfileOpened: false,
         isNotificationsOpened: false,
@@ -54,7 +55,7 @@ class NavMenu extends React.PureComponent<{ isAuthenticated: boolean }, { isProf
                     if (this.props.isAuthenticated) {
                         return (<div className="navbar-right">
                             <Notifications/>
-                            <UserProfile/>
+                            <UserProfile userInfo={this.props.userInfo}/>
                         </div>);
                     } else {
                         return (
@@ -73,5 +74,5 @@ class NavMenu extends React.PureComponent<{ isAuthenticated: boolean }, { isProf
 
 
 export default connect((state: ApplicationState) => {
-    return {isAuthenticated: state.auth && state.auth.userInfo}
+    return {isAuthenticated: state.auth && state.auth.userInfo, userInfo: state.auth?.userInfo}
 }, {})(NavMenu as any);
