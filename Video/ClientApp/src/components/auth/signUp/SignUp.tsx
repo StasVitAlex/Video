@@ -1,18 +1,19 @@
-import React, { FC, useCallback } from "react";
-import { connect } from "react-redux";
-import { RouteComponentProps } from 'react-router';
-import { useForm } from 'react-hook-form';
+import React, {FC, useCallback} from "react";
+import {connect} from "react-redux";
+import {RouteComponentProps} from 'react-router';
+import {useForm} from 'react-hook-form';
 import MicrosoftLogin from "react-microsoft-login";
 import GoogleLogin from 'react-google-login';
-import { ReactComponent as GoogleLogo } from 'assets/img/google.svg';
-import { ReactComponent as MicrosoftLogo } from 'assets/img/microsoft.svg';
-import { ApplicationState } from 'store';
+import {ReactComponent as GoogleLogo} from 'assets/img/google.svg';
+import {ReactComponent as MicrosoftLogo} from 'assets/img/microsoft.svg';
+import {ApplicationState} from 'store';
 import classnames from 'classnames';
 import * as Auth from '../Auth.reducer';
 import * as AuthThunk from '../Auth.thunk';
 import '../auth.css';
 import ValidationConstants from "constants/Validation.constants";
-import { SignUpModel } from "./SignUp.model";
+import {SignUpModel} from "./SignUp.model";
+import {history} from "../../../index";
 
 
 type SignInProps =
@@ -21,7 +22,7 @@ type SignInProps =
     RouteComponentProps<{}>;
 
 const SignIn: FC<SignInProps> = (props) => {
-    const { register, handleSubmit, watch, errors } = useForm<SignUpModel>();
+    const {register, handleSubmit, watch, errors} = useForm<SignUpModel>();
 
     const handleMicrosoft = useCallback(
         (error: any, data: any) => {
@@ -75,7 +76,7 @@ const SignIn: FC<SignInProps> = (props) => {
                                 onSuccess={handleGoogle}
                                 onFailure={handleGoogleError}
                             >
-                                <GoogleLogo />
+                                <GoogleLogo/>
                                 <span>Sign In With Google</span>
                             </GoogleLogin>
                             <MicrosoftLogin
@@ -84,13 +85,13 @@ const SignIn: FC<SignInProps> = (props) => {
                                 redirectUri={process.env.REACT_APP_MICROSOFT_REDIRECT_URL}
                             >
                                 <button className="btn btn-outline-primary btn-auth btn-block mg-sm-t-10">
-                                    <MicrosoftLogo />
+                                    <MicrosoftLogo/>
                                     <span>Sign In With Microsoft</span>
                                 </button>
                             </MicrosoftLogin>
 
                             <div className="divider-text">or</div>
-                            <form action="index.html" data-parsley-validate  onSubmit={handleSubmit(onSubmit)}>
+                            <form action="index.html" data-parsley-validate onSubmit={handleSubmit(onSubmit)}>
                                 <div className="form-group">
                                     <label>First Name</label>
                                     <input
@@ -214,7 +215,7 @@ const SignIn: FC<SignInProps> = (props) => {
 
                                 <button type="submit" className="btn btn-brand-02 btn-block">Create Account</button>
                             </form>
-                            <div className="tx-13 mg-t-20 tx-center">Already have an account? <a href="signin.html">Sign In</a></div>
+                            <div className="tx-13 mg-t-20 tx-center">Already have an account? <a onClick={() => history.push('/signIn')}>Sign In</a></div>
                         </div>
                     </div>
                 </div>

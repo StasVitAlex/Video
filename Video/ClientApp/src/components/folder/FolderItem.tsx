@@ -3,9 +3,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFolder, faEllipsisV, faEdit, faArchive} from "@fortawesome/free-solid-svg-icons";
 import {FolderVm} from "../../models/Folder";
 
-export default class FolderItem extends React.PureComponent<{ details: FolderVm }, { showEditModal: boolean }> {
+export default class FolderItem extends React.PureComponent<{ details: FolderVm, onEdit: Function }, {  }> {
     public state = {
-        showEditModal: false
     };
 
     public render() {
@@ -23,13 +22,13 @@ export default class FolderItem extends React.PureComponent<{ details: FolderVm 
                         <a onClick={this.archive} className="dropdown-item archive"> <FontAwesomeIcon icon={faArchive}/>Archive</a>
                     </div>
                 </div>
-               
+
             </div>
         );
     }
 
     private rename = () => {
-        this.setState({showEditModal: !this.state.showEditModal});
+        this.props.onEdit(this.props.details);
     }
     private archive = () => {
 

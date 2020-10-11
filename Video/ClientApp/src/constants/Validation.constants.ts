@@ -7,4 +7,10 @@ export default class ValidationConstants {
             passwordsNotMatch: "Passwords don't match"
         };
     }
+
+    static get folder(): any {
+        return {
+            name: 'Name is required',
+        };
+    }
 }

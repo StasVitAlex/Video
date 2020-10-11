@@ -1,15 +1,15 @@
 import * as Auth from 'components/auth/Auth.reducer';
-import * as PersonalLibrary from "../components/personalLibrary/PersonalLibrary.reducer";
+import * as Folders from "../components/folder/folders/Folders.reducer";
 
 // The top-level state object
 export interface ApplicationState {
     auth: Auth.AuthState | undefined,
-    personalLibrary: PersonalLibrary.PersonalLibraryState | undefined
+    folders: Folders.FoldersState | undefined
 }
 
 export const reducers = {
     auth: Auth.reducer,
-    personalLibrary: PersonalLibrary.reducer
+    folders: Folders.reducer
 };
 
 export interface AppThunkAction<TAction> {

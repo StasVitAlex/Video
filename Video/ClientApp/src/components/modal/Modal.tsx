@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBell, faChevronDown, faClock, faFolder, faShareAlt, faStar, faUserPlus, faVideo} from "@fortawesome/free-solid-svg-icons";
 import FolderEditor from "../folder/FolderEditor";
 
-export default class Modal extends React.PureComponent<{ show: boolean, onClose: Function, title: string, saveText: string }, {}> {
+export default class Modal extends React.PureComponent<{ show: boolean, onClose: Function, onSubmit: Function, title: string, saveText: string }, {}> {
 
     public state = {}
 
@@ -24,7 +24,7 @@ export default class Modal extends React.PureComponent<{ show: boolean, onClose:
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary">{this.props.saveText}</button>
+                            <button onClick={() => this.props.onSubmit()} type="button" className="btn btn-primary">{this.props.saveText}</button>
                         </div>
                     </div>
                 </div>

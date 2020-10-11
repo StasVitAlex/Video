@@ -1,4 +1,4 @@
-export class PersonalLibraryPaths {
+export class FoldersPaths {
     static get all(): string {
         return 'folders';
     }

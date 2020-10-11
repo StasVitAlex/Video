@@ -1391,7 +1391,7 @@ pre {
       max-width: 960px; } }
   @media (min-width: 1200px) {
     .container {
-      max-width: 1140px; } }
+      max-width: 100%; } }
 
 .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
   width: 100%;
@@ -1414,7 +1414,7 @@ pre {
 
 @media (min-width: 1200px) {
   .container, .container-sm, .container-md, .container-lg, .container-xl {
-    max-width: 1140px; } }
+    max-width: 100%; } }
 
 .row {
   display: flex;
@@ -5280,7 +5280,7 @@ a.close.disabled {
 
 @media (min-width: 1200px) {
   .modal-xl {
-    max-width: 1140px; } }
+    max-width: 100%; } }
 
 .tooltip {
   position: absolute;
@@ -13034,7 +13034,7 @@ textarea.parsley-success:focus {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 0; } }
+    z-index: 1000; } }
 
 .navbar-menu-wrapper {
   order: 3;

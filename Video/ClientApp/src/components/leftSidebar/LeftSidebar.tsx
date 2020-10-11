@@ -14,7 +14,7 @@ export default class LeftSidebar extends React.PureComponent<{ show: boolean }, 
         if (this.props.show) {
             return (
                 <div className="filemgr-sidebar">
-                    <FolderEditor onFolderClose={() => this.onFolderClose()} show={this.state.showAddFolder} isPublic={this.state.isPublicFolder}/>
+                    <FolderEditor onClose={() => this.onFolderClose()} show={this.state.showAddFolder} isPublic={this.state.isPublicFolder}/>
                     <div className="filemgr-sidebar-header">
                         <a href="upload.html" className="btn btn-xs btn-primary"> <FontAwesomeIcon icon={faVideo}/> Upload</a>
                         <div className="dropdown dropdown-icon flex-fill mg-l-10">

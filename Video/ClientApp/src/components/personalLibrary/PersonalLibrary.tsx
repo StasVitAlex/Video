@@ -2,47 +2,33 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import 'assets/css/main.filemgr.css';
 import {ApplicationState} from "../../store";
-import * as PersonalLibraryThunk from "../personalLibrary/PersonalLibrary.thunk";
-import * as PersonalLibrary from "../personalLibrary/PersonalLibrary.reducer";
 import {RouteComponentProps} from "react-router";
-import FolderItem from "../folder/FolderItem";
 import LeftSidebar from "../leftSidebar/LeftSidebar";
-import FolderEditor from "../folder/FolderEditor";
+import Folders from "../folder/folders/Folders";
 
-type PersonalLibraryProps =
-    PersonalLibrary.PersonalLibraryState &
-    typeof PersonalLibraryThunk.actionCreators &
-    RouteComponentProps<{}>;
+type PersonalLibraryProps = RouteComponentProps<{}>;
 
-class PersonalLibraryDashboard extends React.PureComponent<PersonalLibraryProps, {}> {
+class PersonalLibrary extends React.PureComponent<PersonalLibraryProps, {}> {
 
     public state = {
         showFolderModal: false
     };
+
     componentDidMount() {
-        this.props.loadFolders(this.props.rootFolderId, false);
+
     }
     
-
     public render() {
-        const foldersList = this.props.folders.map((item) =>
-            <div className="col-sm-6 col-lg-4 col-xl-3 folder-item" key={item.id}>
-                <FolderItem details={item}/>
-            </div>
-        );
         return (
             <div className="filemgr-wrapper">
-                <LeftSidebar show={true} />
+                <LeftSidebar show={true}/>
                 <div className="filemgr-content">
                     <div className="filemgr-content-body">
                         <div className="pd-20 pd-lg-25 pd-xl-30 flex-1">
                             <h4 className="mg-b-10 mg-lg-b-15">Personal Library</h4>
                             <hr className="mg-y-10 bd-0"/>
                             <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Folders</label>
-                            <div className="row row-xs">
-                                {foldersList}
-                            </div>
-
+                            <Folders/>
                             <hr className="mg-y-40 bd-0"/>
                             <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Recent
                                 Videos</label>
@@ -94,6 +80,5 @@ class PersonalLibraryDashboard extends React.PureComponent<PersonalLibraryProps,
 };
 
 export default connect(
-    (state: ApplicationState) => state.personalLibrary,
-    PersonalLibraryThunk.actionCreators
-)(PersonalLibraryDashboard as any);
+    (state: ApplicationState) => state.folders
+)(PersonalLibrary as any);
