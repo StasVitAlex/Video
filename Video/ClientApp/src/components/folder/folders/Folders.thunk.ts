@@ -12,9 +12,9 @@ export const actionCreators = {
             if (!parentFolderId) {
                 const rootFolder = await httpClient.get<FolderVm>({url: FoldersPaths.userRootFolder} as IHttpClientRequestParameters<any>);
                 dispatch({type: KnownActionType.SetRootFolder, payload: rootFolder.id});
-                dispatch({type: KnownActionType.SetCurrentFolder, payload: rootFolder.id});
                 parentFolderId = rootFolder.id;
             }
+            dispatch({type: KnownActionType.SetCurrentFolder, payload: parentFolderId});
             const folders = await httpClient.get<FolderVm[]>({url: `${FoldersPaths.all}?IsArchived=${isArchived}&ParentFolderId=${parentFolderId}`} as IHttpClientRequestParameters<any>);
             dispatch({type: KnownActionType.SetFolders, payload: folders});
         } catch (e) {
@@ -41,8 +41,12 @@ export const actionCreators = {
         dispatch({type: KnownActionType.UpdateFolder, payload: model});
     },
 
-    deleteFolder: (id: number): AppThunkAction<KnownAction> => async (dispatch, getState) => {
-        await httpClient.delete({url: `${FoldersPaths.update}/${id}`} as IHttpClientRequestParameters<any>);
+    archiveFolder: (id: number): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        await httpClient.delete({url: `${FoldersPaths.delete}/${id}`} as IHttpClientRequestParameters<any>);
         dispatch({type: KnownActionType.DeleteFolder, payload: id});
-    }
+    },
+
+    setCurrentFolder: (id: number): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        dispatch({type: KnownActionType.SetCurrentFolder, payload: id});
+    },
 };

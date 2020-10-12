@@ -3,15 +3,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFolder, faEllipsisV, faEdit, faArchive} from "@fortawesome/free-solid-svg-icons";
 import {FolderVm} from "../../models/Folder";
 
-export default class FolderItem extends React.PureComponent<{ details: FolderVm, onEdit: Function }, {  }> {
-    public state = {
-    };
+export default class FolderItem extends React.PureComponent<{ details: FolderVm, onEdit: Function, onOpen: Function, onArchive: Function }, {}> {
+    public state = {};
 
     public render() {
         return (
             <div className="media media-folder">
-                <FontAwesomeIcon icon={faFolder}/>
-                <div className="media-body">
+                <FontAwesomeIcon onClick={this.openFolder} icon={faFolder}/>
+                <div className="media-body" onClick={this.openFolder}>
                     <h6><a className="link-02">{this.props.details.name}</a></h6>
                     <span>{this.props.details.filesCount} files</span>
                 </div>
@@ -30,8 +29,13 @@ export default class FolderItem extends React.PureComponent<{ details: FolderVm,
     private rename = () => {
         this.props.onEdit(this.props.details);
     }
-    private archive = () => {
 
+    private openFolder = (e:any) => {
+        console.log(e.currentTarget);
+        this.props.onOpen(this.props.details);
+    }
+    private archive = () => {
+        this.props.onArchive(this.props.details);
     }
 
 }
