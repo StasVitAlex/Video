@@ -8,10 +8,13 @@ import {RouteComponentProps} from "react-router";
 import {connect, useSelector} from "react-redux";
 import {ApplicationState} from "store";
 import {AuthState} from "../Auth.reducer";
-import {UpdateUserProfileVm, UserInfo} from "../../../models/UserInfo";
+import {UpdateUserProfileVm, User} from "../../../models/UserInfo";
 import * as AuthThunk from '../Auth.thunk';
+import ImageUploading, {ImageListType} from "react-images-uploading";
+import './UserProfile.css';
+import Avatar from "react-avatar";
 
-type UserProfileEditorInternalProps = { show: boolean, userDetails?: UserInfo, onClose?: Function };
+type UserProfileEditorInternalProps = { show: boolean, onClose?: Function };
 
 type FolderEditorProps =
     typeof AuthThunk.actionCreators &
@@ -19,26 +22,50 @@ type FolderEditorProps =
     RouteComponentProps<{}>;
 
 const UserProfileEditor: FC<FolderEditorProps> = (props) => {
-    const authState: AuthState = useSelector<ApplicationState, any>((state) => state.folders);
+    const authState: AuthState = useSelector<ApplicationState, any>((state) => state.auth);
     const {register, handleSubmit, errors, reset, setValue} = useForm<UpdateUserProfileVm>();
     const form = React.useRef<any>(null);
+    const [images, setImages] = React.useState([]);
+    const [image, setImage] = React.useState();
+    const maxNumber = 1;
 
     useEffect(() => {
 
-    }, [props.userDetails, props.show]);
+    }, [props.show]);
 
     const onSubmit = useCallback((data: UpdateUserProfileVm) => {
+        let form = new FormData();
+        if (image) {
+            form.append('Image', image)
+        }
+        form.append('FirstName', data.firstName);
+        form.append('LastName', data.lastName);
+        props.updateUserProfile(form, Object.assign(authState.userInfo, {firstName: data.firstName, lastName: data.lastName}));
+        reset();
+        setImages([]);
+        setImage(null);
+        if (props.onClose)
+            props.onClose();
+    }, [authState.userInfo, props, reset, image]);
 
-    }, [authState.userInfo, props, reset]);
 
-    if (props.userDetails) {
-        setValue('firstName', props.userDetails.firstName);
-        setValue('lastName', props.userDetails.lastName);
+    const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
+        setImage(imageList[0].file);
+        setImages(imageList as never[]);
+    };
+
+    if (authState.userInfo) {
+        setValue('firstName', authState.userInfo.firstName);
+        setValue('lastName', authState.userInfo.lastName);
     }
+
+    const fullName = authState.userInfo?.firstName + ' ' + authState.userInfo?.lastName;
+
     return (
         <Modal
             show={props.show}
             onClose={(e: any) => {
+                setImages([]);
                 if (props.onClose)
                     props.onClose(e);
             }}
@@ -49,6 +76,47 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
             title="Edit profile"
         >
             <form data-parsley-validate onSubmit={handleSubmit(onSubmit)} ref={form}>
+                <div className="form-group">
+                    <ImageUploading
+                        multiple
+                        value={images}
+                        onChange={onChange}
+                        maxNumber={maxNumber}
+                    >
+                        {({
+                              imageList,
+                              onImageUpload,
+                              onImageUpdate,
+                              onImageRemove,
+                              dragProps
+                          }) => (
+                            <div className="upload__image-wrapper text-center">
+                                {imageList.map((image, index) => (
+                                    <div key={index} className="text-center">
+                                        <div className="avatar avatar-xxl image-item mg-b-15">
+                                            <img src={image.dataURL} className="rounded-circle" alt="" width="100"/>
+                                        </div>
+                                        <div className="image-item__btn-wrapper">
+                                            <button className="btn btn-xs btn-primary mx-1" type="button" onClick={() => onImageUpdate(index)}>Update</button>
+                                            <button className="btn btn-xs btn-danger" type="button" onClick={() => onImageRemove(index)}>Remove</button>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {imageList.length == 0 && <Avatar name={fullName} src={authState.userInfo?.imageUrl} size="100" className="rounded-circle"/>}
+                                {imageList.length == 0 && <div className="text-center">
+                                    <button type="button"
+                                            className="btn btn-xs btn-primary my-2"
+                                            onClick={onImageUpload}
+                                            {...dragProps}
+                                    >
+                                        Update
+                                    </button>
+                                </div>}
+                            </div>
+                        )}
+                    </ImageUploading>
+                </div>
                 <div className="form-group">
                     <label>First name</label>
                     <input
@@ -68,9 +136,11 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
                             </ul>
                         )
                     }
-                    <label className="py-md-1">Last name</label>
+                </div>
+                <div className="form-group">
+                    <label>Last name</label>
                     <input
-                        name="firstName"
+                        name="lastName"
                         className={classnames("form-control", {
                             'parsley-error': errors.lastName
                         })}

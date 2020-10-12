@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import {IHttpClient, IHttpClientRequestParameters} from './IHttpClients';
 import {AuthHelper} from 'components/auth/Auth.helper';
 import {notificationService, NotificationType} from 'services/Notification.service';
@@ -43,7 +43,7 @@ class HttpClient implements IHttpClient {
     }
 
     async post<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult> {
-        return (await this.client.post(parameters.url, parameters.payload))?.data;
+        return (await this.client.post(parameters.url, parameters.payload, parameters.config))?.data;
     }
 
     async put<T, TResult>(parameters: IHttpClientRequestParameters<T>): Promise<TResult> {

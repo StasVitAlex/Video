@@ -1,6 +1,6 @@
 import {httpClient} from "api/HttpClient";
 import {IHttpClientRequestParameters} from "api/IHttpClients";
-import {UserInfo} from "models/UserInfo";
+import {User} from "models/UserInfo";
 import {AppThunkAction} from "store";
 import {KnownAction, KnownActionType} from "./Auth.actions";
 import {AuthPaths} from "./Auth.paths";
@@ -14,7 +14,7 @@ export const actionCreators = {
     handleMicrosoftAuth: (accessToken: string): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         const appState = getState();
         if (appState && appState.auth && !appState.auth.userInfo) {
-            const userInfo = await httpClient.post<any, UserInfo>({
+            const userInfo = await httpClient.post<any, User>({
                 url: AuthPaths.microsoftAuth,
                 payload: {
                     accessToken
@@ -28,7 +28,7 @@ export const actionCreators = {
         try {
             const appState = getState();
             if (appState && appState.auth && !appState.auth.userInfo) {
-                const userInfo = await httpClient.post<any, UserInfo>({
+                const userInfo = await httpClient.post<any, User>({
                     url: AuthPaths.googleAuth,
                     payload: {
                         tokenId
@@ -44,7 +44,7 @@ export const actionCreators = {
         try {
             const appState = getState();
             if (appState && appState.auth && !appState.auth.userInfo) {
-                const userInfo = await httpClient.post<SignInModel, UserInfo>({
+                const userInfo = await httpClient.post<SignInModel, User>({
                     url: AuthPaths.signIn,
                     payload: model
                 } as IHttpClientRequestParameters<SignInModel>);
@@ -76,6 +76,15 @@ export const actionCreators = {
             } as IHttpClientRequestParameters<any>);
             history.push('/signIn');
             notificationService.send(NotificationType.success, NotificationConstants.successUserActivation);
+        } catch (ex) {
+            history.push('/signIn');
+        }
+    },
+
+    updateUserProfile: (model: FormData, user: User): AppThunkAction<KnownAction> => async (dispatch, _) => {
+        try {
+            await httpClient.put<void, void>({url: AuthPaths.updateUser, payload: model} as IHttpClientRequestParameters<any>,);
+            dispatch({type: KnownActionType.UpdateUserInfo, payload: user});
         } catch (ex) {
             history.push('/signIn');
         }

@@ -66,7 +66,7 @@ namespace Video.BL.Services.Implementation
             });
             var body = await _razorLightEngine.CompileRenderAsync("UserInvitationTemplate.cshtml", new UserInvitationVm
             {
-                ActivationUrl= _commonSettings.UserActivationRedirectUrl,
+                ActivationUrl= $"{_commonSettings.ApplicationUrl}/activate_user",
                 ActivationToken = signUpDto.ActivationToken,
                 FirstName = model.FirstName,
                 LastName = model.LastName

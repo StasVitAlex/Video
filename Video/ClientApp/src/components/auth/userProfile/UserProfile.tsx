@@ -2,11 +2,11 @@ import * as React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEdit, faCog, faQuestionCircle, faSignOutAlt, faVideo} from '@fortawesome/free-solid-svg-icons';
 import {AuthHelper} from "../Auth.helper";
-import {UserInfo} from "../../../models/UserInfo";
+import {User} from "../../../models/UserInfo";
 import Avatar from 'react-avatar';
 import UserProfileEditor from "../userProfile/UserProfileEditor";
 
-export default class UserProfile extends React.PureComponent<{ userInfo: UserInfo }, { editProfile: boolean }> {
+export default class UserProfile extends React.PureComponent<{ userInfo: User }, { editProfile: boolean }> {
     public state = {
         editProfile: false
     };
@@ -16,11 +16,11 @@ export default class UserProfile extends React.PureComponent<{ userInfo: UserInf
         return (
             <div className="dropdown dropdown-profile">
                 <a className="dropdown-link" data-toggle="dropdown" data-display="static">
-                    <div className="avatar avatar-sm"><Avatar name={fullName} size="32" className="rounded-circle"/></div>
+                    <div className="avatar avatar-sm"><Avatar name={fullName} src={this.props.userInfo.imageUrl} size="32" className="rounded-circle"/></div>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right tx-13">
                     <div className="avatar avatar-lg mg-b-15">
-                        <Avatar name={fullName} size="64" className="rounded-circle"/>
+                        <Avatar name={fullName} src={this.props.userInfo.imageUrl} size="64" className="rounded-circle"/>
                     </div>
                     <h6 className="tx-semibold mg-b-5">{fullName}</h6>
                     <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>
@@ -31,7 +31,7 @@ export default class UserProfile extends React.PureComponent<{ userInfo: UserInf
                     <a onClick={this.openSettings} className="dropdown-item"><FontAwesomeIcon icon={faCog}/>Privacy Settings</a>
                     <a onClick={this.signOut} className="dropdown-item"><FontAwesomeIcon icon={faSignOutAlt}/>Sign Out</a>
                 </div>
-                <UserProfileEditor show={this.state.editProfile} folder={this.props.userInfo} onClose={() => this.onEditClose()}/>
+                <UserProfileEditor show={this.state.editProfile} onClose={() => this.onEditClose()}/>
             </div>
         );
     }

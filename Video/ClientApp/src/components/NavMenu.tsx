@@ -8,10 +8,10 @@ import UserProfile from "./auth/userProfile/UserProfile";
 import {connect} from "react-redux";
 import {ApplicationState} from "../store";
 import {Link} from 'react-router-dom';
-import {UserInfo} from "../models/UserInfo";
+import {User} from "../models/UserInfo";
 import {history} from "../index";
 
-class NavMenu extends React.PureComponent<{ isAuthenticated: boolean, userInfo: UserInfo }, { isProfileOpened: boolean, isNotificationsOpened: boolean }> {
+class NavMenu extends React.PureComponent<{ isAuthenticated: boolean, userInfo: User }, { isProfileOpened: boolean, isNotificationsOpened: boolean }> {
     public state = {
         isProfileOpened: false,
         isNotificationsOpened: false,
