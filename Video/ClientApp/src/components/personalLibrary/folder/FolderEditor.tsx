@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {FC, useCallback, useEffect, useState} from 'react';
-import {CreateFolderVm, FolderType, FolderVm} from "models/Folder";
+import {CreateFolderVm, FolderType, FolderVm, UpdateFolderVm} from "models/Folder";
 import Modal from "components/modal/Modal";
 import classnames from "classnames";
 import ValidationConstants from "constants/Validation.constants";
@@ -10,6 +10,7 @@ import {RouteComponentProps} from "react-router";
 import {connect, useSelector} from "react-redux";
 import {ApplicationState} from "store";
 import {FoldersState} from "./folders/Folders.reducer";
+import { Form } from 'reactstrap';
 
 type FolderEditorInternalProps = { show: boolean, folder?: FolderVm, isPublic?: boolean, onClose?: Function };
 
@@ -21,12 +22,15 @@ type FolderEditorProps =
 const FolderEditor: FC<FolderEditorProps> = (props) => {
     const foldersState: FoldersState = useSelector<ApplicationState, any>((state) => state.folders);
     const {register, handleSubmit, errors, reset, setValue} = useForm<CreateFolderVm>();
-    const isEdit = !!props.folder;
-    let form: any = null;
+    const isEdit = React.useRef(false);
+    const form = React.useRef<any>(null);
+    useEffect(() => {
+        isEdit.current = !!props.folder;
+    }, [props.folder, props.show]);
 
     const onSubmit = useCallback((data: CreateFolderVm) => {
-        if (isEdit) {
-            props.updateFolder(Object.assign(props.folder, {name: data.name}));
+        if (isEdit.current) {
+            props.updateFolder(Object.assign(props.folder, {name: data.name}) as UpdateFolderVm);
         } else {
             data.parentFolderId = foldersState.currentFolderId;
             data.folderType = props.isPublic ? FolderType.Public : FolderType.Private;
@@ -36,9 +40,9 @@ const FolderEditor: FC<FolderEditorProps> = (props) => {
         if (props.onClose)
             props.onClose();
 
-    }, []);
-    const saveText = isEdit ? 'Rename' : 'Create';
-    const title = isEdit ? 'Edit folder' : 'Create folder';
+    }, [foldersState.currentFolderId, props, reset]);
+    const saveText = isEdit.current ? 'Rename' : 'Create';
+    const title = isEdit.current ? 'Edit folder' : 'Create folder';
     if (isEdit && props.folder) {
         setValue('name', props.folder.name);
     }
@@ -50,14 +54,12 @@ const FolderEditor: FC<FolderEditorProps> = (props) => {
                     props.onClose(e);
             }}
             onSubmit={() => {
-                form.dispatchEvent(new Event('submit'))
+                form.current.dispatchEvent(new Event('submit'));
             }}
             saveText={saveText}
             title={title}
         >
-            <form data-parsley-validate onSubmit={handleSubmit(onSubmit)} ref={(ref) => {
-                form = ref;
-            }}>
+            <form data-parsley-validate onSubmit={handleSubmit(onSubmit)} ref={form}>
                 <div className="form-group">
                     <label>Folder name</label>
                     <input

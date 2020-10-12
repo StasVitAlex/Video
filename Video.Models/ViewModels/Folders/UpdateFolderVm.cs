@@ -3,7 +3,7 @@ namespace Video.Models.ViewModels.Folders
     using FluentValidation;
     using FluentValidation.Attributes;
 
-    [Validator(typeof(CreateFolderVmValidator))]
+    [Validator(typeof(UpdateFolderVmValidator))]
     public class UpdateFolderVm
     {
         public string Name { get; set; }

@@ -23,7 +23,7 @@ export const reducer: Reducer<FoldersState> = (state: FoldersState | undefined, 
             const index = state.folders.findIndex(p => p.id === action.payload.id);
             if (index >= 0) {
                 const updatedFolders = state.folders;
-                updatedFolders[index] = action.payload;
+                updatedFolders[index] = { ...action.payload };
                 return Object.assign(state, {folders: updatedFolders});
             }
             return {...state, folders: state.folders};
