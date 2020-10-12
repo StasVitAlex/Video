@@ -1,7 +1,6 @@
 namespace Video.Controllers
 {
     using System;
-    using System.IO;
     using System.Threading.Tasks;
     using BL.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
@@ -24,6 +23,16 @@ namespace Video.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("image/{imageCode}")]
+        public async Task<IActionResult> GetUserImage([FromRoute] string imageCode)
+        {
+            var user = await _userService.GetUserByImageCode(imageCode);
+            if (user == null)
+                return this.Ok();
+            return PhysicalFile(user.ImageLocalUrl, "application/octet-stream", true);
+        }
+
+        [AllowAnonymous]
         [HttpPost("activate/{activationToken}")]
         public async Task<IActionResult> GetById([FromRoute] Guid activationToken)
         {
@@ -31,22 +40,10 @@ namespace Video.Controllers
             return this.Ok();
         }
 
-        [HttpPost("update_image"), RequestSizeLimit(1000000)]
-        public async Task<IActionResult> UpdateImage()
-        {
-            var file = Request.Form.Files[0];
-            if (file.Length <= 0) return this.Ok();
-            await using var stream = new MemoryStream();
-            await file.CopyToAsync(stream);
-            var image = stream.ToArray();
-            return this.Ok();
-        }
-
         [HttpPut("")]
         public async Task<IActionResult> UpdateUser([FromForm] UpdateUserVm model)
         {
-            await _userService.UpdateUser(this.CurrentUserId.Value, model);
-            return this.Ok();
+            return this.Ok(await _userService.UpdateUser(this.CurrentUserId.Value, model));
         }
     }
 }

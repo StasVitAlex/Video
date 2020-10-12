@@ -16,11 +16,15 @@ export default class UserProfile extends React.PureComponent<{ userInfo: User },
         return (
             <div className="dropdown dropdown-profile">
                 <a className="dropdown-link" data-toggle="dropdown" data-display="static">
-                    <div className="avatar avatar-sm"><Avatar name={fullName} src={this.props.userInfo.imageUrl} size="32" className="rounded-circle"/></div>
+                    <div className="avatar avatar-sm">
+                        {!this.props.userInfo.imageThumbnailUrl && <Avatar name={fullName} src={this.props.userInfo.imageThumbnailUrl} size="32" className="rounded-circle"/>}
+                        {this.props.userInfo.imageThumbnailUrl && <img src={this.props.userInfo.imageThumbnailUrl} className="rounded-circle"/>}
+                    </div>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right tx-13">
                     <div className="avatar avatar-lg mg-b-15">
-                        <Avatar name={fullName} src={this.props.userInfo.imageUrl} size="64" className="rounded-circle"/>
+                        {!this.props.userInfo.imageThumbnailUrl && <Avatar name={fullName} src={this.props.userInfo.imageThumbnailUrl} size="64" className="rounded-circle"/>}
+                        {this.props.userInfo.imageThumbnailUrl && <img src={this.props.userInfo.imageThumbnailUrl} className="rounded-circle"/>}
                     </div>
                     <h6 className="tx-semibold mg-b-5">{fullName}</h6>
                     <p className="mg-b-25 tx-12 tx-color-03">Administrator</p>

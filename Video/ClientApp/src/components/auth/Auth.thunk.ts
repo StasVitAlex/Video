@@ -81,10 +81,10 @@ export const actionCreators = {
         }
     },
 
-    updateUserProfile: (model: FormData, user: User): AppThunkAction<KnownAction> => async (dispatch, _) => {
+    updateUserProfile: (model: FormData): AppThunkAction<KnownAction> => async (dispatch, _) => {
         try {
-            await httpClient.put<void, void>({url: AuthPaths.updateUser, payload: model} as IHttpClientRequestParameters<any>,);
-            dispatch({type: KnownActionType.UpdateUserInfo, payload: user});
+            const updatedUser = await httpClient.put<void, User>({url: AuthPaths.updateUser, payload: model} as IHttpClientRequestParameters<any>,);
+            dispatch({type: KnownActionType.UpdateUserInfo, payload: updatedUser});
         } catch (ex) {
             history.push('/signIn');
         }

@@ -18,7 +18,7 @@ export const reducer: Reducer<AuthState> = (state: AuthState | undefined, incomi
         case KnownActionType.LogOut:
             return {userInfo: undefined};
         case KnownActionType.UpdateUserInfo:
-            return {userInfo: Object.assign(state.userInfo, {firstName: action.payload.firstName, lastName: action.payload.lastName, imageUrl: action.payload.imageUrl})};
+            return {userInfo: Object.assign(state.userInfo, {firstName: action.payload.firstName, lastName: action.payload.lastName, imageThumbnailUrl: action.payload.imageThumbnailUrl})};
         default:
             return state;
     }

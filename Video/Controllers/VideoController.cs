@@ -36,7 +36,7 @@ namespace Video.Controllers
                 {UserId = this.CurrentUserId.Value, FileName = file.FileName, FolderId = folderId, Link = StringExtensions.GenerateUniqueRandomToken(), Extension = Path.GetExtension(file.FileName), VideoAccessType = VideoAccessType.None};
 
             var fileId = await _videoService.CreateVideo(createModel);
-            await using (var fileStream = new FileStream(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoFolder, $"{fileId}{createModel.Extension}"), FileMode.Create))
+            await using (var fileStream = new FileStream(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{fileId}{createModel.Extension}"), FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
@@ -62,7 +62,7 @@ namespace Video.Controllers
         public async Task<IActionResult> GetVideoStreamById([FromRoute] string link)
         {
             var video = await _videoService.GetVideoByLink(this.CurrentUserId, link);
-            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoFolder, $"{video.Id}.{video.Extension}"), "application/octet-stream", enableRangeProcessing: true);
+            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{video.Id}.{video.Extension}"), "application/octet-stream", enableRangeProcessing: true);
         }
 
         [HttpGet("by_folder/{folderId}")]
