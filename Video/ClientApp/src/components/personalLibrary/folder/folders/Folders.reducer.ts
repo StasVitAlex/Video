@@ -6,11 +6,13 @@ export interface FoldersState {
     folders: FolderVm[];
     rootFolderId: number;
     currentFolderId: number;
+    previousFolderId: number;
+    openingsHistory: FolderVm[];
 }
 
 export const reducer: Reducer<FoldersState> = (state: FoldersState | undefined, incomingAction: Action): FoldersState => {
     if (state === undefined) {
-        return {folders: [], rootFolderId: 0, currentFolderId: 0};
+        return {folders: [], rootFolderId: 0, currentFolderId: 0, previousFolderId: 0, openingsHistory: []};
     }
 
     const action = incomingAction as KnownAction;
@@ -32,7 +34,20 @@ export const reducer: Reducer<FoldersState> = (state: FoldersState | undefined, 
         case KnownActionType.SetRootFolder:
             return {...state, rootFolderId: action.payload};
         case KnownActionType.SetCurrentFolder:
-            return {...state, currentFolderId: action.payload};
+            let history = state.openingsHistory;
+            const historyIndex = history.findIndex(p => p.id === action.payload);
+            if (action.payload === state.rootFolderId) {
+                history = [];
+            } else {
+                if (historyIndex >= 0) {
+                    history.length = historyIndex + 1;
+                } else {
+                    const folder = state.folders.find(p => p.id === action.payload);
+                    if (folder)
+                        history.push(folder);
+                }
+            }
+            return {...state, previousFolderId: state.currentFolderId !== 0 ? 0 : state.currentFolderId, openingsHistory: history, currentFolderId: action.payload};
         default:
             return state;
     }

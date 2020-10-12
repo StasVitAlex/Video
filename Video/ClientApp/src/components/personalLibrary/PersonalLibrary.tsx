@@ -25,9 +25,6 @@ class PersonalLibrary extends React.PureComponent<PersonalLibraryProps, {}> {
                 <div className="filemgr-content">
                     <div className="filemgr-content-body">
                         <div className="pd-20 pd-lg-25 pd-xl-30 flex-1">
-                            <h4 className="mg-b-10 mg-lg-b-15">Personal Library</h4>
-                            <hr className="mg-y-10 bd-0"/>
-                            <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Folders</label>
                             <Folders/>
                             <hr className="mg-y-40 bd-0"/>
                             <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Recent

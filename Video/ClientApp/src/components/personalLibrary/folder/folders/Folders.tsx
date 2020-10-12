@@ -5,12 +5,9 @@ import * as FoldersThunk from "./Folders.thunk";
 import * as FoldersReducer from "./Folders.reducer";
 import {RouteComponentProps} from "react-router";
 import FolderItem from "../FolderItem";
-import {ApplicationState} from "store";
+import {ApplicationState} from "../../../store";
 import FolderEditor from "../FolderEditor";
-import {FolderVm} from "models/Folder";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {Link} from "react-router-dom";
+import {FolderVm} from "../../../models/Folder";
 
 type FoldersProps =
     FoldersReducer.FoldersState &
@@ -37,16 +34,41 @@ class Folders extends React.PureComponent<FoldersProps, { showFolderModal: boole
         this.setState({showFolderModal: false, editItem: null});
     }
 
+    private openFolder(id: number) {
+        this.props.loadFolders(id, false);
+    }
+
+    private archiveFolder(id: number) {
+        this.props.archiveFolder(id);
+    }
+
     public render() {
         const foldersList = this.props.folders.map((item) =>
             <div className="col-sm-6 col-lg-4 col-xl-3 py-md-1" key={item.id}>
-                <FolderItem details={item} onEdit={() => this.onEdit(item)}/>
+                <FolderItem key={item.id} onArchive={() => this.archiveFolder(item.id)} onOpen={() => this.openFolder(item.id)} details={item} onEdit={() => this.onEdit(item)}/>
             </div>
         );
+        const breadcrumbItems = this.props.openingsHistory.map((item, index) => {
+            const classNames = "breadcrumb-item " + (index == this.props.openingsHistory.length - 1 ? "active" : "");
+            return (<li key={item.id} onClick={() => this.openFolder(item.id)} className={classNames} aria-current="page">{item.name}</li>);
+        });
         return (
-            <div className="row row-xs">
-                <FolderEditor show={this.state.showFolderModal} folder={this.state.editItem} onClose={() => this.onEditClose()}/>
-                {foldersList}
+            <div>
+                {this.props.openingsHistory && this.props.openingsHistory.length > 0 && <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb breadcrumb-style2 mg-b-15">
+                        <li className="breadcrumb-item">
+                            <a onClick={() => this.openFolder(this.props.rootFolderId)}>Personal Library</a>
+                        </li>
+                        {breadcrumbItems}
+                    </ol>
+                </nav>}
+                <h4 className="mg-b-10 mg-lg-b-15">Personal Library</h4>
+                <hr className="mg-y-10 bd-0"/>
+                <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Folders</label>
+                <div className="row row-xs">
+                    <FolderEditor show={this.state.showFolderModal} folder={this.state.editItem} onClose={() => this.onEditClose()}/>
+                    {foldersList}
+                </div>
             </div>
         );
     }
