@@ -6,12 +6,13 @@ namespace Video.Models.ViewModels.Video
     public class VideoVm
     {
         public int Id { get; set; }
-        public string FileName { get; set; }
+        public string Title { get; set; }
         public int FolderId { get; set; }
-        public string Link { get; set; }
-        public int UserId { get; set; }
-        public string Extension { get; set; }
+        public string LocationUrl { get; set; }
+        public string ThumbnailUrl { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int UniqueVies { get; set; }
         public string ViewsCount { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public VideoAccessType VideoAccessType { get; set; }

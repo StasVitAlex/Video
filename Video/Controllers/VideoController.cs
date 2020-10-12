@@ -1,3 +1,5 @@
+using System;
+
 namespace Video.Controllers
 {
     using System.IO;
@@ -31,15 +33,17 @@ namespace Video.Controllers
         {
             var file = Request.Form.Files[0];
             if (file.Length <= 0) return this.Ok();
-
             var createModel = new CreateVideoVm
-                {UserId = this.CurrentUserId.Value, FileName = file.FileName, FolderId = folderId, Link = StringExtensions.GenerateUniqueRandomToken(), Extension = Path.GetExtension(file.FileName), VideoAccessType = VideoAccessType.None};
-
-            var fileId = await _videoService.CreateVideo(createModel);
-            await using (var fileStream = new FileStream(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{fileId}{createModel.Extension}"), FileMode.Create))
             {
-                await file.CopyToAsync(fileStream);
-            }
+                UserId = this.CurrentUserId.Value,
+                FileName = file.FileName,
+                FolderId = folderId,
+                LinkCode = StringExtensions.GenerateUniqueRandomToken(),
+                Extension = Path.GetExtension(file.FileName),
+                VideoFile = file.OpenReadStream(),
+                VideoAccessType = VideoAccessType.None
+            };
+            var fileId = await _videoService.CreateVideo(this.CurrentUserId.Value, createModel, _appEnvironment.ContentRootPath);
 
             return this.Ok(fileId);
         }
@@ -62,7 +66,8 @@ namespace Video.Controllers
         public async Task<IActionResult> GetVideoStreamById([FromRoute] string link)
         {
             var video = await _videoService.GetVideoByLink(this.CurrentUserId, link);
-            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{video.Id}.{video.Extension}"), "application/octet-stream", enableRangeProcessing: true);
+            var extension = Path.GetExtension(video.LocationUrl);
+            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{video.Id}{extension}"), "application/octet-stream", enableRangeProcessing: true);
         }
 
         [HttpGet("by_folder/{folderId}")]

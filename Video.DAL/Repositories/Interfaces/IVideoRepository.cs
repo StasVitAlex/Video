@@ -10,7 +10,8 @@ namespace Video.DAL.Repositories.Interfaces
         Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, long folderId);
         Task<VideoDto> GetVideoById(long videoId);
         Task<VideoDto> GetVideoByLink(string link);
-        Task<long> CreateVideo(CreateVideoDto model);
+        Task<long> CreateVideo(long userId, CreateVideoDto model);
+        Task<long> UpdateVideoUrls(string locationUrl, string thumbnailUrl);
         Task LogVideoAction(int? userId, long videoId, VideoActionType actionType);
         Task<bool> IsUserHasAccessToVideo(int userId, long videoId);
     }
