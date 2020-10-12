@@ -5,9 +5,9 @@ import * as FoldersThunk from "./Folders.thunk";
 import * as FoldersReducer from "./Folders.reducer";
 import {RouteComponentProps} from "react-router";
 import FolderItem from "../FolderItem";
-import {ApplicationState} from "../../../store";
 import FolderEditor from "../FolderEditor";
-import {FolderVm} from "../../../models/Folder";
+import {FolderVm} from "../../../../models/Folder";
+import {ApplicationState} from "../../../../store";
 
 type FoldersProps =
     FoldersReducer.FoldersState &

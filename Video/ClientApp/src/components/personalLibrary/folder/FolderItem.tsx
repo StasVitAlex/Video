@@ -30,7 +30,6 @@ export default class FolderItem extends React.PureComponent<{ details: FolderVm,
     }
 
     private openFolder = (e:any) => {
-        console.log(e.currentTarget);
         this.props.onOpen(this.props.details);
     }
     private archive = () => {

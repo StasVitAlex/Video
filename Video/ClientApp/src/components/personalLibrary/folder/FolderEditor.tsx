@@ -10,7 +10,6 @@ import {RouteComponentProps} from "react-router";
 import {connect, useSelector} from "react-redux";
 import {ApplicationState} from "store";
 import {FoldersState} from "./folders/Folders.reducer";
-import { Form } from 'reactstrap';
 
 type FolderEditorInternalProps = { show: boolean, folder?: FolderVm, isPublic?: boolean, onClose?: Function };
 
@@ -24,6 +23,9 @@ const FolderEditor: FC<FolderEditorProps> = (props) => {
     const {register, handleSubmit, errors, reset, setValue} = useForm<CreateFolderVm>();
     const isEdit = React.useRef(false);
     const form = React.useRef<any>(null);
+    const saveText = !!props.folder ? 'Rename' : 'Create';
+    const title = !!props.folder ? 'Edit folder' : 'Create folder';
+
     useEffect(() => {
         isEdit.current = !!props.folder;
     }, [props.folder, props.show]);
@@ -41,8 +43,7 @@ const FolderEditor: FC<FolderEditorProps> = (props) => {
             props.onClose();
 
     }, [foldersState.currentFolderId, props, reset]);
-    const saveText = isEdit.current ? 'Rename' : 'Create';
-    const title = isEdit.current ? 'Edit folder' : 'Create folder';
+
     if (isEdit && props.folder) {
         setValue('name', props.folder.name);
     }
@@ -89,4 +90,5 @@ export default React.memo(connect<FolderEditorProps, any, any>(
     null,
     FoldersThunk.actionCreators
 )(FolderEditor as any), ((prevProps, nextProps) => {
-    return prevProps.folder == nextProps.folder && prevProps.show == nextProps.show;}));
+    return prevProps.folder == nextProps.folder && prevProps.show == nextProps.show;
+}));
