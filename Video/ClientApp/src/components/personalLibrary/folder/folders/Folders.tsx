@@ -35,6 +35,7 @@ class Folders extends React.PureComponent<FoldersProps, { showFolderModal: boole
     }
 
     private openFolder(id: number) {
+        //this.props.clearFolders();
         this.props.loadFolders(id, false);
     }
 
@@ -52,6 +53,7 @@ class Folders extends React.PureComponent<FoldersProps, { showFolderModal: boole
             const classNames = "breadcrumb-item " + (index == this.props.openingsHistory.length - 1 ? "active" : "");
             return (<li key={item.id} onClick={() => this.openFolder(item.id)} className={classNames} aria-current="page">{item.name}</li>);
         });
+        const currentFolderName = this.props.currentFolderId === this.props.rootFolderId ? 'Personal Library' : this.props.openingsHistory[this.props.openingsHistory.length - 1]?.name;
         return (
             <div>
                 {this.props.openingsHistory && this.props.openingsHistory.length > 0 && <nav aria-label="breadcrumb">
@@ -62,7 +64,7 @@ class Folders extends React.PureComponent<FoldersProps, { showFolderModal: boole
                         {breadcrumbItems}
                     </ol>
                 </nav>}
-                <h4 className="mg-b-10 mg-lg-b-15">Personal Library</h4>
+                <h4 className="mg-b-10 mg-lg-b-15">{currentFolderName}</h4>
                 <hr className="mg-y-10 bd-0"/>
                 <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Folders</label>
                 <div className="row row-xs">

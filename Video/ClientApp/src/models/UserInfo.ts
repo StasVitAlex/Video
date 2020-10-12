@@ -12,3 +12,9 @@ export interface User {
     firstName: string;
     lastName: string;
 }
+
+export interface UpdateUserProfileVm {
+    id: number,
+    firstName: string;
+    lastName: string;
+}

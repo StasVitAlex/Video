@@ -9,6 +9,7 @@ export const actionCreators = {
 
     loadFolders: (parentFolderId: number, isArchived: boolean): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         try {
+            
             if (!parentFolderId) {
                 const rootFolder = await httpClient.get<any, FolderVm>({url: FoldersPaths.userRootFolder} as IHttpClientRequestParameters<any>);
                 dispatch({type: KnownActionType.SetRootFolder, payload: rootFolder.id});
@@ -46,7 +47,7 @@ export const actionCreators = {
         dispatch({type: KnownActionType.DeleteFolder, payload: id});
     },
 
-    setCurrentFolder: (id: number): AppThunkAction<KnownAction> => async (dispatch, getState) => {
-        dispatch({type: KnownActionType.SetCurrentFolder, payload: id});
+    clearFolders: (): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        dispatch({type: KnownActionType.SetFolders, payload: []});
     },
 };
