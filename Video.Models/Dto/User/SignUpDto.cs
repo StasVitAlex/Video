@@ -1,6 +1,7 @@
 namespace Video.Models.Dto.User
 {
     using System;
+    using Enums;
 
     public class SignUpDto
     {
@@ -12,5 +13,6 @@ namespace Video.Models.Dto.User
         public string OAuthIssuer { get; set; }
         public bool IsExternalAuth { get; set; }
         public Guid ActivationToken { get; set; }
+        public ThirdPartyAuthType? ThirdPartyAuthType { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace Video.BL.Automapper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserDto, UserVm>();
+                cfg.CreateMap<UpdateUserDto, UserVm>();
                 cfg.CreateMap<SignUpVm, SignUpDto>().ForMember(src => src.ActivationToken, opt => opt.MapFrom(c => Guid.NewGuid()));
                 cfg.CreateMap<SignInVm, SignInDto>();
                 
@@ -33,6 +34,8 @@ namespace Video.BL.Automapper
                 cfg.CreateMap<CreateCommentVm, CreateCommentDto>();
                 cfg.CreateMap<UpdateCommentVm, UpdateCommentDto>();
                 cfg.CreateMap<CreateVideoVm, CreateVideoDto>();
+               
+                
             });
             config.CompileMappings();
             return config.CreateMapper();

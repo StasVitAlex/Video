@@ -40,7 +40,7 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
         }
         form.append('FirstName', data.firstName);
         form.append('LastName', data.lastName);
-        props.updateUserProfile(form, Object.assign(authState.userInfo, {firstName: data.firstName, lastName: data.lastName}));
+        props.updateUserProfile(form);
         reset();
         setImages([]);
         setImage(null);
@@ -103,7 +103,8 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
                                     </div>
                                 ))}
 
-                                {imageList.length == 0 && <Avatar name={fullName} src={authState.userInfo?.imageUrl} size="100" className="rounded-circle"/>}
+                                {imageList.length == 0 && !authState.userInfo?.imageThumbnailUrl && <Avatar name={fullName} src={authState.userInfo?.imageThumbnailUrl} size="100" className="rounded-circle"/>}
+                                {imageList.length == 0 && authState.userInfo?.imageThumbnailUrl && <div className="avatar avatar-xxl image-item mg-b-15"><img src={authState.userInfo.imageThumbnailUrl} className="rounded-circle"/></div>}
                                 {imageList.length == 0 && <div className="text-center">
                                     <button type="button"
                                             className="btn btn-xs btn-primary my-2"

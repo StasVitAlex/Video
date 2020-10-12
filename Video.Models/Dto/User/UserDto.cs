@@ -8,5 +8,7 @@ namespace Video.Models.Dto.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsActive { get; set; }
+        public string ImageLocalUrl { get; set; }
+        public string ImageThumbnailUrl { get; set; }
     }
 }
