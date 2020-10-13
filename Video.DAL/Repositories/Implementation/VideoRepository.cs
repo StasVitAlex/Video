@@ -19,10 +19,11 @@ namespace Video.DAL.Repositories.Implementation
             return await GetManyAsync<VideoDto>($@"select distinct v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl
                 v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedBy,
-                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
+                join links l on v.id = l.video_id 
                 join user_folders_permissions uf on fv.folder_id = uf.folder_id and uf.user_id = {userId}
                 where fv.folder_id = {folderId}");
         }
@@ -32,10 +33,11 @@ namespace Video.DAL.Repositories.Implementation
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl
                 v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedBy,
-                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
+                join links l on v.id = l.video_id 
                 where v.id = {videoId}");
         }
 
@@ -43,7 +45,7 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
                 (select count(*) from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as ViewsCount,
                 (select count(distinct user_id) from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as UniqueViews
                 from videos v 
@@ -58,8 +60,8 @@ namespace Video.DAL.Repositories.Implementation
                 $"insert into videos(tenant_id, title) values ({GET_TENANT_QUERY}, @FileName) returning id", model);
             await ExecuteActionAsync(
                 $@"insert into folder_videos(tenant_id,folder_id,video_id) values({GET_TENANT_QUERY}, @FolderId,{videoId});
-                    insert into links(tenant_id, publisher_user_id, link_url, link_code, video_id, link_type_id) 
-                    values({GET_TENANT_QUERY},{userId},@LinkUrl,@LinkCode,{videoId},{(int) LinkType.Video})", model);
+                    insert into links(tenant_id, publisher_user_id, link_url, link_code, video_id, folder_id, link_type_id) 
+                    values({GET_TENANT_QUERY},{userId},@LinkUrl,@LinkCode,{videoId},{model.FolderId},{(int) LinkType.Video})", model);
             return videoId;
         }
 

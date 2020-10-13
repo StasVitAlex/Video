@@ -61,11 +61,13 @@ namespace Video.BL.Services.Implementation
                 await model.VideoFile.CopyToAsync(fileStream);
             }
 
-            var thumbnailDestinationPath = Path.Combine(basePath, _commonSettings.UserImagesFolder, $"{videoId}");
+            var videoImagesFolder = Path.Combine(basePath, _commonSettings.VideoImagesFolder);
+            if (!Directory.Exists(videoImagesFolder))
+                Directory.CreateDirectory(videoImagesFolder);
+            var thumbnailDestinationPath = Path.Combine(videoImagesFolder, $"{videoId}.png");
             VideoHelpers.GenerateThumbNail(basePath, videoFileDestinationPath, thumbnailDestinationPath);
             await _videoRepository.UpdateVideoUrls(new UpdateVideoUrlsDto {ThumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{model.LinkCode}", Id = videoId, LocationUrl = videoFileDestinationPath});
             return model.LinkCode;
-            return string.Empty;
         }
 
         public async Task LogVideoAction(LogVideoActionVm model)

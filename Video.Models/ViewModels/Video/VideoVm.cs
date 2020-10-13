@@ -15,6 +15,7 @@ namespace Video.Models.ViewModels.Video
         public int UniqueViews { get; set; }
         public int ViewsCount { get; set; }
         public DateTime? ExpiryDate { get; set; }
+        public string LinkCode { get; set; }
         public VideoAccessType CommentsAccessType { get; set; }
     }
 }

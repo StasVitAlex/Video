@@ -15,5 +15,7 @@ export interface Video {
     uniqueViews: number;
     viewsCount: number;
     expiryDate: Date;
+    linkCode: string;
+    title: string;
     videoAccessType: AccessType;
 }

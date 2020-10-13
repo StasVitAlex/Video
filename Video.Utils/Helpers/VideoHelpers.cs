@@ -24,7 +24,6 @@ namespace Video.Utils.Helpers
 
         public static void GenerateThumbNail(string baseUrl, string sourceFileName, string outputThumbnailPath)
         {
-            var test = $"{outputThumbnailPath}1";
             var procStartInfo = new ProcessStartInfo("ffmpeg")
             {
                 FileName = GetPath(baseUrl),
