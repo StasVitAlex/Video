@@ -139,6 +139,7 @@
 .filemgr-content-body {
   background-color: #f8f9fc;
   position: absolute;
+  overflow-y: scroll;
   /*top: 55px;*/
   top: 0;
   left: 0;

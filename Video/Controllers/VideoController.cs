@@ -82,5 +82,15 @@ namespace Video.Controllers
             await _videoService.LogVideoAction(model);
             return this.Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("thumbnail/{linkCode}")]
+        public async Task<IActionResult> GetUserImage([FromRoute] string linkCode)
+        {
+            var video = await _videoService.GetVideoByLink(null, linkCode);
+            if (video == null)
+                return this.Ok();
+            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoImagesFolder, $"{video.Id}.png"), "application/octet-stream", enableRangeProcessing: true);
+        }
     }
 }

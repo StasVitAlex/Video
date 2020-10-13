@@ -14,7 +14,6 @@ class UserProfile extends React.PureComponent<{ userInfo: User }, { editProfile:
     };
 
     public render() {
-        debugger;
         const fullName = this.props.userInfo.firstName + ' ' + this.props.userInfo?.lastName;
         return (
             <div  className="dropdown dropdown-profile">
