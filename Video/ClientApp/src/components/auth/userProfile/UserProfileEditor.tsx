@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, useCallback, useEffect, useState} from 'react';
+import {FC, useCallback, useEffect} from 'react';
 import Modal from "components/modal/Modal";
 import classnames from "classnames";
 import ValidationConstants from "constants/Validation.constants";
@@ -8,7 +8,7 @@ import {RouteComponentProps} from "react-router";
 import {connect, useSelector} from "react-redux";
 import {ApplicationState} from "store";
 import {AuthState} from "../Auth.reducer";
-import {UpdateUserProfileVm, User} from "../../../models/UserInfo";
+import {UpdateUserProfileVm} from "../../../models/UserInfo";
 import * as AuthThunk from '../Auth.thunk';
 import ImageUploading, {ImageListType} from "react-images-uploading";
 import './UserProfile.css';
@@ -36,7 +36,7 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
     const onSubmit = useCallback((data: UpdateUserProfileVm) => {
         let form = new FormData();
         if (image) {
-            form.append('Image', image)
+            form.append('Image', image);
         }
         form.append('FirstName', data.firstName);
         form.append('LastName', data.lastName);
@@ -46,7 +46,7 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
         setImage(null);
         if (props.onClose)
             props.onClose();
-    }, [authState.userInfo, props, reset, image]);
+    }, [props, reset, image]);
 
 
     const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
@@ -84,12 +84,12 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
                         maxNumber={maxNumber}
                     >
                         {({
-                              imageList,
-                              onImageUpload,
-                              onImageUpdate,
-                              onImageRemove,
-                              dragProps
-                          }) => (
+                            imageList,
+                            onImageUpload,
+                            onImageUpdate,
+                            onImageRemove,
+                            dragProps
+                        }) => (
                             <div className="upload__image-wrapper text-center">
                                 {imageList.map((image, index) => (
                                     <div key={index} className="text-center">
@@ -107,9 +107,9 @@ const UserProfileEditor: FC<FolderEditorProps> = (props) => {
                                 {imageList.length == 0 && authState.userInfo?.imageThumbnailUrl && <div className="avatar avatar-xxl image-item mg-b-15"><img src={authState.userInfo.imageThumbnailUrl} className="rounded-circle"/></div>}
                                 {imageList.length == 0 && <div className="text-center">
                                     <button type="button"
-                                            className="btn btn-xs btn-primary my-2"
-                                            onClick={onImageUpload}
-                                            {...dragProps}
+                                        className="btn btn-xs btn-primary my-2"
+                                        onClick={onImageUpload}
+                                        {...dragProps}
                                     >
                                         Update
                                     </button>

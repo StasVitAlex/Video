@@ -1,6 +1,7 @@
 import {User} from 'models/UserInfo';
 import {Action, Reducer} from 'redux';
 import {KnownAction, KnownActionType} from './Auth.actions';
+import { updateObject } from 'utils/utils';
 
 export interface AuthState {
     userInfo: User | undefined;
@@ -17,8 +18,10 @@ export const reducer: Reducer<AuthState> = (state: AuthState | undefined, incomi
             return {userInfo: action.payload};
         case KnownActionType.LogOut:
             return {userInfo: undefined};
-        case KnownActionType.UpdateUserInfo:
-            return {userInfo: Object.assign(state.userInfo, {firstName: action.payload.firstName, lastName: action.payload.lastName, imageThumbnailUrl: action.payload.imageThumbnailUrl})};
+        case KnownActionType.UpdateUserInfo: {
+            const userInfo = updateObject(state.userInfo, action.payload);
+            return updateObject(state, { userInfo });
+        }
         default:
             return state;
     }

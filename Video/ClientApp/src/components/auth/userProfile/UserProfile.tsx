@@ -14,6 +14,7 @@ class UserProfile extends React.PureComponent<{ userInfo: User }, { editProfile:
     };
 
     public render() {
+        debugger;
         const fullName = this.props.userInfo.firstName + ' ' + this.props.userInfo?.lastName;
         return (
             <div  className="dropdown dropdown-profile">
@@ -65,5 +66,6 @@ class UserProfile extends React.PureComponent<{ userInfo: User }, { editProfile:
 }
 
 export default connect((state: ApplicationState) => {
-    return {userInfo: state.auth?.userInfo}
-}, {})(UserProfile as any); 
+    return { userInfo: state.auth?.userInfo };
+}, {})(UserProfile as any);
+

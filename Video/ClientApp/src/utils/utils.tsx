@@ -1,0 +1,1 @@
+export const updateObject = (oldObject: any, newValues: any): any => ({ ...oldObject, ...newValues });
