@@ -23,7 +23,7 @@ class Folders extends React.PureComponent<FoldersProps, { showFolderModal: boole
     };
 
     componentDidMount() {
-        this.props.loadFolders(this.props.rootFolderId, false);
+        this.props.loadFolders(this.props.rootFolderId, false, true);
     }
 
     private onEdit(folder: FolderVm) {
@@ -36,7 +36,7 @@ class Folders extends React.PureComponent<FoldersProps, { showFolderModal: boole
 
     private openFolder(id: number) {
         //this.props.clearFolders();
-        this.props.loadFolders(id, false);
+        this.props.loadFolders(id, false, false);
     }
 
     private archiveFolder(id: number) {

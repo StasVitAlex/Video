@@ -16,7 +16,7 @@ const Player: FC<VideoPlayerProps> = (props) => {
     return (
         <div style={{ height: '420px' }} className="mg-b-15">
             <video className="w-100 mg-b-20" id="player" playsInline controls poster={logo}>
-                <source src="https://localhost:5001/video/stream/123" type="video/webm" />
+                <source src="https://localhost:5001/api/video/stream/RT810Cp2u8w6XjSU" type="video/webm" />
             </video>
         </div>
     );

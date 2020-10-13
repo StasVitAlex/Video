@@ -52,8 +52,10 @@ namespace Video.BL.Services.Implementation
             model.LinkCode = StringExtensions.GenerateUniqueRandomToken();
             model.LinkUrl = $"{_commonSettings.ApplicationUrl}/video/{model.LinkCode}";
             var videoId = await _videoRepository.CreateVideo(userId, _mapper.Map<CreateVideoDto>(model));
-            var videoFileDestinationPath =
-                Path.Combine(basePath, _commonSettings.UserVideosFolder, $"{videoId}{model.Extension}");
+            var userVideoFolder = Path.Combine(basePath, _commonSettings.UserVideosFolder);
+            if (!Directory.Exists(userVideoFolder))
+                Directory.CreateDirectory(userVideoFolder);
+            var videoFileDestinationPath = Path.Combine(userVideoFolder, $"{videoId}{model.Extension}");
             await using (var fileStream = new FileStream(videoFileDestinationPath, FileMode.Create))
             {
                 await model.VideoFile.CopyToAsync(fileStream);
@@ -61,15 +63,14 @@ namespace Video.BL.Services.Implementation
 
             var thumbnailDestinationPath = Path.Combine(basePath, _commonSettings.UserImagesFolder, $"{videoId}");
             VideoHelpers.GenerateThumbNail(basePath, videoFileDestinationPath, thumbnailDestinationPath);
-            var thumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{model.LinkCode}";
-            await _videoRepository.UpdateVideoUrls(videoFileDestinationPath, thumbnailUrl);
+            await _videoRepository.UpdateVideoUrls(new UpdateVideoUrlsDto {ThumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{model.LinkCode}", Id = videoId, LocationUrl = videoFileDestinationPath});
             return model.LinkCode;
             return string.Empty;
         }
 
         public async Task LogVideoAction(LogVideoActionVm model)
         {
-            await _videoRepository.LogVideoAction(model.UserId, model.VideoId,model.VideoActionType);
+            await _videoRepository.LogVideoAction(model.UserId, model.VideoId, model.VideoActionType);
         }
 
         public async Task<VideoVm> GetVideoByLink(int? userId, string link)

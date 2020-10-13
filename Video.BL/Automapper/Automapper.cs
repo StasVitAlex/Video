@@ -34,6 +34,8 @@ namespace Video.BL.Automapper
                 cfg.CreateMap<CreateCommentVm, CreateCommentDto>();
                 cfg.CreateMap<UpdateCommentVm, UpdateCommentDto>();
                 cfg.CreateMap<CreateVideoVm, CreateVideoDto>();
+                
+                cfg.CreateMap<VideoDto, VideoVm>();
                
                 
             });

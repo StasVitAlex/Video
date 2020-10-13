@@ -7,10 +7,10 @@ import {CreateFolderVm, FolderVm, UpdateFolderVm} from "../../../../models/Folde
 
 export const actionCreators = {
 
-    loadFolders: (parentFolderId: number, isArchived: boolean): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+    loadFolders: (parentFolderId: number, isArchived: boolean, isInit: boolean): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         try {
-            
-            if (!parentFolderId) {
+
+            if (!parentFolderId || isInit) {
                 const rootFolder = await httpClient.get<any, FolderVm>({url: FoldersPaths.userRootFolder} as IHttpClientRequestParameters<any>);
                 dispatch({type: KnownActionType.SetRootFolder, payload: rootFolder.id});
                 parentFolderId = rootFolder.id;
