@@ -50,7 +50,7 @@ namespace Video.BL.Services.Implementation
             if (!await _foldersRepository.UserHasAccessToFolder(model.UserId, model.FolderId))
                 throw new AccessDeniedException();
             model.LinkCode = StringExtensions.GenerateUniqueRandomToken();
-            model.LinkUrl = $"{_commonSettings.ApplicationUrl}/video/{model.LinkCode}";
+            model.LinkUrl = $"{_commonSettings.ApplicationUrl}/api/video/stream/{model.LinkCode}";
             var videoId = await _videoRepository.CreateVideo(userId, _mapper.Map<CreateVideoDto>(model));
             var userVideoFolder = Path.Combine(basePath, _commonSettings.UserVideosFolder);
             if (!Directory.Exists(userVideoFolder))

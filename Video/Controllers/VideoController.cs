@@ -33,12 +33,13 @@ namespace Video.Controllers
         {
             var file = Request.Form.Files[0];
             if (file.Length <= 0) return this.Ok();
+            var extension = Path.GetExtension(file.FileName);
             var createModel = new CreateVideoVm
             {
                 UserId = this.CurrentUserId.Value,
-                FileName = file.FileName,
+                FileName = file.FileName.Substring(0, file.FileName.Length - extension.Length),
                 FolderId = folderId,
-                Extension = Path.GetExtension(file.FileName),
+                Extension = extension,
                 VideoFile = file.OpenReadStream(),
                 VideoAccessType = VideoAccessType.None
             };
