@@ -7,6 +7,7 @@ export enum AccessType {
 export interface Video {
     id: number;
     title: string;
+    extension: string;
     folderId: number;
     locationUrl: string;
     thumbnailUrl: string;
