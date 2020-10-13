@@ -18,4 +18,5 @@ export interface Video {
     linkCode: string;
     title: string;
     videoAccessType: AccessType;
+    duration: number;
 }

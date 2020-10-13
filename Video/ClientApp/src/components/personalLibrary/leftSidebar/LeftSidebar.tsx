@@ -27,7 +27,6 @@ class LeftSidebar extends React.PureComponent<LeftSideBarProps> {
     }
 
     public async onFileUpload(event: any) {
-        debugger;
         const selectedFile = event.target.files[0];
         this.props.uploadVideo(this.props.currentFolderId, selectedFile);
         event.target.value = null;

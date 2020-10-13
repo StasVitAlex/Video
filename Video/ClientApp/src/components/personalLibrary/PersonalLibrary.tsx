@@ -26,11 +26,11 @@ class PersonalLibrary extends React.PureComponent<PersonalLibraryProps, {}> {
                 <div className="filemgr-content">
                     <div className="filemgr-content-body">
                         <div className="pd-20 pd-lg-25 pd-xl-30 flex-1">
-                            <Folders/>
+                            <Folders />
                             <hr className="mg-y-40 bd-0"/>
                             <label className="d-block tx-medium tx-10 tx-uppercase tx-sans tx-spacing-1 tx-color-03 mg-b-15">Recent
                                 Videos</label>
-                            <Videos/>
+                            <Videos />
                         </div>
                     </div>
                 </div>

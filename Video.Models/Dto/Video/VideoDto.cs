@@ -9,7 +9,7 @@ namespace Video.Models.Dto.Video
         public long FolderId { get; set; }
         public string LocationUrl { get; set; }
         public string ThumbnailUrl { get; set; }
-        public int LengthInSeconds { get; set; }
+        public int Duration { get; set; }
         public bool IsPasswordProtected { get; set; }
         public long CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

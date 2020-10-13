@@ -33,9 +33,9 @@ namespace Video.BL.Services.Implementation
             _commonSettings = settings.Value;
         }
 
-        public async Task<List<VideoVm>> GetVideosFromFolder(int userId, long folderId)
+        public async Task<List<VideoVm>> GetVideosFromFolder(int userId, long folderId, GetVideosVm model)
         {
-            return _mapper.Map<List<VideoVm>>(await _videoRepository.GetVideosFromFolder(userId, folderId));
+            return _mapper.Map<List<VideoVm>>(await _videoRepository.GetVideosFromFolder(userId, folderId, model.IsArchived));
         }
 
         public async Task<VideoVm> GetVideoById(int userId, long videoId)
@@ -66,7 +66,8 @@ namespace Video.BL.Services.Implementation
                 Directory.CreateDirectory(videoImagesFolder);
             var thumbnailDestinationPath = Path.Combine(videoImagesFolder, $"{videoId}.png");
             VideoHelpers.GenerateThumbNail(basePath, videoFileDestinationPath, thumbnailDestinationPath);
-            await _videoRepository.UpdateVideoUrls(new UpdateVideoUrlsDto {ThumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{model.LinkCode}", Id = videoId, LocationUrl = videoFileDestinationPath});
+            var duration = VideoHelpers.GetVideoDuration(basePath, videoFileDestinationPath);
+            await _videoRepository.UpdateVideoInfo(new UpdateVideoInfoDto {Duration = duration,ThumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{model.LinkCode}", Id = videoId, LocationUrl = videoFileDestinationPath});
             return model.LinkCode;
         }
 
@@ -92,6 +93,13 @@ namespace Video.BL.Services.Implementation
             //}
 
             return video;
+        }
+
+        public async Task ArchiveVideo(long videoId, int userId)
+        {
+            if (!await _videoRepository.IsUserVideoOwner(videoId, userId))
+                throw new AccessDeniedException();
+            await _videoRepository.ArchiveVideo(videoId);
         }
     }
 }

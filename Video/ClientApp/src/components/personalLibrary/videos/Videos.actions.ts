@@ -6,4 +6,4 @@ export enum KnownActionType {
     ArchiveVideo = 'ARCHIVE_VIDEO'
 }
 export interface SetFolderVideos { type: KnownActionType.SetFolderVideos, payload: Video[] }
-export interface ArchiveVideo { type: KnownActionType.ArchiveVideo, payload: Video }
+export interface ArchiveVideo { type: KnownActionType.ArchiveVideo, payload: number }

@@ -16,7 +16,7 @@ export const reducer: Reducer<VideosState> = (state: VideosState | undefined, in
         case KnownActionType.SetFolderVideos:
             return {...state, videos: action.payload};
         case KnownActionType.ArchiveVideo:
-            return {...state, videos: state.videos?.filter(p => p.id !== action.payload.id)};
+            return {...state, videos: state.videos?.filter(p => p.id !== action.payload)};
         default:
             return state;
     }

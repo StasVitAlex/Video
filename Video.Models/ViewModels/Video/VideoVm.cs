@@ -17,5 +17,6 @@ namespace Video.Models.ViewModels.Video
         public DateTime? ExpiryDate { get; set; }
         public string LinkCode { get; set; }
         public VideoAccessType CommentsAccessType { get; set; }
+        public int Duration { get; set; }
     }
 }

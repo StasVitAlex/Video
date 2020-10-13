@@ -70,9 +70,16 @@ namespace Video.Controllers
         }
 
         [HttpGet("by_folder/{folderId}")]
-        public async Task<IActionResult> GetVideosFromFolder([FromRoute] int folderId)
+        public async Task<IActionResult> GetVideosFromFolder([FromRoute] int folderId, [FromQuery] GetVideosVm model)
         {
-            return this.Ok(await _videoService.GetVideosFromFolder(this.CurrentUserId.Value, folderId));
+            return this.Ok(await _videoService.GetVideosFromFolder(this.CurrentUserId.Value, folderId, model));
+        }
+
+        [HttpDelete("{videoId}")]
+        public async Task<IActionResult> ArchiveVideo([FromRoute] int videoId)
+        {
+            await _videoService.ArchiveVideo(videoId, this.CurrentUserId.Value);
+            return this.Ok();
         }
 
         [HttpPost("log_action")]

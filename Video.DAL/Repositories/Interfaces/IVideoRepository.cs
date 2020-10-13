@@ -7,12 +7,14 @@ namespace Video.DAL.Repositories.Interfaces
 
     public interface IVideoRepository
     {
-        Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, long folderId);
+        Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, long folderId, bool isArchive);
         Task<VideoDto> GetVideoById(long videoId);
         Task<VideoDto> GetVideoByLink(string link);
         Task<long> CreateVideo(long userId, CreateVideoDto model);
-        Task UpdateVideoUrls(UpdateVideoUrlsDto model);
+        Task UpdateVideoInfo(UpdateVideoInfoDto model);
         Task LogVideoAction(int? userId, long videoId, VideoActionType actionType);
         Task<bool> IsUserHasAccessToVideo(int userId, long videoId);
+        Task ArchiveVideo(long videoId);
+        Task<bool> IsUserVideoOwner(long videoId, int userId);
     }
 }
