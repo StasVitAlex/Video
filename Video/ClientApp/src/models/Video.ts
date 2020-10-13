@@ -6,17 +6,18 @@ export enum AccessType {
 
 export interface Video {
     id: number;
-    fileName: string;
+    title: string;
     folderId: number;
     locationUrl: string;
     thumbnailUrl: string;
-    userId: number;
+    createdBy: number;
     createdDate: Date;
     uniqueViews: number;
     viewsCount: number;
-    expiryDate: Date;
+    linkUrl: string;
     linkCode: string;
-    title: string;
-    videoAccessType: AccessType;
+    linkPassword: string;
+    expiryDate: Date;
     duration: number;
+    commentsAccessType: AccessType;
 }

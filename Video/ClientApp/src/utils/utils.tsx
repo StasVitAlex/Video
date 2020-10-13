@@ -1,4 +1,4 @@
-export function updateObject<T> (oldObject: T, newValues: T) {
+export function updateObject<T> (oldObject: T, newValues: any) {
     return { ...oldObject, ...newValues } as T;
 }
 

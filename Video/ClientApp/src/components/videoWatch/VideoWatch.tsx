@@ -14,9 +14,11 @@ import * as VideoWatchThunk from './VideoWatch.thunk';
 type VideoWatchProps = typeof VideoWatchThunk.actionCreators & RouteComponentProps<{}>;
 
 const VideoWatch: FC<VideoWatchProps> = (props) => {
-    useEffect(() => {
-        // props.getVideo()
-    }, []);
+    // useEffect(() => {
+    //     debugger
+    //     const link: string = props.history.location.state;
+    //     props.getVideo(link);
+    // }, []);
     return (
         <div className="content  content-fixed bg-light">
             <div className="container pd-x-0 pd-lg-x-10 pd-xl-x-0">

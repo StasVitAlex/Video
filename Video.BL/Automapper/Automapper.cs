@@ -1,6 +1,3 @@
-using Video.Models.Dto.Video;
-using Video.Models.ViewModels.Video;
-
 namespace Video.BL.Automapper
 {
     using System;
@@ -11,6 +8,9 @@ namespace Video.BL.Automapper
     using Models.ViewModels.Comments;
     using Models.ViewModels.Folders;
     using Models.ViewModels.User;
+    using Video.Models.Dto.Video;
+    using Video.Models.ViewModels.Video;
+    using Video.Utils.Extensions;
     using Newtonsoft.Json;
 
     public class Automapper
@@ -35,7 +35,8 @@ namespace Video.BL.Automapper
                 cfg.CreateMap<UpdateCommentVm, UpdateCommentDto>();
                 cfg.CreateMap<CreateVideoVm, CreateVideoDto>();
                 
-                cfg.CreateMap<VideoDto, VideoVm>();
+                cfg.CreateMap<VideoDto, VideoVm>()
+                    .ForMember(dest => dest.Extension, opt => opt.MapFrom(src => src.LocationUrl.GetFileExtensionFromUrl()));
                
                 
             });

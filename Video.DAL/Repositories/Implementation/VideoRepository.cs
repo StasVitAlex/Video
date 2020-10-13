@@ -18,8 +18,7 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetManyAsync<VideoDto>($@"select distinct v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.length_in_seconds as Duration,
-                v.created_date as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
+                v.length_in_seconds as Duration, v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode, l.link_url as LinkUrl,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
@@ -32,8 +31,7 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.length_in_seconds as Duration,
-                v.created_date as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
+                v.length_in_seconds as Duration, v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode, l.link_url as LinkUrl,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
@@ -45,14 +43,23 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.length_in_seconds as Duration,
-                v.created_date as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
+                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                v.length_in_seconds as Duration, l.link_code as LinkCode, l.link_url as LinkUrl, l.link_password as LinkPassword, l.id as LinkId,
                 (select count(*) from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as ViewsCount,
-                (select count(distinct user_id) from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as UniqueViews
+                (select count(*) from (select distinct user_id from user_actions uva where uva.video_id = v.id && uva.action_type_id = {VideoActionType.View})) as UniqueViews
                 from videos v 
                 join folder_videos fv on v.id = fv.video_id 
                 join links l on v.id = l.video_id 
                 where l.link_code = '{link}'");
+        }
+
+        public async Task<LinkPermissionDto> GetVideoLinkPermission(long linkId, VideoPermissionType permissionType)
+        {
+            return await GetAsync<LinkPermissionDto>($@"select * from user_link_permissions lp
+                lp.id as Id, lp.tenant_id as TenantId, lp.user_id as UserId
+                join permissions p on lp.permission_id = p.id
+                join links l on lp.links_id = l.id
+                where l.link_id = {linkId} and p.permission_type_id={PermissionType.Video} and p.permission_code={(int) permissionType}");
         }
 
         public async Task<long> CreateVideo(long userId, CreateVideoDto model)
@@ -78,9 +85,6 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<bool> IsUserHasAccessToVideo(int userId, long videoId)
         {
-            //return await ExecuteScalarAsync<bool>($@"exists(
-            //    (select 1 from links l where l.link_code={linkCode} and l.publisher_user_id={userId}) or 
-            //    ())")
             return true;
         }
 

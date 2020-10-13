@@ -3,7 +3,7 @@ namespace Video.Utils.Extensions
     using System.Linq;
     using System.Security.Cryptography;
 
-    public class StringExtensions
+    public static class StringExtensions
     {
         public static string GenerateUniqueRandomToken()
         {
@@ -15,6 +15,13 @@ namespace Video.Utils.Extensions
                 .Select(b => availableChars[b % availableChars.Length]);
             var token = new string(chars.ToArray());
             return token;
+        }
+
+        public static string GetFileExtensionFromUrl(this string url)
+        {
+            url = url.Split('?')[0];
+            url = url.Split('/').Last();
+            return url.Contains('.') ? url.Substring(url.LastIndexOf('.')) : "";
         }
     }
 }
