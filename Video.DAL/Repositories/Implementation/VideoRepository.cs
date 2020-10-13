@@ -17,8 +17,7 @@ namespace Video.DAL.Repositories.Implementation
         public async Task<IEnumerable<VideoDto>> GetVideosFromFolder(int userId, long folderId)
         {
             return await GetManyAsync<VideoDto>($@"select distinct v.id as Id,v.title as Title, v.description as Description,
-                v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl
-                v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedBy,
+                v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
                 v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
@@ -31,8 +30,7 @@ namespace Video.DAL.Repositories.Implementation
         public async Task<VideoDto> GetVideoById(long videoId)
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
-                v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl
-                v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedBy,
+                v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
                 v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
