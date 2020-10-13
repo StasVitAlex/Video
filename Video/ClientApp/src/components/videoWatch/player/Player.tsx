@@ -1,13 +1,15 @@
 import React, { FC, useEffect, useMemo, useRef } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
-import logo from 'assets/img/bg-img.jpg';
-import * as VideoWatch from '../VideoWatch.reducer';
 import Plyr from 'plyr';
 import { ApplicationState } from "store";
+import * as VideoWatchThunk from '../VideoWatch.thunk';
+import * as VideoWatch from '../VideoWatch.reducer';
+
 
 type VideoPlayerProps =
     VideoWatch.VideoWatchState &
+    typeof VideoWatchThunk.actionCreators &
     RouteComponentProps<{}>;
 
 const Player: FC<VideoPlayerProps> = (props) => {
@@ -19,11 +21,11 @@ const Player: FC<VideoPlayerProps> = (props) => {
         });
         player.on("play", () => {
             if (!logged.current) {
-                console.log('play');
+                props.logVideoAction();
                 logged.current = true;
             };
         });
-    }, []);
+    });
 
     return useMemo<any>(() => (
         <div style={{ height: '420px' }} className="mg-b-15">
@@ -35,5 +37,6 @@ const Player: FC<VideoPlayerProps> = (props) => {
 };
 
 export default connect(
-    (state: ApplicationState) => state.videoWatch
+    (state: ApplicationState) => state.videoWatch,
+    VideoWatchThunk.actionCreators
 )(Player as any);

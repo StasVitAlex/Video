@@ -1,5 +1,7 @@
 import {httpClient} from "api/HttpClient";
 import {IHttpClientRequestParameters} from "api/IHttpClients";
+import { VideoActionType } from "models/enums/VideoActionType.enum";
+import { LogVideoAction } from "models/LogVideoAction";
 import { Video } from "models/Video";
 import { AppThunkAction } from "store";
 import { KnownAction, KnownActionType } from "./VideoWatch.actions";
@@ -25,6 +27,23 @@ export const actionCreators = {
             }
 
             dispatch({ type: KnownActionType.SetVideo, payload: video });
+        }
+        catch {
+        }
+    },
+    logVideoAction: (): AppThunkAction<KnownAction> => async (_dispatch, getState) => {
+        try {
+            const state = getState();
+            const videoWatchState = state.videoWatch;
+            const authState = state.auth;
+            await httpClient.post<LogVideoAction, void>({
+                url: VideoWatchPaths.logVideoAction,
+                payload: {
+                    userId: authState?.userInfo?.id,
+                    videoId: videoWatchState!.video!.id,
+                    videoActionType: VideoActionType.View
+                }
+            });
         }
         catch {
         }
