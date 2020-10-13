@@ -1,19 +1,25 @@
 namespace Video.Utils.Helpers
 {
-    using SixLabors.ImageSharp;
-    using SixLabors.ImageSharp.PixelFormats;
-    using SixLabors.ImageSharp.Processing;
+    using System.Diagnostics;
+    using System.IO;
 
     public static class VideoHelpers
     {
-        public static void GenerateThumbNail(string sourceFileName, string imageFile)
+        public static void GenerateThumbNail(string baseUrl, string sourceFileName, string outputThumbnailPath)
         {
-            var sizes = new[] {new Size(100), new Size(250), new Size(500)};
-            using var image = Image.Load<Rgb24>(sourceFileName);
-            foreach (var size in sizes)
+            var test = $"{outputThumbnailPath}1";
+            var procStartInfo = new ProcessStartInfo("ffmpeg")
             {
-                image.Mutate(x => x.Resize(size.Width, size.Height));
-                image.Save(imageFile);
+                FileName = Path.Combine(baseUrl, "ffmpeg", "ffmpeg.exe"),
+                Arguments = $"-y -i {sourceFileName} -ss 00:00:0.5 -vframes 1 -vf scale=540x380 {outputThumbnailPath}",
+                CreateNoWindow = true,
+                UseShellExecute = false,
+            };
+
+            using (var process = new Process { StartInfo = procStartInfo })
+            {
+                process.Start();
+                process.WaitForExit();
             }
         }
     }

@@ -246,3 +246,4 @@ paket-files/
 
 #project-specific files
 Video/Storage/*
+Video/ffmpeg/*
