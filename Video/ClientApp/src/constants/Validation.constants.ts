@@ -13,4 +13,10 @@ export default class ValidationConstants {
             name: 'Name is required',
         };
     }
+
+    static get video(): any {
+        return {
+            password: 'Password is required'
+        };
+    }
 }

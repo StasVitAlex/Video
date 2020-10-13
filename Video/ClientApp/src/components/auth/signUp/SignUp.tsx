@@ -23,6 +23,7 @@ type SignInProps =
 
 const SignIn: FC<SignInProps> = (props) => {
     const {register, handleSubmit, watch, errors} = useForm<SignUpModel>();
+    const { signUp, handleMicrosoftAuth, handleGoogleAuth } = props;
 
     const handleMicrosoft = useCallback(
         (error: any, data: any) => {
@@ -32,16 +33,16 @@ const SignIn: FC<SignInProps> = (props) => {
                 return;
             }
 
-            props.handleMicrosoftAuth(data.authResponseWithAccessToken.accessToken);
+            handleMicrosoftAuth(data.authResponseWithAccessToken.accessToken);
         },
-        [],
+        [handleMicrosoftAuth],
     );
 
     const handleGoogle = useCallback(
         (response: any) => {
-            props.handleGoogleAuth(response.tokenId);
+            handleGoogleAuth(response.tokenId);
         },
-        [],
+        [handleGoogleAuth],
     );
 
     const handleGoogleError = useCallback(
@@ -55,8 +56,8 @@ const SignIn: FC<SignInProps> = (props) => {
     );
 
     const onSubmit = useCallback((data: SignUpModel) => {
-        props.signUp(data);
-    }, []);
+        signUp(data);
+    }, [signUp]);
 
     return (
         <div className="content content-fixed content-auth">

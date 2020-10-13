@@ -5,11 +5,13 @@ import {KnownAction, KnownActionType} from './VideoWatch.actions';
 
 export interface VideoWatchState {
     video: Video | undefined;
+    videoToCheckAccess: Video | undefined,
     checkVideoPassword: boolean
 }
 
 const defaultState = {
     video: undefined,
+    videoToCheckAccess: undefined,
     checkVideoPassword: false
 } as VideoWatchState;
 
@@ -23,6 +25,12 @@ export const reducer: Reducer<VideoWatchState> = (state: VideoWatchState | undef
         case KnownActionType.SetVideo:
             const video = updateObject<Video | undefined>(state.video, action.payload);
             return updateObject<VideoWatchState>(state, { video });
+        case KnownActionType.CheckVideoAccess:
+            return updateObject<VideoWatchState>(state,
+                { videoToCheckAccess: action.payload, checkVideoPassword: true });
+        case KnownActionType.CheckVideoAccess:
+            return updateObject<VideoWatchState>(state,
+                { video: state.videoToCheckAccess, checkVideoPassword: false });
         default:
             return state;
     }
