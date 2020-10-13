@@ -13,11 +13,11 @@ export const actionCreators = {
                 file,
                 file.name
             );
-            const videoId = await httpClient.post<any, number>({
+            const link = await httpClient.post<any, number>({
                 url: FoldersPaths.uploadVideo(folderId),
                 payload: formData
             } as IHttpClientRequestParameters<any>);
-            history.push(`/video/${videoId}`);
+            history.push(`/video/${link}`);
         }
         catch {
         }

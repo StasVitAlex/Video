@@ -34,14 +34,14 @@ const SignIn: FC<SignInProps> = (props) => {
 
             props.handleMicrosoftAuth(data.authResponseWithAccessToken.accessToken);
         },
-        [],
+        [props],
     );
 
     const handleGoogle = useCallback(
         (response: any) => {
             props.handleGoogleAuth(response.tokenId);
         },
-        [],
+        [props],
     );
 
     const handleGoogleError = useCallback(
@@ -56,7 +56,7 @@ const SignIn: FC<SignInProps> = (props) => {
 
     const onSubmit = useCallback((data: SignInModel) => {
         props.signIn(data);
-    }, []);
+    }, [props]);
 
     return (
         <div className="content content-fixed content-auth">

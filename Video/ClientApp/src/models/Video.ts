@@ -1,4 +1,4 @@
-export enum VideoAccessType {
+export enum AccessType {
     None = 1,
     SignedInUsers = 2,
     Everyone = 3
@@ -8,11 +8,12 @@ export interface Video {
     id: number;
     fileName: string;
     folderId: number;
-    link: string;
+    locationUrl: string;
+    thumbnailUrl: string;
     userId: number;
-    extension: string;
     createdDate: Date;
+    uniqueViews: number;
     viewsCount: number;
     expiryDate: Date;
-    videoAccessType: VideoAccessType;
+    videoAccessType: AccessType;
 }

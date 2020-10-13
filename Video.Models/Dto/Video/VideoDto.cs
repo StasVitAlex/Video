@@ -13,7 +13,9 @@ namespace Video.Models.Dto.Video
         public bool IsPasswordProtected { get; set; }
         public long CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ViewsCount { get; set; }
+        public int UniqueViews { get; set; }
+
+        public int ViewsCount { get; set; }
         public DateTime? ExpiryDate { get; set; }
     }
 }

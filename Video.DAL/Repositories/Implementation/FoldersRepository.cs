@@ -35,9 +35,9 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<long> CreateFolder(CreateFolderDto model)
         {
-            var parentFolderId = model.FolderType == FolderType.Public || !model.ParentFolderId.HasValue ? "null" : model.ParentFolderId.ToString();
-            var folderId = await ExecuteScalarAsync<long>($"insert into folders(tenant_id,folder_name,parent_folder_id) values ({GET_TENANT_QUERY},@Name,{parentFolderId}) returning id", model);
-            await ExecuteActionAsync($"insert into user_folders_permissions(tenant_id,user_id,folder_id,permission_id)  values ({GET_TENANT_QUERY},{model.UserId},{folderId},{(int) FolderPermissionType.ViewFolders})");
+            model.ParentFolderId = model.FolderType == FolderType.Public ? (long) FolderType.Public : model.ParentFolderId;
+            var folderId = await ExecuteScalarAsync<long>($"insert into folders(tenant_id,folder_name,parent_folder_id) values ({GET_TENANT_QUERY},@Name,@ParentFolderId) returning id", model);
+            await ExecuteActionAsync($"insert into user_folders_permissions(tenant_id,user_id,folder_id,permission_id) values ({GET_TENANT_QUERY},{model.UserId},{folderId},{(int) FolderPermissionType.ViewFolders})");
             return folderId;
         }
 

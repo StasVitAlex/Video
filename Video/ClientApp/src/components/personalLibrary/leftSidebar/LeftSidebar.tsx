@@ -1,17 +1,25 @@
 import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBell, faChevronDown, faClock, faFolder, faShareAlt, faStar, faUserPlus, faVideo} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faClock, faFolder, faShareAlt, faStar, faUserPlus, faVideo} from "@fortawesome/free-solid-svg-icons";
 import FolderEditor from "../folder/FolderEditor";
 import { actionCreators } from "./LeftSideBar.thunk";
 import { connect } from "react-redux";
+import { FoldersState } from "../folder/folders/Folders.reducer";
+import { ApplicationState } from "store";
 
 type OwnProps = { show: boolean };
 type State = { showAddFolder: boolean, isPublicFolder: boolean };
-type LeftSideBarProps = typeof actionCreators &
+type LeftSideBarProps =
+    FoldersState &
+    typeof actionCreators &
     OwnProps &
     State;
 
 class LeftSidebar extends React.PureComponent<LeftSideBarProps> {
+    constructor(props: LeftSideBarProps) {
+        super(props);
+        this.onFileUpload = this.onFileUpload.bind(this);
+    }
 
     public state = {
         showAddFolder: false,
@@ -19,10 +27,9 @@ class LeftSidebar extends React.PureComponent<LeftSideBarProps> {
     }
 
     public async onFileUpload(event: any) {
+        debugger;
         const selectedFile = event.target.files[0];
-        // TODO change to real folder id
-        const folderId = 1;
-        this.props.uploadVideo(folderId, selectedFile);
+        this.props.uploadVideo(this.props.currentFolderId, selectedFile);
         event.target.value = null;
     }
 
@@ -84,5 +91,8 @@ class LeftSidebar extends React.PureComponent<LeftSideBarProps> {
     }
 }
 
-export default connect<any, any, OwnProps>(null, actionCreators)(LeftSidebar as any);
+export default connect<any, any, OwnProps, any>(
+    (state: ApplicationState) => state.folders,
+    actionCreators
+)(LeftSidebar as any);
 

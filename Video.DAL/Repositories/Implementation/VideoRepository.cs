@@ -48,7 +48,8 @@ namespace Video.DAL.Repositories.Implementation
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl
                 v.length_in_seconds as LengthInSeconds, v.is_pwd_protected as IsPasswordProtected, v.created_by as CreatedBy,
                 v.created_by as CreatedDate, fv.folder_id as FolderId,
-                (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
+                (select count(*) from user_actions uva where uva.video_id = v.id && uva.action_type_id = {VideoActionType.View}) as ViewsCount
+                (select count(*) from (select distinct user_id from user_actions uva where uva.video_id = v.id && uva.action_type_id = {VideoActionType.View})) as UniqueViews
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
                 where v.guid = {link}");
@@ -57,11 +58,11 @@ namespace Video.DAL.Repositories.Implementation
         public async Task<long> CreateVideo(long userId, CreateVideoDto model)
         {
             var videoId = await ExecuteScalarAsync<long>(
-                $"insert into videos(tenant_id, title) values ({GET_TENANT_QUERY}, @FileName, @Link) returning id", model);
+                $"insert into videos(tenant_id, title) values ({GET_TENANT_QUERY}, @FileName) returning id", model);
             await ExecuteActionAsync(
-                $@"insert into folder_videos(tenant_id,folder_id,video_id) values({GET_TENANT_QUERY}, {model.FolderId}, {videoId});
+                $@"insert into folder_videos(tenant_id,folder_id,video_id) values({GET_TENANT_QUERY}, @FolderId,{videoId});
                     insert into links(tenant_id, publisher_user_id, link_url, link_code, video_id, link_type_id) 
-                    values({ GET_TENANT_QUERY},{ userId},{ model.LinkUrl},{ model.LinkCode},{ videoId},{ LinkType.Video})");
+                    values({GET_TENANT_QUERY},{userId},@LinkUrl,@LinkCode,{videoId},{(int)LinkType.Video})", model);
             return videoId;
         }
 
@@ -77,6 +78,7 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<bool> IsUserHasAccessToVideo(int userId, long videoId)
         {
+
             //return await ExecuteScalarAsync<bool>($@"exists(
             //    (select 1 from links l where l.link_code={linkCode} and l.publisher_user_id={userId}) or 
             //    ())")

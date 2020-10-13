@@ -38,14 +38,13 @@ namespace Video.Controllers
                 UserId = this.CurrentUserId.Value,
                 FileName = file.FileName,
                 FolderId = folderId,
-                LinkCode = StringExtensions.GenerateUniqueRandomToken(),
                 Extension = Path.GetExtension(file.FileName),
                 VideoFile = file.OpenReadStream(),
                 VideoAccessType = VideoAccessType.None
             };
-            var fileId = await _videoService.CreateVideo(this.CurrentUserId.Value, createModel, _appEnvironment.ContentRootPath);
+            var link = await _videoService.CreateVideo(this.CurrentUserId.Value, createModel, _appEnvironment.ContentRootPath);
 
-            return this.Ok(fileId);
+            return this.Ok(link);
         }
 
         [HttpGet("{videoId}")]

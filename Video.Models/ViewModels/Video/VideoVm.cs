@@ -12,9 +12,9 @@ namespace Video.Models.ViewModels.Video
         public string ThumbnailUrl { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int UniqueVies { get; set; }
-        public string ViewsCount { get; set; }
+        public int UniqueViews { get; set; }
+        public int ViewsCount { get; set; }
         public DateTime? ExpiryDate { get; set; }
-        public VideoAccessType VideoAccessType { get; set; }
+        public VideoAccessType CommentsAccessType { get; set; }
     }
 }
