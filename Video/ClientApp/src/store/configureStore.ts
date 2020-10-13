@@ -18,9 +18,12 @@ export default function configureStore(history: History, initialState?: Applicat
     });
 
     const persistConfig = {
-        key: 'auth',
+        key: 'root',
         storage,
-        blacklist: ['router'],
+        whitelist: [
+            'auth',
+            'videoLinks'
+        ]
     };
 
     const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -78,21 +78,24 @@ namespace Video.BL.Services.Implementation
 
         public async Task<VideoVm> GetVideoByLink(int? userId, string link)
         {
-            var video = _mapper.Map<VideoVm>(await _videoRepository.GetVideoByLink(link));
+            var video = await _videoRepository.GetVideoByLink(link);
             if (video == null)
                 throw new NotFoundException();
-            //switch (video.CommentsAccessType)
-            //{
-            //    case VideoAccessType.Everyone:
-            //        return video;
-            //    case VideoAccessType.None:
-            //    case VideoAccessType.SignedInUsers:
-            //        if (!userId.HasValue || !await _videoRepository.IsUserHasAccessToVideo(userId.Value, video.Id))
-            //            throw new AccessDeniedException();
-            //        return video;
-            //}
 
-            return video;
+            var commentsPermissions = await _videoRepository.GetVideoLinkPermission(video.LinkId, VideoPermissionType.Comment);
+            var videoVm = _mapper.Map<VideoVm>(video);
+            videoVm.CommentsAccessType = GetAccessType(commentsPermissions);
+            return videoVm;
+        }
+
+        private static VideoAccessType GetAccessType(LinkPermissionDto linkPermissions)
+        {
+            if (linkPermissions == null)
+            {
+                return VideoAccessType.None;
+            }
+
+            return linkPermissions.TenantId.HasValue ? VideoAccessType.SignedInUsers : VideoAccessType.Everyone;
         }
 
         public async Task ArchiveVideo(long videoId, int userId)
