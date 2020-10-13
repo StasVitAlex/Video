@@ -60,7 +60,7 @@ class NavMenu extends React.PureComponent<{ isAuthenticated: boolean, userInfo: 
                     if (this.props.isAuthenticated) {
                         return (<div className="navbar-right">
                             <Notifications/>
-                            <UserProfile userInfo={this.props.userInfo}/>
+                            <UserProfile/>
                         </div>);
                     } else {
                         return (

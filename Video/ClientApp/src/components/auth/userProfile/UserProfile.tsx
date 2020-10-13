@@ -1,20 +1,22 @@
 import * as React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faEdit, faCog, faQuestionCircle, faSignOutAlt, faVideo} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faCog, faQuestionCircle, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {AuthHelper} from "../Auth.helper";
 import {User} from "../../../models/UserInfo";
 import Avatar from 'react-avatar';
 import UserProfileEditor from "../userProfile/UserProfileEditor";
+import {connect} from "react-redux";
+import {ApplicationState} from "../../../store";
 
-export default class UserProfile extends React.PureComponent<{ userInfo: User }, { editProfile: boolean }> {
+class UserProfile extends React.PureComponent<{ userInfo: User }, { editProfile: boolean }> {
     public state = {
-        editProfile: false
+        editProfile: false,
     };
 
     public render() {
-        const fullName = this.props.userInfo?.firstName + ' ' + this.props.userInfo?.lastName;
+        const fullName = this.props.userInfo.firstName + ' ' + this.props.userInfo?.lastName;
         return (
-            <div className="dropdown dropdown-profile">
+            <div  className="dropdown dropdown-profile">
                 <a className="dropdown-link" data-toggle="dropdown" data-display="static">
                     <div className="avatar avatar-sm">
                         {!this.props.userInfo.imageThumbnailUrl && <Avatar name={fullName} src={this.props.userInfo.imageThumbnailUrl} size="32" className="rounded-circle"/>}
@@ -61,3 +63,7 @@ export default class UserProfile extends React.PureComponent<{ userInfo: User },
 
     }
 }
+
+export default connect((state: ApplicationState) => {
+    return {userInfo: state.auth?.userInfo}
+}, {})(UserProfile as any); 

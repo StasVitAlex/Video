@@ -192,7 +192,7 @@ namespace Video.BL.Services.Implementation
             }
 
             await _userRepository.UpdateUser(updateUserDto);
-            return _mapper.Map<UserVm>(updateUserDto);
+            return await this.GetUserById(userId);
         }
     }
 }
