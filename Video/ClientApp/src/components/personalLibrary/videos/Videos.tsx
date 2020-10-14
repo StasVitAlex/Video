@@ -52,6 +52,7 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
 
     private openVideoInfo(video: Video) {
         this.setState({videoInfo: video, showInfo: true});
+        this.props.getVideoActivities(video.id);
     }
 
     private archiveVideo(id: number) {
@@ -117,7 +118,7 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
 
         return (
             <div>
-                <VideoSidebarInfo show={this.state.showInfo} video={this.state.videoInfo} onClose={() => this.closeVideoInfo()}/>
+                <VideoSidebarInfo show={this.state.showInfo} activities={this.props.videoActivities} video={this.state.videoInfo} onClose={() => this.closeVideoInfo()}/>
                 {(() => {
                     if (this.props.videos.length > 0) {
                         return (<div className="row row-xs">
@@ -150,7 +151,7 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
 
 export default connect(
     (state: ApplicationState) => {
-        return {currentFolderId: state.folders?.currentFolderId, rootFolderId: state.folders?.rootFolderId, videos: state.videos?.videos}
+        return {currentFolderId: state.folders?.currentFolderId, rootFolderId: state.folders?.rootFolderId, videos: state.videos?.videos, videoActivities: state.videos?.videoActivities}
     },
     VideosThunk.actionCreators
 )(Videos as any);

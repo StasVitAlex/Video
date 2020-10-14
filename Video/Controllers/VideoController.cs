@@ -71,9 +71,9 @@ namespace Video.Controllers
         }
 
         [HttpGet("by_folder/{folderId}")]
-        public async Task<IActionResult> GetVideosFromFolder([FromRoute] int folderId, [FromQuery] GetVideosVm model)
+        public async Task<IActionResult> GetVideosByFolder([FromRoute] int folderId, [FromQuery] GetVideosVm model)
         {
-            return this.Ok(await _videoService.GetVideosFromFolder(this.CurrentUserId.Value, folderId, model));
+            return this.Ok(await _videoService.GetVideosByFolder(this.CurrentUserId.Value, folderId, model));
         }
 
         [HttpDelete("{videoId}")]
@@ -93,7 +93,7 @@ namespace Video.Controllers
 
         [AllowAnonymous]
         [HttpGet("thumbnail/{linkCode}")]
-        public async Task<IActionResult> GetUserImage([FromRoute] string linkCode)
+        public async Task<IActionResult> GetVideoImage([FromRoute] string linkCode)
         {
             var video = await _videoService.GetVideoByLink(null, linkCode);
             if (video == null)

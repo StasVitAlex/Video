@@ -5,6 +5,7 @@ namespace Video.Models.Dto.Video
 
     public class VideoActivityDto
     {
+        public long Id { get; set; }
         public int? UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
