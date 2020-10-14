@@ -80,16 +80,23 @@ namespace Video.DAL.Repositories.Implementation
             return true;
         }
 
+        public async Task<bool> IsUserVideoOwner(int userId, int videoId)
+        {
+            return await ExecuteScalarAsync<bool>(
+                $@"select count(1) from videos where id=@videoId and created_by=@userId", 
+                new { userId, videoId });
+        }
 
         public async Task ArchiveVideo(long videoId)
         {
             await ExecuteActionAsync($"update videos set is_deleted = true where id = {videoId}");
         }
 
-        public async Task<bool> IsUserVideoOwner(long videoId, int userId)
+        public async Task<bool> IsUserVideoOwner(long userId, long videoId)
         {
-            var recordsCount = await GetAsync<int>($"select count(*) from videos v join links l on v.id = l.video_id where v.id = {videoId} and l.created_by = {userId}");
-            return recordsCount > 0;
+            return await ExecuteScalarAsync<bool>(
+                $"select count(1) from videos v join links l on v.id = l.video_id where v.id = @videoId and l.created_by = @userId",
+                new { videoId, userId });
         }
 
         public async Task<IEnumerable<VideoActivityDto>> GetVideoActivity(long videoId)
@@ -110,8 +117,7 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<bool> Exists(long videoId)
         {
-            var count = await GetAsync<int>($"select count(id) from videos where id = {videoId}");
-            return count > 0;
+            return await ExecuteScalarAsync<bool>($"select count(1) from videos where id=@videoId", new { videoId });
         }
     }
 }

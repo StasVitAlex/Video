@@ -15,7 +15,7 @@ namespace Video.DAL.Repositories.Interfaces
         Task LogVideoAction(int? userId, long videoId, UserActionType actionType);
         Task<bool> IsUserHasAccessToVideo(int userId, long videoId);
         Task ArchiveVideo(long videoId);
-        Task<bool> IsUserVideoOwner(long videoId, int userId);
+        Task<bool> IsUserVideoOwner(long videoId, long userId);
         Task<IEnumerable<VideoActivityDto>> GetVideoActivity(long videoId);
         Task<bool> Exists(long videoId);
     }
