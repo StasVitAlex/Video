@@ -17,13 +17,13 @@ namespace Video.DAL.Repositories.Implementation
         public async Task<UserDto> SignIn(SignInDto model)
         {
             return await GetAsync<UserDto>(
-                $@"select id as Id, user_name as UserName,first_name as FirstName,last_name as LastName, email_address as Email,image_thumbnail_url as ImageThumbnailUrl  is_active as IsActive from users where email_address = '{model.Email}' and password = '{model.Password.GetSha1Hash()}'");
+                $@"select id as Id, user_name as UserName,first_name as FirstName,last_name as LastName, email_address as Email,image_thumbnail_url as ImageThumbnailUrl,  is_active as IsActive from users where email_address = '{model.Email}' and password = '{model.Password.GetSha1Hash()}'");
         }
 
         public async Task<int> SignUp(SignUpDto model)
         {
             model.Password = model.IsExternalAuth ? string.Empty : model.Password.GetSha1Hash();
-            var thirdPartyAuthType = model.ThirdPartyAuthType.HasValue ? ((int) model.ThirdPartyAuthType).ToString() : "''";
+            var thirdPartyAuthType = model.ThirdPartyAuthType.HasValue ? ((int) model.ThirdPartyAuthType).ToString() : "null";
             return await ExecuteScalarAsync<int>(
                 $@"insert into users (user_name,password,first_name,last_name,email_address,is_external_auth,is_active,is_pwd_reset_required,tenant_id, activation_token,third_party_authenticator_id) VALUES (@Email,@Password, @FirstName,@LastName,@Email,@IsExternalAuth, false, false, {GET_TENANT_QUERY}, @ActivationToken, {thirdPartyAuthType}) RETURNING id",
                 model);

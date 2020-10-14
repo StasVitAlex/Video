@@ -52,7 +52,7 @@ namespace Video.BL.Services.Implementation
             if (user == null)
                 throw new BadRequestException("Invalid email or password");
             if (!user.IsActive)
-                throw new AccessDeniedException("User is not active, please activate user via email");
+                throw new BadRequestException("User is not active, please activate user via email");
             return _mapper.Map<UserVm>(user);
         }
 

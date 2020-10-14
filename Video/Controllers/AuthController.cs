@@ -14,6 +14,7 @@ namespace Video.Controllers
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using Models.Configuration;
+    using Models.Exceptions;
     using Models.ViewModels.User;
 
     public class AuthController : BaseController
@@ -54,7 +55,7 @@ namespace Video.Controllers
         {
             var user = await _userService.SignIn(model);
             if (user == null)
-                throw new ValidationException("Invalid username or password");
+                throw new BadRequestException("Invalid username or password");
             return this.Ok(new
             {
                 Token = this.GenerateJwt(user),
