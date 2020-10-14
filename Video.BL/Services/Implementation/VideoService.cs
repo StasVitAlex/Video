@@ -20,15 +20,17 @@ namespace Video.BL.Services.Implementation
     {
         private readonly IVideoRepository _videoRepository;
         private readonly IFoldersRepository _foldersRepository;
+        private readonly IILinkRepository _linkRepository;
         private readonly IMapper _mapper;
         private readonly CommonSettings _commonSettings;
 
         public VideoService(IVideoRepository videoRepository,
-            IFoldersRepository foldersRepository,
+            IFoldersRepository foldersRepository, IILinkRepository linkRepository,
             IMapper mapper, IOptions<CommonSettings> settings)
         {
             _foldersRepository = foldersRepository;
             _videoRepository = videoRepository;
+            _linkRepository = linkRepository;
             _mapper = mapper;
             _commonSettings = settings.Value;
         }
@@ -42,10 +44,14 @@ namespace Video.BL.Services.Implementation
         {
             if (!await _videoRepository.IsUserHasAccessToVideo(userId, videoId))
                 throw new AccessDeniedException();
-            return _mapper.Map<VideoVm>(await _videoRepository.GetVideoById(videoId));
+            var video = await _videoRepository.GetVideoById(videoId, userId);
+            if (video == null)
+                throw new NotFoundException();
+
+            return _mapper.Map<VideoVm>(video);
         }
 
-        public async Task<string> CreateVideo(long userId, CreateVideoVm model, string basePath)
+        public async Task<long> CreateVideo(long userId, CreateVideoVm model, string basePath)
         {
             if (!await _foldersRepository.UserHasAccessToFolder(model.UserId, model.FolderId))
                 throw new AccessDeniedException();
@@ -67,8 +73,8 @@ namespace Video.BL.Services.Implementation
             var thumbnailDestinationPath = Path.Combine(videoImagesFolder, $"{videoId}.png");
             VideoHelpers.GenerateThumbNail(basePath, videoFileDestinationPath, thumbnailDestinationPath);
             var duration = VideoHelpers.GetVideoDuration(basePath, videoFileDestinationPath);
-            await _videoRepository.UpdateVideoInfo(new UpdateVideoInfoDto {Duration = duration,ThumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{model.LinkCode}", Id = videoId, LocationUrl = videoFileDestinationPath});
-            return model.LinkCode;
+            await _videoRepository.UpdateVideoInfo(new UpdateVideoInfoDto {Duration = duration,ThumbnailUrl = $"{_commonSettings.ApplicationUrl}/api/video/thumbnail/{videoId}", Id = videoId, LocationUrl = videoFileDestinationPath});
+            return videoId;
         }
 
         public async Task LogVideoAction(LogVideoActionVm model)
@@ -82,7 +88,7 @@ namespace Video.BL.Services.Implementation
             if (video == null)
                 throw new NotFoundException();
 
-            var commentsPermissions = await _videoRepository.GetVideoLinkPermission(video.LinkId, VideoPermissionType.Comment);
+            var commentsPermissions = await _linkRepository.GetVideoLinkPermission(video.LinkId, VideoPermissionType.Comment);
             var videoVm = _mapper.Map<VideoVm>(video);
             videoVm.CommentsAccessType = GetAccessType(commentsPermissions);
             return videoVm;
@@ -108,6 +114,11 @@ namespace Video.BL.Services.Implementation
         public async Task<List<VideoActivityVm>> GetVideoActivity(long videoId)
         {
             return _mapper.Map<List<VideoActivityVm>>(await _videoRepository.GetVideoActivity(videoId));
+        }
+
+        public async Task<bool> VideoExists(long videoId)
+        {
+            return await _videoRepository.Exists(videoId);
         }
     }
 }

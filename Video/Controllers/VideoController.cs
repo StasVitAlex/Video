@@ -43,9 +43,9 @@ namespace Video.Controllers
                 VideoFile = file.OpenReadStream(),
                 VideoAccessType = VideoAccessType.None
             };
-            var link = await _videoService.CreateVideo(this.CurrentUserId.Value, createModel, _appEnvironment.ContentRootPath);
+            var videoId = await _videoService.CreateVideo(this.CurrentUserId.Value, createModel, _appEnvironment.ContentRootPath);
 
-            return this.Ok(link);
+            return this.Ok(videoId);
         }
 
         [HttpGet("{videoId}")]
@@ -92,13 +92,12 @@ namespace Video.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("thumbnail/{linkCode}")]
-        public async Task<IActionResult> GetVideoImage([FromRoute] string linkCode)
+        [HttpGet("thumbnail/{videoId}")]
+        public async Task<IActionResult> GetVideoImage([FromRoute] long videoId)
         {
-            var video = await _videoService.GetVideoByLink(null, linkCode);
-            if (video == null)
+            if (!await _videoService.VideoExists(videoId))
                 return this.Ok();
-            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoImagesFolder, $"{video.Id}.png"), "application/octet-stream", enableRangeProcessing: true);
+            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoImagesFolder, $"{videoId}.png"), "application/octet-stream", enableRangeProcessing: true);
         }
 
         [HttpGet("activity/{videoId}")]

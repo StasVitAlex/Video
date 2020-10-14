@@ -12,16 +12,17 @@ export function useAccess() {
     const videoWatchState: VideoWatchState = useSelector<ApplicationState, any>((state) => state.videoWatch);
 
     const hasAccess = useCallback((accesType: AccessType): boolean => {
+        // video owner
+        if (authState?.userInfo?.id === videoWatchState.video?.createdBy.id) {
+            return true;
+        }
+
         if (accesType === AccessType.Everyone) {
             return true;
         }
 
         if (accesType === AccessType.SignedInUsers) {
             return authState?.userInfo ? true : false;
-        }
-
-        if (accesType === AccessType.None) {
-            return authState?.userInfo?.id === videoWatchState.video?.createdBy.id;
         }
 
         return false;

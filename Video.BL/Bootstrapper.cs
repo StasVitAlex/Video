@@ -25,6 +25,7 @@ namespace Video.BL
             serviceCollection.AddScoped<ICommentsRepository, CommentsRepository>();
             serviceCollection.AddScoped<INotificationsRepository, NotificationsRepository>();
             serviceCollection.AddScoped<IVideoRepository, VideoRepository>();
+            serviceCollection.AddScoped<IILinkRepository, LinkRepository>();
 
             #endregion
 

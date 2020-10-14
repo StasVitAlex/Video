@@ -1,17 +1,29 @@
 import {httpClient} from "api/HttpClient";
 import {IHttpClientRequestParameters} from "api/IHttpClients";
+import { VideosPaths } from "components/personalLibrary/videos/Videos.paths";
+import { history } from "index";
 import { UserActionType } from "models/enums/UserActionType.enum";
 import { LogVideoAction } from "models/LogVideoAction";
 import { Video } from "models/Video";
 import { AppThunkAction } from "store";
 import { KnownAction, KnownActionType } from "./VideoWatch.actions";
-import { VideoWatchPaths } from "./VideoWatch.paths";
 
 export const actionCreators = {
-    getVideo: (link: string): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+    getVideo: (id: number): AppThunkAction<KnownAction> => async (dispatch, getState) => {
         try {
             const video = await httpClient.get<void, Video>({
-                url: VideoWatchPaths.byLink(link)
+                url: VideosPaths.byId(id)
+            } as IHttpClientRequestParameters<any>);
+            dispatch({ type: KnownActionType.SetVideo, payload: video });
+        }
+        catch {
+            history.push('/');
+        }
+    },
+    getVideoByLink: (link: string): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        try {
+            const video = await httpClient.get<void, Video>({
+                url: VideosPaths.byLink(link)
             } as IHttpClientRequestParameters<any>);
             const authState = getState().auth;
             if (video.createdBy?.id === authState?.userInfo?.id) {
@@ -29,6 +41,7 @@ export const actionCreators = {
             dispatch({ type: KnownActionType.SetVideo, payload: video });
         }
         catch {
+            history.push('/');
         }
     },
     logVideoAction: (): AppThunkAction<KnownAction> => async (_dispatch, getState) => {
@@ -37,7 +50,7 @@ export const actionCreators = {
             const videoWatchState = state.videoWatch;
             const authState = state.auth;
             await httpClient.post<LogVideoAction, void>({
-                url: VideoWatchPaths.logVideoAction,
+                url: VideosPaths.logVideoAction,
                 payload: {
                     userId: authState?.userInfo?.id,
                     videoId: videoWatchState!.video!.id,

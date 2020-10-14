@@ -16,6 +16,6 @@ export default () => (
         <Route path='/signIn' component={SignIn} />
         <Route path='/signUp' component={SignUp} />
         <Route path='/activate_user' component={ActivateUser} />
-        <GuardRoute path='/video/:link?' component={VideoWatch} />
+        <GuardRoute path='/video' component={VideoWatch} />
     </Layout>
 );

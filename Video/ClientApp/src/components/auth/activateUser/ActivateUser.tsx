@@ -7,15 +7,16 @@ import * as AuthThunk from '../Auth.thunk';
 type ActivateUserProps = typeof AuthThunk.actionCreators & RouteComponentProps<{}>;
 
 const ActivateUser: FC<ActivateUserProps> = (props) => {
+    const { activateUser, history, location } = props;
     useEffect(() => {
-        const queryParams = queryString.parse(props.location.search);
+        const queryParams = queryString.parse(location.search);
         if (!queryParams.token) {
-            props.history.push('/');
+            history.push('/');
             return;
         }
 
-        props.activateUser(queryParams.token as string);
-    }, []);
+        activateUser(queryParams.token as string);
+    }, [activateUser, history, location]);
 
     return (
         <div>

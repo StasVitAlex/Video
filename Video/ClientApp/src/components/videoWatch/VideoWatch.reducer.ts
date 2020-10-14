@@ -28,7 +28,7 @@ export const reducer: Reducer<VideoWatchState> = (state: VideoWatchState | undef
         case KnownActionType.CheckVideoAccess:
             return updateObject<VideoWatchState>(state,
                 { videoToCheckAccess: action.payload, checkVideoPassword: true });
-        case KnownActionType.CheckVideoAccess:
+        case KnownActionType.SetVideoAccess:
             return updateObject<VideoWatchState>(state,
                 { video: state.videoToCheckAccess, checkVideoPassword: false });
         default:

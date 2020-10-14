@@ -1,8 +1,8 @@
-import { AccessType } from "models/Video";
 import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
 import { ApplicationState } from "store";
+import queryString from 'query-string';
 import Comments from "./comments/Comments";
 import VideoEdit from "./edit/VideoEdit";
 import VideoInfo from "./info/VideoInfo";
@@ -10,7 +10,7 @@ import CheckVideoPassword from "./password/CheckVideoPassword";
 import Player from "./player/Player";
 import VideoSharing from "./sharing/VideoSharing";
 import VideoStat from "./stat/VideoStat";
-import { useAccess } from "./useAccess";
+import { useAccess } from "./UseAccess";
 import UserInfo from "./userInfo/UserInfo";
 import * as VideoWatchStore from './VideoWatch.reducer';
 import * as VideoWatchThunk from './VideoWatch.thunk';
@@ -21,12 +21,23 @@ type VideoWatchProps =
     RouteComponentProps<{}>;
 
 const VideoWatch: FC<VideoWatchProps> = (props: VideoWatchProps) => {
-    const { getVideo, match } = props;
+    const { getVideo, getVideoByLink, match, location, history } = props;
     const hasAccessToComment = useAccess();
     useEffect(() => {
-        const params = match.params as any;
-        getVideo(params.link);
-    }, [getVideo, match]);
+        const queryParams = queryString.parse(location.search);
+        parseInt(queryParams.id as string);
+        if (queryParams.id && parseInt(queryParams.id as string)) {
+            getVideo(parseInt(queryParams.id as string));
+            return;
+        }
+
+        if (queryParams.l) {
+            getVideoByLink(queryParams.l as string);
+            return;
+        }
+
+        history.push('/');
+    }, [getVideo, getVideoByLink, history, location.search]);
 
     if (!props.video && !props.videoToCheckAccess) {
         return null;
