@@ -44,8 +44,10 @@ namespace Video.BL.Automapper
                         ImageThumbnailUrl = src.UserImageThumbnailUrl
                     }))
                     .ForMember(dest => dest.Extension, opt => opt.MapFrom(src => src.LocationUrl.GetFileExtensionFromUrl()));
-               
-                
+
+                cfg.CreateMap<VideoActivityDto, VideoActivityVm>();
+
+
             });
             config.CompileMappings();
             return config.CreateMapper();

@@ -1,4 +1,5 @@
-import { VideoCreator } from "./VideoCreator";
+import {VideoCreator} from "./VideoCreator";
+import {UserActionType} from "./enums/UserActionType.enum";
 
 export enum AccessType {
     None = 1,
@@ -23,4 +24,15 @@ export interface Video {
     duration: number;
     commentsAccessType: AccessType;
     createdBy: VideoCreator
+}
+
+
+export interface VideoActivities {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    imageThumbnailUrl: string;
+    videoId: number;
+    userActionType: UserActionType;
+    actionDate: Date;
 }

@@ -6,6 +6,6 @@ namespace Video.Models.ViewModels.Video
     {
         public int? UserId { get; set; }
         public long VideoId { get; set; }
-        public VideoActionType VideoActionType { get; set; }
+        public UserActionType UserActionType { get; set; }
     }
 }

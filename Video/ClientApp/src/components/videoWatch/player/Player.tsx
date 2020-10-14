@@ -30,7 +30,7 @@ const Player: FC<VideoPlayerProps> = (props) => {
     return useMemo<any>(() => (
         <div style={{ height: '420px' }} className="mg-b-15">
             <video className="w-100 mg-b-20" id="player" playsInline controls poster={props.video?.thumbnailUrl}>
-                <source src={props.video?.linkUrl} type={`video/${props.video?.extension.slice(1)}`} />
+                <source src={`api/video/stream/${props.video?.linkCode}`} type={`video/${props.video?.extension.slice(1)}`} />
             </video>
         </div>
     ), [props.video?.extension, props.video?.linkUrl, props.video?.thumbnailUrl]);

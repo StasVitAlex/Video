@@ -73,7 +73,7 @@ namespace Video.BL.Services.Implementation
 
         public async Task LogVideoAction(LogVideoActionVm model)
         {
-            await _videoRepository.LogVideoAction(model.UserId, model.VideoId, model.VideoActionType);
+            await _videoRepository.LogVideoAction(model.UserId, model.VideoId, model.UserActionType);
         }
 
         public async Task<VideoVm> GetVideoByLink(int? userId, string link)
@@ -103,6 +103,11 @@ namespace Video.BL.Services.Implementation
             if (!await _videoRepository.IsUserVideoOwner(videoId, userId))
                 throw new AccessDeniedException();
             await _videoRepository.ArchiveVideo(videoId);
+        }
+
+        public async Task<List<VideoActivityVm>> GetVideoActivity(long videoId)
+        {
+            return _mapper.Map<List<VideoActivityVm>>(await _videoRepository.GetVideoActivity(videoId));
         }
     }
 }
