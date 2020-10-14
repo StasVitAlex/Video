@@ -1,9 +1,9 @@
 namespace Video.BL.Services.Interfaces
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Models.ViewModels.Video;
+    using Models.ViewModels.Link;
 
     public interface IVideoService
     {
@@ -14,6 +14,7 @@ namespace Video.BL.Services.Interfaces
         Task<VideoVm> GetVideoByLink(int? userId, string link);
         Task ArchiveVideo(long videoId, int userId);
         Task<List<VideoActivityVm>> GetVideoActivity(long videoId);
+        Task<string> ShareVideoLink(int userId, CreateVideoLinkVm model);
         Task<bool> VideoExists(long videoId);
     }
 }

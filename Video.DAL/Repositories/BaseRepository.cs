@@ -22,13 +22,13 @@ namespace Video.DAL.Repositories
             _connectionString = dataConfiguration.Value.ConnectionString;
         }
 
-        public async Task<T> GetAsync<T>(string sql)
+        public async Task<T> GetAsync<T>(string sql, object model = null)
         {
             T result;
             await using var connection = new NpgsqlConnection(_connectionString);
             try
             {
-                result = await connection.QueryFirstOrDefaultAsync<T>(SET_USER_SESSION + sql);
+                result = await connection.QueryFirstOrDefaultAsync<T>(SET_USER_SESSION + sql, model);
             }
             catch (Exception sqlException)
             {

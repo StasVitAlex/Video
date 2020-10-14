@@ -1,5 +1,3 @@
-using System;
-
 namespace Video.Controllers
 {
     using System.IO;
@@ -12,7 +10,8 @@ namespace Video.Controllers
     using Models.Configuration;
     using Models.Enums;
     using Models.ViewModels.Video;
-    using Utils.Extensions;
+    using Video.Models.ViewModels.Link;
+
 
     public class VideoController : BaseController
     {
@@ -104,6 +103,12 @@ namespace Video.Controllers
         public async Task<IActionResult> GetVideoActivity([FromRoute] long videoId)
         {
             return this.Ok(await _videoService.GetVideoActivity(videoId));
+        }
+
+        [HttpPost("share_link")]
+        public async Task<IActionResult> ShareVideoLink([FromBody] CreateVideoLinkVm model)
+        {
+            return this.Ok(await _videoService.ShareVideoLink(this.CurrentUserId.Value, model));
         }
     }
 }

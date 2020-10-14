@@ -1,14 +1,12 @@
-﻿namespace Video.Models.Dto.Link
+﻿namespace Video.Models.ViewModels.Link
 {
     using System;
     using Enums;
 
-    public class CreateVideoLinkDto
+    public class CreateVideoLinkVm
     {
         public long VideoId { get; set; }
         public long FolderId { get; set; }
-        public string LinkUrl { get; set; }
-        public string LinkCode { get; set; }
         public VideoAccessType CommentsAccessType { get; set; }
         public DateTime ExpiryDate { get; set; }
         public string LinkPassword { get; set; }

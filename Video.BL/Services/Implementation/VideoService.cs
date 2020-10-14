@@ -1,5 +1,3 @@
-using Video.Utils.Extensions;
-
 namespace Video.BL.Services.Implementation
 {
     using System.IO;
@@ -15,6 +13,9 @@ namespace Video.BL.Services.Implementation
     using Microsoft.Extensions.Options;
     using Video.Models.Configuration;
     using Video.Utils.Helpers;
+    using Video.Models.ViewModels.Link;
+    using Video.Utils.Extensions;
+    using Video.Models.Dto.Link;
 
     public class VideoService : IVideoService
     {
@@ -114,6 +115,15 @@ namespace Video.BL.Services.Implementation
         public async Task<List<VideoActivityVm>> GetVideoActivity(long videoId)
         {
             return _mapper.Map<List<VideoActivityVm>>(await _videoRepository.GetVideoActivity(videoId));
+        }
+
+        public async Task<string> ShareVideoLink(int userId, CreateVideoLinkVm model)
+        {
+            if (!await _videoRepository.IsUserVideoOwner(userId, model.VideoId))
+                throw new AccessDeniedException();
+
+            return await _linkRepository.GetLink(userId, model.VideoId, model.LinkPassword, model.ExpiryDate) ??
+                       await _linkRepository.CreateVideoLink(userId, _mapper.Map<CreateVideoLinkDto>(model));
         }
 
         public async Task<bool> VideoExists(long videoId)
