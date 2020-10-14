@@ -18,7 +18,7 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetManyAsync<VideoDto>($@"select distinct v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.length_in_seconds as Duration, v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode, l.link_url as LinkUrl,
+                v.length_in_seconds as Duration, v.created_date as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode, l.link_url as LinkUrl,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
@@ -31,7 +31,7 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.length_in_seconds as Duration, v.created_by as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode, l.link_url as LinkUrl,
+                v.length_in_seconds as Duration, v.created_date as CreatedDate, fv.folder_id as FolderId, l.link_code as LinkCode, l.link_url as LinkUrl,
                 (select  count(*) from user_actions uva where uva.video_id = v.id) as ViewsCount 
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
@@ -43,15 +43,15 @@ namespace Video.DAL.Repositories.Implementation
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
-                v.created_by as CreatedDate, fv.folder_id as FolderId,
+                v.created_date as CreatedDate, fv.folder_id as FolderId,
                 v.length_in_seconds as Duration, l.link_code as LinkCode, l.link_url as LinkUrl, l.link_password as LinkPassword, l.id as LinkId,
                 u.id as CreatedBy, u.first_name as UserFirstName, u.last_name as UserLastName, u.image_thumbnail_url as UserImageThumbnailUrl, 
                 (select count(*) from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as ViewsCount,
                 (select count(*) from (select distinct user_id from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as user_view_actions) as UniqueViews
                 from videos v
-                join users u on u.id = v.created_by
                 join folder_videos fv on v.id = fv.video_id 
                 join links l on v.id = l.video_id 
+                left join users u on u.id = l.publisher_user_id
                 where l.link_code = '{link}'");
         }
 

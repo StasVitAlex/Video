@@ -17,7 +17,7 @@ import {Video} from "../../../models/Video";
 type VideosProps = VideosReducer.VideosState & FoldersReducer.FoldersState & typeof VideosThunk.actionCreators & { isArchived: boolean } & RouteComponentProps<{}>;
 
 
-class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undefined, showInfo: boolean }> {
+class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undefined, showInfo: boolean, loadedFirstTime: boolean }> {
 
     constructor(props: VideosProps) {
         super(props);
@@ -26,18 +26,23 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
 
     public state = {
         videoInfo: undefined,
-        showInfo: false
+        showInfo: false,
+        loadedFirstTime: false
     };
 
     componentDidMount() {
         if (this.props.rootFolderId) {
             this.props.getVideosByFolder(this.props.rootFolderId, false);
+            this.setState({loadedFirstTime: true});
+            setTimeout(() => this.setState({loadedFirstTime: true}), 500);
         }
     }
 
     componentDidUpdate(prevProps: Readonly<VideosProps>, prevState: Readonly<{}>, snapshot?: any) {
         if (this.props.currentFolderId != prevProps.currentFolderId) {
             this.props.getVideosByFolder(this.props.currentFolderId, false);
+            if (!this.state.loadedFirstTime)
+                setTimeout(() => this.setState({loadedFirstTime: true}), 500);
         }
     }
 
@@ -118,12 +123,13 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
                         return (<div className="row row-xs">
                             {videosList}
                         </div>)
-                    }
-                    return (<div className="d-flex flex-column align-items-center justify-content-center flex-1 my-5">
-                        <img height="180" className="mg-b-20" src={moVideoImage}/>
-                        <h3>You don’t have any videos 😭</h3>
-                        <p className="mg-b-20">Not sure what to record? See how we use Link Video.</p>
-                        <span className="btn btn-brand-02 btn-lg">
+                    } else {
+                        if (this.state.loadedFirstTime) {
+                            return (<div className="d-flex flex-column align-items-center justify-content-center flex-1 my-5">
+                                <img height="180" className="mg-b-20" src={moVideoImage}/>
+                                <h3>You don’t have any videos 😭</h3>
+                                <p className="mg-b-20">Not sure what to record? See how we use Link Video.</p>
+                                <span className="btn btn-brand-02 btn-lg">
                             <input
                                 type="file"
                                 className="file-uploader"
@@ -132,7 +138,10 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
                             /> Upload a Video
                         </span>
 
-                    </div>);
+                            </div>)
+                        }
+                    }
+
                 })()}
             </div>
         )
