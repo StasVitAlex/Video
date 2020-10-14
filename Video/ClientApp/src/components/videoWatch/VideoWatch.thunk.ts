@@ -1,6 +1,6 @@
 import {httpClient} from "api/HttpClient";
 import {IHttpClientRequestParameters} from "api/IHttpClients";
-import { VideoActionType } from "models/enums/VideoActionType.enum";
+import { UserActionType } from "models/enums/UserActionType.enum";
 import { LogVideoAction } from "models/LogVideoAction";
 import { Video } from "models/Video";
 import { AppThunkAction } from "store";
@@ -41,7 +41,7 @@ export const actionCreators = {
                 payload: {
                     userId: authState?.userInfo?.id,
                     videoId: videoWatchState!.video!.id,
-                    videoActionType: VideoActionType.View
+                    userActionType: UserActionType.View
                 }
             });
         }

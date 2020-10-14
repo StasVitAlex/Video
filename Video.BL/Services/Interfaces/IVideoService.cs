@@ -13,5 +13,6 @@ namespace Video.BL.Services.Interfaces
         Task LogVideoAction(LogVideoActionVm model);
         Task<VideoVm> GetVideoByLink(int? userId, string link);
         Task ArchiveVideo(long videoId, int userId);
+        Task<List<VideoActivityVm>> GetVideoActivity(long videoId);
     }
 }

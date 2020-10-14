@@ -85,7 +85,7 @@ namespace Video.Controllers
 
         [HttpPost("log_action")]
         [AllowAnonymous]
-        public async Task<IActionResult> LogVideoAAction([FromBody] LogVideoActionVm model)
+        public async Task<IActionResult> LogVideoAction([FromBody] LogVideoActionVm model)
         {
             await _videoService.LogVideoAction(model);
             return this.Ok();
@@ -99,6 +99,12 @@ namespace Video.Controllers
             if (video == null)
                 return this.Ok();
             return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.VideoImagesFolder, $"{video.Id}.png"), "application/octet-stream", enableRangeProcessing: true);
+        }
+
+        [HttpGet("activity/{videoId}")]
+        public async Task<IActionResult> GetVideoActivity([FromRoute] long videoId)
+        {
+            return this.Ok(await _videoService.GetVideoActivity(videoId));
         }
     }
 }

@@ -13,9 +13,10 @@ namespace Video.DAL.Repositories.Interfaces
         Task<LinkPermissionDto> GetVideoLinkPermission(long linkId, VideoPermissionType permissionType);
         Task<long> CreateVideo(long userId, CreateVideoDto model);
         Task UpdateVideoInfo(UpdateVideoInfoDto model);
-        Task LogVideoAction(int? userId, long videoId, VideoActionType actionType);
+        Task LogVideoAction(int? userId, long videoId, UserActionType actionType);
         Task<bool> IsUserHasAccessToVideo(int userId, long videoId);
         Task ArchiveVideo(long videoId);
         Task<bool> IsUserVideoOwner(long videoId, int userId);
+        Task<IEnumerable<VideoActivityDto>> GetVideoActivity(long videoId);
     }
 }

@@ -1,7 +1,7 @@
-import { VideoActionType } from "./enums/VideoActionType.enum";
+import { UserActionType } from "./enums/UserActionType.enum";
 
 export interface LogVideoAction {
     userId?: number;
     videoId: number;
-    videoActionType: VideoActionType
+    userActionType: UserActionType
 }
