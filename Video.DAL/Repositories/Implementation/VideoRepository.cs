@@ -26,7 +26,7 @@ namespace Video.DAL.Repositories.Implementation
                 where fv.folder_id = {folderId} and v.is_deleted = {isArchived}");
         }
 
-        public async Task<VideoDto> GetVideoById(long videoId, long userId)
+        public async Task<VideoDto> GetVideoById(long videoId)
         {
             return await GetAsync<VideoDto>($@"select v.id as Id,v.title as Title, v.description as Description,
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
@@ -37,7 +37,7 @@ namespace Video.DAL.Repositories.Implementation
                 from videos v
                 join folder_videos fv on v.id = fv.video_id
                 left join users u on u.id = v.created_by
-                where v.id = {videoId} and v.created_by = {userId}");
+                where v.id = {videoId}");
         }
 
         public async Task<VideoDto> GetVideoByLink(string link)

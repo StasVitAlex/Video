@@ -46,8 +46,8 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
         }
     }
 
-    private openVideo(linkCode: string) {
-        history.push(`/video/${linkCode}`);
+    private openVideo(id: number) {
+        history.push(`/video?id=${id}`);
     }
 
     private openVideoInfo(video: Video) {
@@ -86,11 +86,11 @@ class Videos extends React.PureComponent<VideosProps, { videoInfo: Video | undef
                                     <a onClick={() => this.archiveVideo(item.id)} className="dropdown-item archive"><FontAwesomeIcon icon={faArchive}/> Archive</a>
                                 </div>
                             </div>
-                            <div className="card-file-thumb card-img-thumb tx-primary" onClick={() => this.openVideo(item.linkCode)}>
+                            <div className="card-file-thumb card-img-thumb tx-primary" onClick={() => this.openVideo(item.id)}>
                                 <img src={item.thumbnailUrl}/>
                             </div>
                             <div className="card-body">
-                                <h6><a onClick={() => this.openVideo(item.linkCode)} className="link-01">{item.title}</a></h6>
+                                <h6><a onClick={() => this.openVideo(item.id)} className="link-01">{item.title}</a></h6>
                                 <ul className="list-inline d-flex mg-t-5 mg-b-0">
                                     <li className="list-inline-item d-flex align-items-center">
                                         <FontAwesomeIcon icon={faClock} className="tx-color-03 mg-r-5"/>

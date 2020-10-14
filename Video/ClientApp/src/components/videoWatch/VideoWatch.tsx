@@ -10,7 +10,7 @@ import CheckVideoPassword from "./password/CheckVideoPassword";
 import Player from "./player/Player";
 import VideoSharing from "./sharing/VideoSharing";
 import VideoStat from "./stat/VideoStat";
-import { useAccess } from "./UseAccess";
+import { UseAccess } from "./UseAccess";
 import UserInfo from "./userInfo/UserInfo";
 import * as VideoWatchStore from './VideoWatch.reducer';
 import * as VideoWatchThunk from './VideoWatch.thunk';
@@ -22,7 +22,7 @@ type VideoWatchProps =
 
 const VideoWatch: FC<VideoWatchProps> = (props: VideoWatchProps) => {
     const { getVideo, getVideoByLink, match, location, history } = props;
-    const hasAccessToComment = useAccess();
+    const hasAccessToComment = UseAccess();
     useEffect(() => {
         const queryParams = queryString.parse(location.search);
         parseInt(queryParams.id as string);

@@ -63,9 +63,18 @@ namespace Video.Controllers
 
         [HttpGet("stream/{link}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetVideoStreamById([FromRoute] string link)
+        public async Task<IActionResult> GetVideoStreamByLink([FromRoute] string link)
         {
             var video = await _videoService.GetVideoByLink(this.CurrentUserId, link);
+            var extension = Path.GetExtension(video.LocationUrl);
+            return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{video.Id}{extension}"), "application/octet-stream", enableRangeProcessing: true);
+        }
+
+        [HttpGet("stream_by_id/{videoId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetVideoStreamById([FromRoute] long videoId)
+        {
+            var video = await _videoService.GetVideoById(null, videoId);
             var extension = Path.GetExtension(video.LocationUrl);
             return PhysicalFile(Path.Combine(_appEnvironment.ContentRootPath, _commonSettings.UserVideosFolder, $"{video.Id}{extension}"), "application/octet-stream", enableRangeProcessing: true);
         }

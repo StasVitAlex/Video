@@ -5,7 +5,7 @@ import { useSelector, useStore } from "react-redux";
 import { ApplicationState } from "store";
 import { VideoWatchState } from "./VideoWatch.reducer";
 
-export function useAccess() {
+export function UseAccess() {
     const [hasAccessToComments, setHasAccessToComments] = useState(false);
     const store = useStore();
     const authState: AuthState = useSelector<ApplicationState, any>((state) => state.auth);

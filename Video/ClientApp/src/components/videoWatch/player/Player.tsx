@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useMemo, useRef } from "react";
-import { connect } from "react-redux";
-import { RouteComponentProps } from 'react-router';
+import React, {FC, useEffect, useMemo, useRef} from "react";
+import {connect} from "react-redux";
+import {RouteComponentProps} from 'react-router';
 import Plyr from 'plyr';
-import { ApplicationState } from "store";
+import {ApplicationState} from "store";
 import * as VideoWatchThunk from '../VideoWatch.thunk';
 import * as VideoWatch from '../VideoWatch.reducer';
 
@@ -23,14 +23,15 @@ const Player: FC<VideoPlayerProps> = (props) => {
             if (!logged.current) {
                 props.logVideoAction();
                 logged.current = true;
-            };
+            }
+            ;
         });
     });
 
     return useMemo<any>(() => (
-        <div style={{ height: '420px' }} className="mg-b-15">
+        <div style={{height: '420px'}} className="mg-b-15">
             <video className="w-100 mg-b-20" id="player" playsInline controls poster={props.video?.thumbnailUrl}>
-                <source src={`api/video/stream/${props.video?.linkCode}`} type={`video/${props.video?.extension.slice(1)}`} />
+                <source src={`${props.video?.linkCode ? 'api/video/stream/' + props.video.linkCode : 'api/video/stream_by_id/' + props.video?.id}`} type={`video/${props.video?.extension.slice(1)}`}/>
             </video>
         </div>
     ), [props.video?.extension, props.video?.linkUrl, props.video?.thumbnailUrl]);

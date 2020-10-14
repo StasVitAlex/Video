@@ -40,11 +40,11 @@ namespace Video.BL.Services.Implementation
             return _mapper.Map<List<VideoVm>>(await _videoRepository.GetVideosFromFolder(userId, folderId, model.IsArchived));
         }
 
-        public async Task<VideoVm> GetVideoById(int userId, long videoId)
+        public async Task<VideoVm> GetVideoById(int? userId, long videoId)
         {
-            if (!await _videoRepository.IsUserHasAccessToVideo(userId, videoId))
+            if (userId.HasValue && !await _videoRepository.IsUserHasAccessToVideo(userId.Value, videoId))
                 throw new AccessDeniedException();
-            var video = await _videoRepository.GetVideoById(videoId, userId);
+            var video = await _videoRepository.GetVideoById(videoId);
             if (video == null)
                 throw new NotFoundException();
 
