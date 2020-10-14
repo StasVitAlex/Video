@@ -1,6 +1,6 @@
 import {httpClient} from "api/HttpClient";
 import {IHttpClientRequestParameters} from "api/IHttpClients";
-import {Video} from "models/Video";
+import {Video, VideoActivity} from "models/Video";
 import {AppThunkAction} from "store";
 import {VideosPaths} from "./Videos.paths";
 import {KnownActionType, KnownAction} from "./Videos.actions";
@@ -11,6 +11,21 @@ export const actionCreators = {
         try {
             const videos = await httpClient.get<void, Video[]>({url: VideosPaths.byFolder(folderId, isArchived)} as IHttpClientRequestParameters<any>);
             dispatch({type: KnownActionType.SetFolderVideos, payload: videos});
+        } catch {
+        }
+    },
+
+    getVideoActivities: (videoId: number): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        try {
+            const activities = await httpClient.get<void, VideoActivity[]>({url: VideosPaths.activity(videoId)} as IHttpClientRequestParameters<any>);
+            dispatch({type: KnownActionType.SetVideoActivities, payload: activities});
+        } catch {
+        }
+    },
+
+    clearVideoActivity: (): AppThunkAction<KnownAction> => async (dispatch, getState) => {
+        try {
+            dispatch({type: KnownActionType.SetVideoActivities, payload: []});
         } catch {
         }
     },
@@ -36,8 +51,7 @@ export const actionCreators = {
                 payload: formData
             } as IHttpClientRequestParameters<any>);
             history.push(`/video/${link}`);
-        }
-        catch {
+        } catch {
         }
     }
 };

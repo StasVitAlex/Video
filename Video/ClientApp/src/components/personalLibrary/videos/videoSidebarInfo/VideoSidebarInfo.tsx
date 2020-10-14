@@ -1,24 +1,33 @@
 import React, {FC, useEffect} from "react";
 import {connect} from "react-redux";
 import {RouteComponentProps} from 'react-router';
-import {Video} from "../../../../models/Video";
+import {Video, VideoActivity} from "../../../../models/Video";
 import Moment from "react-moment";
-import {faVideo, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faTimes, faVideo} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {duration} from "moment";
+import {UserActionType} from "../../../../models/enums/UserActionType.enum";
+import * as FoldersThunk from "../../folder/folders/Folders.thunk";
+import * as  VideosThunk from '../Videos.thunk';
+import {ApplicationState} from "../../../../store";
 
-type VideoInfoProps = { show: boolean, video: Video, onClose: Function } & RouteComponentProps<{}>;
+
+type VideoInfoProps =
+    { show: boolean, video: Video, onClose: Function, activities?: VideoActivity[] } &
+    typeof VideosThunk.actionCreators &
+    RouteComponentProps<{}>;
 
 const VideoSidebarInfo: FC<VideoInfoProps> = (props) => {
-    const hours = React.useRef(0);
-    const minutes = React.useRef(0);
-    const seconds = React.useRef(0);
+    const initDuration = duration(props.video && props.video.duration ? props.video.duration : 0, 'seconds');
+    const hours = React.useRef(initDuration.hours());
+    const minutes = React.useRef(initDuration.minutes());
+    const seconds = React.useRef(initDuration.seconds());
     useEffect(() => {
         const dur = duration(props.video && props.video.duration ? props.video.duration : 0, 'seconds');
-        // hours.current = dur.hours();
-        // minutes.current = dur.minutes();
-        // seconds.current = dur.seconds();
-    }, [props.show, props.video]);
+        hours.current = dur.hours();
+        minutes.current = dur.minutes();
+        seconds.current = dur.seconds();
+    }, [props.show, props.video, props.activities]);
 
 
     return (
@@ -39,7 +48,7 @@ const VideoSidebarInfo: FC<VideoInfoProps> = (props) => {
                 </div>
                 <div className="mg-b-10">
                     <label className="d-block mg-b-0 text-muted">Duration</label>
-                    {/*<p>{hours.current}:{minutes.current}:{seconds.current}</p>*/}
+                    <p>{hours.current}:{minutes.current}:{seconds.current}</p>
                 </div>
                 <div className="mg-b-10">
                     <label className="d-block mg-b-0 text-muted">Views</label>
@@ -58,17 +67,23 @@ const VideoSidebarInfo: FC<VideoInfoProps> = (props) => {
                 <div className="mg-b-10">
                     <label className="d-block text-muted">Activity</label>
                     <ul className="list-unstyled">
-                        <li className="mg-b-10">
-                            <div className="media">
-                                <div className="avatar avatar-sm avatar-online"><img src="../assets/img/users/1.jpg"
-                                                                                     className="rounded-circle" alt=""/>
-                                </div>
-                                <div className="media-body mg-l-15">
-                                    <p className="tx-12 mg-b-0"><strong>Majid Benten</strong> has viewed your video</p>
-                                    <span className="tx-12">Aug 15 12:32pm</span>
-                                </div>
-                            </div>
-                        </li>
+                        {
+                            props.activities?.map((item, index) => {
+                                return (<li className="mg-b-10" key={item.id}>
+                                    <div className="media">
+                                        <div className="avatar avatar-sm avatar-online"><img src={item.imageThumbnailUrl}
+                                                                                             className="rounded-circle" alt=""/>
+                                        </div>
+                                        <div className="media-body mg-l-15">
+                                            <p className="tx-12 mg-b-0">
+                                                <strong>{item.firstName} {item.lastName}</strong> {item.userActionType === UserActionType.View ? 'has viewed your video' : item.userActionType === UserActionType.Comment ? 'has commented your video' : ''}
+                                            </p>
+                                            <span className="tx-12"><Moment format="DD MMM hh:mm A">{item.actionDate}</Moment></span>
+                                        </div>
+                                    </div>
+                                </li>);
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -107,4 +122,5 @@ const VideoSidebarInfo: FC<VideoInfoProps> = (props) => {
 
 export default React.memo(connect<VideoInfoProps, any, any>(
     null,
-)(VideoSidebarInfo as any))
+    FoldersThunk.actionCreators
+)(VideoSidebarInfo as any));

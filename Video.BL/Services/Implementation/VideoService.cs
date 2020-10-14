@@ -33,7 +33,7 @@ namespace Video.BL.Services.Implementation
             _commonSettings = settings.Value;
         }
 
-        public async Task<List<VideoVm>> GetVideosFromFolder(int userId, long folderId, GetVideosVm model)
+        public async Task<List<VideoVm>> GetVideosByFolder(int userId, long folderId, GetVideosVm model)
         {
             return _mapper.Map<List<VideoVm>>(await _videoRepository.GetVideosFromFolder(userId, folderId, model.IsArchived));
         }

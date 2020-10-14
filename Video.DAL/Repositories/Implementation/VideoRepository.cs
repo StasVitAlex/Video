@@ -70,8 +70,8 @@ namespace Video.DAL.Repositories.Implementation
                 $"insert into videos(created_by,tenant_id, title) values ({userId},{GET_TENANT_QUERY}, @FileName) returning id", model);
             await ExecuteActionAsync(
                 $@"insert into folder_videos(tenant_id,folder_id,video_id) values({GET_TENANT_QUERY}, @FolderId,{videoId});
-                    insert into links(tenant_id, publisher_user_id, link_url, link_code, video_id, folder_id, link_type_id) 
-                    values({GET_TENANT_QUERY},{userId},@LinkUrl,@LinkCode,{videoId},{model.FolderId},{(int) LinkType.Video})", model);
+                    insert into links(tenant_id, publisher_user_id, created_by, link_url, link_code, video_id, folder_id, link_type_id) 
+                    values({GET_TENANT_QUERY},{userId},{userId},@LinkUrl,@LinkCode,{videoId},{model.FolderId},{(int) LinkType.Video})", model);
             return videoId;
         }
 
@@ -98,20 +98,20 @@ namespace Video.DAL.Repositories.Implementation
 
         public async Task<bool> IsUserVideoOwner(long videoId, int userId)
         {
-            var recordsCount = await GetAsync<int>($"select count(*) from videos v join links l on v.id = l.video_id where v.id = {videoId} and l.publisher_user_id = {userId}");
+            var recordsCount = await GetAsync<int>($"select count(*) from videos v join links l on v.id = l.video_id where v.id = {videoId} and l.created_by = {userId}");
             return recordsCount > 0;
         }
 
         public async Task<IEnumerable<VideoActivityDto>> GetVideoActivity(long videoId)
         {
             return await GetManyAsync<VideoActivityDto>($@"select * from (
-                select u.id as UserId, u.first_name as FirstName, u.last_name as LastName, u.image_thumbnail_url as ImageThumbnailUrl,
+                select ua.id, u.id as UserId, u.first_name as FirstName, u.last_name as LastName, u.image_thumbnail_url as ImageThumbnailUrl,
                        ua.video_id as VideoId, ua.action_type_id as UserActionType, ua.created_date as ActionDate
                 from user_actions ua
                 left JOIN users u on u.id = ua.user_id
                 where video_id = {videoId}
                 union
-                select u.id as UserId, u.first_name as FirstName, u.last_name as LastName, u.image_thumbnail_url as ImageThumbnailUrl,
+                select vc.id, u.id as UserId, u.first_name as FirstName, u.last_name as LastName, u.image_thumbnail_url as ImageThumbnailUrl,
                        vc.video_id as VideoId, 4 as UserActionType, vc.created_date as ActionDate
                 from video_comments vc
                 left JOIN users u on u.id = vc.created_by

@@ -11,7 +11,7 @@ namespace Video.Models.Dto.Video
         public string ThumbnailUrl { get; set; }
         public int Duration { get; set; }
         public bool IsPasswordProtected { get; set; }
-        public long CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public int UniqueViews { get; set; }
         public int ViewsCount { get; set; }

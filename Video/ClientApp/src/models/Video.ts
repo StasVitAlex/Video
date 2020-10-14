@@ -27,7 +27,8 @@ export interface Video {
 }
 
 
-export interface VideoActivities {
+export interface VideoActivity {
+    id:number;
     userId: number;
     firstName: string;
     lastName: string;
