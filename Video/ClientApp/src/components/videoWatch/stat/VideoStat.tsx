@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
+import { ApplicationState } from "store";
+import * as VideoWatch from '../VideoWatch.reducer';
 
-type VideoStatProps = RouteComponentProps<{}>;
+type VideoStatProps = VideoWatch.VideoWatchState &  RouteComponentProps<{}>;
 
 const VideoStat: FC<VideoStatProps> = (props) => {
     return (
@@ -12,14 +14,14 @@ const VideoStat: FC<VideoStatProps> = (props) => {
                 Video Views
             </h6>
             <div>
-                <span>0 total</span>
+                <span>{props.video?.viewsCount} total</span>
                 ,
-                <span>0 unique</span>
+                <span>{props.video?.uniqueViews} unique</span>
             </div>
         </div>
     );
 };
 
 export default connect(
-
+    (state: ApplicationState) => state.videoWatch
 )(VideoStat as any);

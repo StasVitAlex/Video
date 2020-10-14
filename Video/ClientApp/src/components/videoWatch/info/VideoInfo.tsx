@@ -1,3 +1,5 @@
+import { faCopy, faDownload, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { FC } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
@@ -11,15 +13,15 @@ const VideoInfo: FC<VideoInfoProps> = (props) => {
             <div className="d-flex ml-auto">
                 <button type="button" className="btn btn-outline-primary btn-icon flex-fill" data-toggle="tooltip"
                     data-placement="top" title="Download">
-                    <i data-feather="download"></i>
+                    <FontAwesomeIcon icon={faDownload} />
                 </button>
                 <button type="button" id="duplicate" className="btn btn-outline-primary btn-icon flex-fill  mg-l-10"
                     data-toggle="tooltip" data-placement="top" title="Duplicate Video">
-                    <i data-feather="copy"></i>
+                    <FontAwesomeIcon icon={faCopy} />
                 </button>
                 <button type="button" className="btn btn-outline-primary btn-icon flex-fill  mg-l-10" data-toggle="tooltip"
                     data-placement="top" title="Delete Video">
-                    <i data-feather="trash-2"></i>
+                    <FontAwesomeIcon icon={faTrash} />
                 </button>
             </div>
         </div>

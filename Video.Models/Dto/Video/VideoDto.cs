@@ -20,5 +20,8 @@ namespace Video.Models.Dto.Video
         public string LinkUrl { get; set; }
         public string LinkPassword { get; set; }
         public DateTime? ExpiryDate { get; set; }
+        public string UserFirstName { get; set; }
+        public string UserLastName { get; set; }
+        public string UserImageThumbnailUrl { get; set; }
     }
 }

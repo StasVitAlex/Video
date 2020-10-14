@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export function updateObject<T> (oldObject: T, newValues: any) {
     return { ...oldObject, ...newValues } as T;
 }
@@ -25,3 +27,5 @@ export function addItemInArray<T>(array: Array<T>, item: T, begin = false): Arra
 export function deleteItemFromArray<T extends { id: any }> (array: Array<T>, itemId: any): Array<T> {
     return array.filter((item) => item.id !== itemId);
 }
+
+export const getLocalTime = (date: Date, formatStr: string = 'MMM d hh:mma') => format(date, formatStr);
