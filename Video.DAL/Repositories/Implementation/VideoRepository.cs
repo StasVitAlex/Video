@@ -45,9 +45,11 @@ namespace Video.DAL.Repositories.Implementation
                 v.location_url as LocationUrl, v.thumbnail_url as ThumbnailUrl, v.created_by as CreatedBy,
                 v.created_by as CreatedDate, fv.folder_id as FolderId,
                 v.length_in_seconds as Duration, l.link_code as LinkCode, l.link_url as LinkUrl, l.link_password as LinkPassword, l.id as LinkId,
+                u.id as CreatedBy, u.first_name as UserFirstName, u.last_name as UserLastName, u.image_thumbnail_url as UserImageThumbnailUrl, 
                 (select count(*) from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as ViewsCount,
                 (select count(*) from (select distinct user_id from user_actions uva where uva.video_id = v.id and uva.action_type_id = {(int) VideoActionType.View}) as user_view_actions) as UniqueViews
-                from videos v 
+                from videos v
+                join users u on u.id = v.created_by
                 join folder_videos fv on v.id = fv.video_id 
                 join links l on v.id = l.video_id 
                 where l.link_code = '{link}'");
@@ -65,7 +67,7 @@ namespace Video.DAL.Repositories.Implementation
         public async Task<long> CreateVideo(long userId, CreateVideoDto model)
         {
             var videoId = await ExecuteScalarAsync<long>(
-                $"insert into videos(tenant_id, title) values ({GET_TENANT_QUERY}, @FileName) returning id", model);
+                $"insert into videos(created_by,tenant_id, title) values ({userId},{GET_TENANT_QUERY}, @FileName) returning id", model);
             await ExecuteActionAsync(
                 $@"insert into folder_videos(tenant_id,folder_id,video_id) values({GET_TENANT_QUERY}, @FolderId,{videoId});
                     insert into links(tenant_id, publisher_user_id, link_url, link_code, video_id, folder_id, link_type_id) 

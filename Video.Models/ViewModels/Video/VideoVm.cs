@@ -11,7 +11,6 @@ namespace Video.Models.ViewModels.Video
         public string LocationUrl { get; set; }
         public string Extension { get; set; }
         public string ThumbnailUrl { get; set; }
-        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public int UniqueViews { get; set; }
         public int ViewsCount { get; set; }
@@ -20,6 +19,8 @@ namespace Video.Models.ViewModels.Video
         public string LinkPassword { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public VideoAccessType CommentsAccessType { get; set; }
+
+        public VideoCreatorVm CreatedBy { get; set; }
         public int Duration { get; set; }
     }
 }

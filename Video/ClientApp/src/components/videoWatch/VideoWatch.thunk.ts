@@ -14,7 +14,7 @@ export const actionCreators = {
                 url: VideoWatchPaths.byLink(link)
             } as IHttpClientRequestParameters<any>);
             const authState = getState().auth;
-            if (video.createdBy === authState?.userInfo?.id) {
+            if (video.createdBy?.id === authState?.userInfo?.id) {
                 dispatch({ type: KnownActionType.SetVideo, payload: video });
                 return;
             }

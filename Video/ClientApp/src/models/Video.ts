@@ -1,3 +1,5 @@
+import { VideoCreator } from "./VideoCreator";
+
 export enum AccessType {
     None = 1,
     SignedInUsers = 2,
@@ -11,7 +13,6 @@ export interface Video {
     folderId: number;
     locationUrl: string;
     thumbnailUrl: string;
-    createdBy: number;
     createdDate: Date;
     uniqueViews: number;
     viewsCount: number;
@@ -21,4 +22,5 @@ export interface Video {
     expiryDate: Date;
     duration: number;
     commentsAccessType: AccessType;
+    createdBy: VideoCreator
 }

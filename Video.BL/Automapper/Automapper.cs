@@ -36,6 +36,13 @@ namespace Video.BL.Automapper
                 cfg.CreateMap<CreateVideoVm, CreateVideoDto>();
                 
                 cfg.CreateMap<VideoDto, VideoVm>()
+                    .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => new VideoCreatorVm
+                    {
+                        Id = src.CreatedBy,
+                        FirstName = src.UserFirstName,
+                        LastName = src.UserLastName,
+                        ImageThumbnailUrl = src.UserImageThumbnailUrl
+                    }))
                     .ForMember(dest => dest.Extension, opt => opt.MapFrom(src => src.LocationUrl.GetFileExtensionFromUrl()));
                
                 

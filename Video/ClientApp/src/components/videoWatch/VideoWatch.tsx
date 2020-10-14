@@ -1,3 +1,4 @@
+import { AccessType } from "models/Video";
 import React, { FC, useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from 'react-router';
@@ -9,6 +10,7 @@ import CheckVideoPassword from "./password/CheckVideoPassword";
 import Player from "./player/Player";
 import VideoSharing from "./sharing/VideoSharing";
 import VideoStat from "./stat/VideoStat";
+import { useAccess } from "./useAccess";
 import UserInfo from "./userInfo/UserInfo";
 import * as VideoWatchStore from './VideoWatch.reducer';
 import * as VideoWatchThunk from './VideoWatch.thunk';
@@ -20,6 +22,7 @@ type VideoWatchProps =
 
 const VideoWatch: FC<VideoWatchProps> = (props: VideoWatchProps) => {
     const { getVideo, match } = props;
+    const hasAccessToComment = useAccess();
     useEffect(() => {
         const params = match.params as any;
         getVideo(params.link);
@@ -44,7 +47,10 @@ const VideoWatch: FC<VideoWatchProps> = (props: VideoWatchProps) => {
                                         <VideoInfo />
                                         <UserInfo />
                                         <VideoStat />
-                                        <Comments />
+                                        {
+                                            hasAccessToComment &&
+                                            <Comments />
+                                        }
                                     </div>
                                     <div className="col-lg-4">
                                         <VideoSharing />
